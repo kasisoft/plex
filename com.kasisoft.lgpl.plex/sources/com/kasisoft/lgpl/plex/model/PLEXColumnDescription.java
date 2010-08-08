@@ -64,7 +64,7 @@ public class PLEXColumnDescription {
         if (column == null) {
             return -1;
         } else {
-            return column;
+            return column.intValue();
         }
     }
 

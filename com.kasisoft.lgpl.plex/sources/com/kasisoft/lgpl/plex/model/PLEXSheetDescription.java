@@ -86,7 +86,7 @@ public class PLEXSheetDescription {
         if (firstrow == null) {
             return -1;
         } else {
-            return firstrow;
+            return firstrow.intValue();
         }
     }
 

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="com.kasisoft.tools.plex" default="default" basedir=".">
+<project name="com.kasisoft.lgpl.plex" default="default" basedir=".">
 
-  <import file="${basedir}/../_ext/common.xml" />
+  <dirname file="${ant.file.com.kasisoft.lgpl.plex}" property="dir.plex"/>
+  
+  <import file="${dir.plex}/../_ext/common.xml" />
 
   <target name="default">
     <echo>Please choose a target ...</echo>

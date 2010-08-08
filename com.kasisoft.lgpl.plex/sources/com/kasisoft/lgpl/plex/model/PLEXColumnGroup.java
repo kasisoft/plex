@@ -68,7 +68,7 @@ public class PLEXColumnGroup {
         if (column == null) {
             return -1;
         } else {
-            return column;
+            return column.intValue();
         }
     }
 
@@ -82,7 +82,7 @@ public class PLEXColumnGroup {
         if (count == null) {
             return -1;
         } else {
-            return count;
+            return count.intValue();
         }
     }
 
