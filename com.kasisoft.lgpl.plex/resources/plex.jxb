@@ -1,0 +1,62 @@
+<jxb:bindings version="1.0" 
+  xmlns:jxb="http://java.sun.com/xml/ns/jaxb" 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" 
+  jxb:extensionBindingPrefixes="xjc"
+>
+
+  <jxb:globalBindings>
+    <!--
+    <jxb:javaType name= "int" xmlType="xs:nonNegativeInteger"/>
+    -->
+  </jxb:globalBindings>
+
+  <jxb:bindings schemaLocation="plex.xsd" node="/xs:schema">
+
+    <jxb:bindings node="//xs:element[@name='plex']">
+      <jxb:class name="PLEXModel"/>
+    </jxb:bindings>
+
+    <jxb:bindings node="//xs:complexType[@name='generaltype']">
+      <jxb:class name="PLEXGeneral"/>
+    </jxb:bindings>
+
+    <jxb:bindings node="//xs:complexType[@name='sheetdescriptiontype']">
+      <jxb:class name="PLEXSheetDescription"/>
+    </jxb:bindings>
+
+    <jxb:bindings node="//xs:complexType[@name='columntype']">
+      <jxb:class name="PLEXColumnDescription"/>
+    </jxb:bindings>
+
+    <jxb:bindings node="//xs:complexType[@name='metadatatype']">
+      <jxb:class name="PLEXMetadata"/>
+    </jxb:bindings>
+
+    <jxb:bindings node="//xs:complexType[@name='propertytype']">
+      <jxb:class name="PLEXProperty"/>
+    </jxb:bindings>
+
+    <jxb:bindings node="//xs:complexType[@name='columngrouptype']">
+      <jxb:class name="PLEXColumnGroup"/>
+    </jxb:bindings>
+
+    <jxb:bindings node="//xs:complexType[@name='columngroupmembertype']">
+      <jxb:class name="PLEXColumnGroupMember"/>
+    </jxb:bindings>
+    
+    <jxb:bindings node="//xs:complexType[@name='interfacetype']">
+      <jxb:class name="PLEXInterface"/>
+    </jxb:bindings>
+    
+    <jxb:bindings node="//xs:complexType[@name='apicalltype']">
+      <jxb:class name="PLEXApiCall"/>
+    </jxb:bindings>
+
+    <jxb:bindings node="//xs:simpleType[@name='apitype']">
+      <jxb:typesafeEnumClass name="PLEXApiType"/>
+    </jxb:bindings>
+
+  </jxb:bindings>
+
+</jxb:bindings>

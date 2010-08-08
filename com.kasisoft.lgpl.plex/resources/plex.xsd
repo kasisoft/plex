@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- Name........: plex.xsd                                                                  -->
+  <!-- Description.: This schema describes the structure used to declare an import layout for  -->
+  <!--               the plain excel library.                                                  -->
+  <!-- Author......: Daniel Kasmeroglu                                                         -->
+  <!-- E-Mail......: daniel.kasmeroglu@kasisoft.net                                            -->
+  <!-- Company.....: Kasisoft                                                                  -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    
+  <xs:element name="plex">
+    <xs:complexType>
+      <xs:sequence minOccurs="1" maxOccurs="1">
+        <xs:element name="general" type="generaltype"/>
+        <xs:element name="sheet"   type="sheetdescriptiontype"  minOccurs="1" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element> 
+  
+  <xs:complexType name="generaltype">
+    <xs:sequence>
+      <xs:element name="interface" type="interfacetype" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="interfacetype">
+    <xs:attribute name="api"        type="apitype"/>
+    <xs:attribute name="id"         type="xs:string"/>
+    <xs:attribute name="classname"  type="xs:string"/>
+  </xs:complexType>
+  
+  <xs:simpleType name="apitype">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="column"/>
+      <xs:enumeration value="row"/>
+      <xs:enumeration value="count"/>
+      <xs:enumeration value="transform"/>
+      <xs:enumeration value="metadata"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:complexType name="sheetdescriptiontype">
+    <xs:sequence>
+      <xs:element name="firstrowdetect" type="apicalltype"      minOccurs="0"/>
+      <xs:element name="metadata"       type="metadatatype"     minOccurs="0"/>
+      <xs:element name="column"         type="columntype"       minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="columngroup"    type="columngrouptype"  minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="namepattern"  type="xs:string"/>
+    <xs:attribute name="firstrow"     type="xs:int"     default="-1"/>
+  </xs:complexType>
+  
+  <xs:complexType name="metadatatype">
+    <xs:sequence>
+      <xs:element name="metadetect" type="apicalltype"  minOccurs="0"/>
+      <xs:element name="property"   type="propertytype" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="propertytype">
+    <xs:attribute name="key"      type="xs:string"/>
+    <xs:attribute name="value"    type="xs:string"/>
+  </xs:complexType>
+  
+  <xs:complexType name="columngrouptype">
+    <xs:sequence>
+      <xs:element name="columndetect" type="apicalltype"            minOccurs="0"/>
+      <xs:element name="countdetect"  type="apicalltype"            minOccurs="0"/>
+      <xs:element name="member"       type="columngroupmembertype"  maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="column"  type="xs:int"  default="-1"/>
+    <xs:attribute name="count"   type="xs:int"  default="-1"/>
+  </xs:complexType>
+
+  <xs:complexType name="columngroupmembertype">
+    <xs:sequence>
+      <xs:element name="transformer"  type="apicalltype"  minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="title"        type="xs:string"/>
+    <xs:attribute name="offset"       type="xs:int"       use="required"/>
+  </xs:complexType>
+  
+  <xs:complexType name="columntype">
+    <xs:sequence>
+      <xs:element name="columndetect" type="apicalltype" minOccurs="0"/>
+      <xs:element name="transformer"  type="apicalltype" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="title"    type="xs:string"/>
+    <xs:attribute name="column"   type="xs:int"       default="-1"/>
+  </xs:complexType>
+   
+  <xs:complexType name="apicalltype">
+    <xs:sequence>
+      <xs:element name="arg" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="refid"/>
+  </xs:complexType>
+   
+</xs:schema>
