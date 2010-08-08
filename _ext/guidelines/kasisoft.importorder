@@ -1,0 +1,34 @@
+#Organize Import Order
+#Fri Mar 12 23:08:21 CET 2010
+31=java
+30=java.io
+19=org.testng
+18=org.testng.annotations
+17=com
+16=com.kasisoft.lgpl.libs.common.io
+15=com.kasisoft.lgpl.libs.common.xml
+14=com.kasisoft.lgpl.libs.common.net
+13=com.kasisoft.lgpl.libs.common.core
+12=com.kasisoft.lgpl.libs.common.sys
+11=com.kasisoft.lgpl.libs.common.util
+10=com.kasisoft.lgpl.libs.common.swing
+9=com.kasisoft.lgpl.libs.common.swing.ws
+29=java.net
+8=com.kasisoft.lgpl.libs.common.swing.style
+28=java.util
+7=com.kasisoft.lgpl.libs.common.swing.model
+27=java.util.regex
+6=com.kasisoft.lgpl.libs.common.swing.border
+26=java.text
+5=com.kasisoft.lgpl.libs.common.swing.calendar
+25=java.lang.instrument
+4=com.kasisoft.lgpl.libs.common.event
+24=java.security
+3=com.kasisoft.lgpl.libs.common.thread
+23=javax
+2=com.kasisoft.lgpl.libs.common.logging
+22=javax.servlet
+1=com.kasisoft.lgpl.libs.common.constants
+21=javax.servlet.http
+0=com.kasisoft.lgpl.libs.common.functionality
+20=org
