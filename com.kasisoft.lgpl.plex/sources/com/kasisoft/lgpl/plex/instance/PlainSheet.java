@@ -38,13 +38,16 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
   }
   
   /**
-   * {@inheritDoc}
+   * @see #addColumn(Object)
    */
   public void addColumn( String title ) {
     titles.add( title );
     super.addColumn( title );
   }
   
+  /**
+   * {@inheritDoc}
+   */
   public void addColumn( Object title ) {
     throw new RuntimeException();
   }
@@ -90,7 +93,7 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
    * @param key     The key used to access the metadata information. Neither <code>null</code> nor empty.
    * @param value   The value of the metadata information. Neither <code>null</code> nor empty.
    */
-  public void setMetadata( String key, String value ) {
+  public void setMetadata( @KNotEmpty(name="key") String key, @KNotEmpty(name="value") String value ) {
     metadata.put( key, value );
   }
 
@@ -120,7 +123,10 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
         }
       }
       if( classtypes.size() == 1 ) {
+        // there was only one type so use that one
         classes[ col ] = classtypes.iterator().next();
+      } else {
+        /** @todo [15-Aug-2010:KASI]   We could calculate the type depending on the type hierarchies. */
       }
       classtypes.clear();
     }
