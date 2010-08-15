@@ -46,9 +46,9 @@ public class Importer {
     if( tracker == null ) {
       tracker = new DefaultImportTracker();
     }
-    
+
+    // load the schema used for the plex declaration
     Schema schema = null;
-    
     try {
       SchemaFactory factory   = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI );
       URL           schemaurl = Importer.class.getResource( "/plex.xsd" );
@@ -59,12 +59,14 @@ public class Importer {
 
     try {
       
+      // load the plex declaration
       JAXBContext   context       = JAXBContext.newInstance( ObjectFactory.class );
       Unmarshaller  unmarshaller  = context.createUnmarshaller();
       unmarshaller.setSchema( schema );
       
       PLEXModel     plexmodel     = (PLEXModel) unmarshaller.unmarshal( declaration );
   
+      // initialize the import driver
       driver                      = new ImportDriver( plexmodel, tracker );
     
     } catch( JAXBException  ex ) {
