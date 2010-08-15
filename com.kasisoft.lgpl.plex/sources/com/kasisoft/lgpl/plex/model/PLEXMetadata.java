@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "metadatatype", propOrder = {
+@XmlType(name = "tMetadata", propOrder = {
     "metadetect",
     "property"
 })

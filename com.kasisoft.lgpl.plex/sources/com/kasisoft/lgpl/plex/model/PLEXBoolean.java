@@ -16,31 +16,21 @@ import javax.xml.bind.annotation.XmlType;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tProperty")
-public class PLEXProperty {
+@XmlType(name = "tBoolean")
+public class PLEXBoolean
+    extends PLEXInjector
+{
 
-    @XmlAttribute
-    protected String key;
-    @XmlAttribute
-    protected String value;
-
-    
-    public String getKey() {
-        return key;
-    }
+    @XmlAttribute(required = true)
+    protected boolean value;
 
     
-    public void setKey(String value) {
-        this.key = value;
-    }
-
-    
-    public String getValue() {
+    public boolean isValue() {
         return value;
     }
 
     
-    public void setValue(String value) {
+    public void setValue(boolean value) {
         this.value = value;
     }
 

@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "columngrouptype", propOrder = {
+@XmlType(name = "tColumnGroup", propOrder = {
     "columndetect",
     "countdetect",
     "member"

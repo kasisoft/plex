@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "apicalltype", propOrder = {
+@XmlType(name = "tApiCall", propOrder = {
     "arg"
 })
 public class PLEXApiCall {

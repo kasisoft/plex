@@ -16,31 +16,21 @@ import javax.xml.bind.annotation.XmlType;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tProperty")
-public class PLEXProperty {
+@XmlType(name = "tDouble")
+public class PLEXDouble
+    extends PLEXInjector
+{
 
-    @XmlAttribute
-    protected String key;
-    @XmlAttribute
-    protected String value;
-
-    
-    public String getKey() {
-        return key;
-    }
+    @XmlAttribute(required = true)
+    protected double value;
 
     
-    public void setKey(String value) {
-        this.key = value;
-    }
-
-    
-    public String getValue() {
+    public double getValue() {
         return value;
     }
 
     
-    public void setValue(String value) {
+    public void setValue(double value) {
         this.value = value;
     }
 

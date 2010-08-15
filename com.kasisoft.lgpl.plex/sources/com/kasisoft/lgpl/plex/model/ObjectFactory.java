@@ -21,38 +21,8 @@ public class ObjectFactory {
     }
 
     
-    public PLEXGeneral createPLEXGeneral() {
-        return new PLEXGeneral();
-    }
-
-    
-    public PLEXModel createPLEXModel() {
-        return new PLEXModel();
-    }
-
-    
-    public PLEXColumnDescription createPLEXColumnDescription() {
-        return new PLEXColumnDescription();
-    }
-
-    
-    public PLEXInterface createPLEXInterface() {
-        return new PLEXInterface();
-    }
-
-    
     public PLEXMetadata createPLEXMetadata() {
         return new PLEXMetadata();
-    }
-
-    
-    public PLEXColumnGroupMember createPLEXColumnGroupMember() {
-        return new PLEXColumnGroupMember();
-    }
-
-    
-    public PLEXProperty createPLEXProperty() {
-        return new PLEXProperty();
     }
 
     
@@ -66,8 +36,68 @@ public class ObjectFactory {
     }
 
     
+    public PLEXColumnDescription createPLEXColumnDescription() {
+        return new PLEXColumnDescription();
+    }
+
+    
+    public PLEXModel createPLEXModel() {
+        return new PLEXModel();
+    }
+
+    
+    public PLEXDouble createPLEXDouble() {
+        return new PLEXDouble();
+    }
+
+    
+    public PLEXBoolean createPLEXBoolean() {
+        return new PLEXBoolean();
+    }
+
+    
     public PLEXApiCall createPLEXApiCall() {
         return new PLEXApiCall();
+    }
+
+    
+    public PLEXInjector createPLEXInjector() {
+        return new PLEXInjector();
+    }
+
+    
+    public PLEXStringList createPLEXStringList() {
+        return new PLEXStringList();
+    }
+
+    
+    public PLEXString createPLEXString() {
+        return new PLEXString();
+    }
+
+    
+    public PLEXInterface createPLEXInterface() {
+        return new PLEXInterface();
+    }
+
+    
+    public PLEXGeneral createPLEXGeneral() {
+        return new PLEXGeneral();
+    }
+
+    
+    public PLEXInteger createPLEXInteger() {
+        return new PLEXInteger();
+    }
+
+    
+    public PLEXColumnGroupMember createPLEXColumnGroupMember() {
+        return new PLEXColumnGroupMember();
+    }
+
+    
+    public PLEXProperty createPLEXProperty() {
+        return new PLEXProperty();
     }
 
 }

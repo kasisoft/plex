@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "columntype", propOrder = {
+@XmlType(name = "tColumn", propOrder = {
     "columndetect",
     "transformer"
 })

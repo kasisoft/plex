@@ -16,23 +16,13 @@ import javax.xml.bind.annotation.XmlType;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "tProperty")
-public class PLEXProperty {
+@XmlType(name = "tString")
+public class PLEXString
+    extends PLEXInjector
+{
 
-    @XmlAttribute
-    protected String key;
-    @XmlAttribute
+    @XmlAttribute(required = true)
     protected String value;
-
-    
-    public String getKey() {
-        return key;
-    }
-
-    
-    public void setKey(String value) {
-        this.key = value;
-    }
 
     
     public String getValue() {

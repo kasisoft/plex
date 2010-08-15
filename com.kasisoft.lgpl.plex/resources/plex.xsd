@@ -13,25 +13,78 @@
   <xs:element name="plex">
     <xs:complexType>
       <xs:sequence minOccurs="1" maxOccurs="1">
-        <xs:element name="general" type="generaltype"/>
-        <xs:element name="sheet"   type="sheetdescriptiontype"  minOccurs="1" maxOccurs="unbounded"/>
+        <xs:element name="general" type="tGeneral"/>
+        <xs:element name="sheet"   type="tSheetDescription"  minOccurs="1" maxOccurs="unbounded"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element> 
   
-  <xs:complexType name="generaltype">
+  <xs:complexType name="tGeneral">
     <xs:sequence>
-      <xs:element name="interface" type="interfacetype" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="interface" type="tInterface" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="interfacetype">
-    <xs:attribute name="api"        type="apitype"/>
+  <xs:complexType name="tInterface">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="list"     type="tStringList"/>
+      <xs:element name="integer"  type="tInteger"/>
+      <xs:element name="boolean"  type="tBoolean"/>
+      <xs:element name="double"   type="tDouble"/>
+      <xs:element name="string"   type="tString"/>
+    </xs:choice>
+    <xs:attribute name="api"        type="tApi"/>
     <xs:attribute name="id"         type="xs:string"/>
     <xs:attribute name="classname"  type="xs:string"/>
   </xs:complexType>
   
-  <xs:simpleType name="apitype">
+  <xs:complexType name="tInjector">
+    <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
+  
+  <xs:complexType name="tStringList">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tInjector">
+        <xs:sequence>
+          <xs:element name="item" type="xs:string"  minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="tInteger">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tInjector">
+        <xs:attribute name="value"  type="xs:int"  use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="tDouble">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tInjector">
+        <xs:attribute name="value"  type="xs:double"  use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="tString">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tInjector">
+        <xs:attribute name="value"  type="xs:string"  use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="tBoolean">
+    <xs:complexContent mixed="false">
+      <xs:extension base="tInjector">
+        <xs:attribute name="value"  type="xs:boolean"  use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:simpleType name="tApi">
     <xs:restriction base="xs:string">
       <xs:enumeration value="column"/>
       <xs:enumeration value="row"/>
@@ -41,57 +94,57 @@
     </xs:restriction>
   </xs:simpleType>
   
-  <xs:complexType name="sheetdescriptiontype">
+  <xs:complexType name="tSheetDescription">
     <xs:sequence>
-      <xs:element name="firstrowdetect" type="apicalltype"      minOccurs="0"/>
-      <xs:element name="metadata"       type="metadatatype"     minOccurs="0"/>
-      <xs:element name="column"         type="columntype"       minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="columngroup"    type="columngrouptype"  minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="firstrowdetect" type="tApiCall"      minOccurs="0"/>
+      <xs:element name="metadata"       type="tMetadata"     minOccurs="0"/>
+      <xs:element name="column"         type="tColumn"       minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="columngroup"    type="tColumnGroup"  minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="namepattern"  type="xs:string"/>
     <xs:attribute name="firstrow"     type="xs:int"     default="-1"/>
   </xs:complexType>
   
-  <xs:complexType name="metadatatype">
+  <xs:complexType name="tMetadata">
     <xs:sequence>
-      <xs:element name="metadetect" type="apicalltype"  minOccurs="0"/>
-      <xs:element name="property"   type="propertytype" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="metadetect" type="tApiCall"  minOccurs="0"/>
+      <xs:element name="property"   type="tProperty" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
   
-  <xs:complexType name="propertytype">
+  <xs:complexType name="tProperty">
     <xs:attribute name="key"      type="xs:string"/>
     <xs:attribute name="value"    type="xs:string"/>
   </xs:complexType>
   
-  <xs:complexType name="columngrouptype">
+  <xs:complexType name="tColumnGroup">
     <xs:sequence>
-      <xs:element name="columndetect" type="apicalltype"            minOccurs="0"/>
-      <xs:element name="countdetect"  type="apicalltype"            minOccurs="0"/>
-      <xs:element name="member"       type="columngroupmembertype"  maxOccurs="unbounded"/>
+      <xs:element name="columndetect" type="tApiCall"            minOccurs="0"/>
+      <xs:element name="countdetect"  type="tApiCall"            minOccurs="0"/>
+      <xs:element name="member"       type="tColumnGroupMember"  maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="column"  type="xs:string"   use="optional"/>
     <xs:attribute name="count"   type="xs:int"      default="-1"/>
   </xs:complexType>
 
-  <xs:complexType name="columngroupmembertype">
+  <xs:complexType name="tColumnGroupMember">
     <xs:sequence>
-      <xs:element name="transformer"  type="apicalltype"  minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="transformer"  type="tApiCall"  minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="title"        type="xs:string"/>
     <xs:attribute name="offset"       type="xs:int"       use="required"/>
   </xs:complexType>
   
-  <xs:complexType name="columntype">
+  <xs:complexType name="tColumn">
     <xs:sequence>
-      <xs:element name="columndetect" type="apicalltype" minOccurs="0"/>
-      <xs:element name="transformer"  type="apicalltype" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="columndetect" type="tApiCall" minOccurs="0"/>
+      <xs:element name="transformer"  type="tApiCall" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="title"    type="xs:string"/>
     <xs:attribute name="column"   type="xs:string"       use="optional"/>
   </xs:complexType>
    
-  <xs:complexType name="apicalltype">
+  <xs:complexType name="tApiCall">
     <xs:sequence>
       <xs:element name="arg" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>

@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "generaltype", propOrder = {
+@XmlType(name = "tGeneral", propOrder = {
     "_interface"
 })
 public class PLEXGeneral {

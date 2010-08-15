@@ -17,43 +17,71 @@
       <jxb:class name="PLEXModel"/>
     </jxb:bindings>
 
-    <jxb:bindings node="//xs:complexType[@name='generaltype']">
+    <jxb:bindings node="//xs:complexType[@name='tInterface']//xs:choice">
+      <jxb:property name="injectors"/>
+    </jxb:bindings>
+    
+    <jxb:bindings node="//xs:complexType[@name='tGeneral']">
       <jxb:class name="PLEXGeneral"/>
     </jxb:bindings>
 
-    <jxb:bindings node="//xs:complexType[@name='sheetdescriptiontype']">
+    <jxb:bindings node="//xs:complexType[@name='tInjector']">
+      <jxb:class name="PLEXInjector"/>
+    </jxb:bindings>
+
+    <jxb:bindings node="//xs:complexType[@name='tStringList']">
+      <jxb:class name="PLEXStringList"/>
+    </jxb:bindings>
+
+    <jxb:bindings node="//xs:complexType[@name='tBoolean']">
+      <jxb:class name="PLEXBoolean"/>
+    </jxb:bindings>
+
+    <jxb:bindings node="//xs:complexType[@name='tInteger']">
+      <jxb:class name="PLEXInteger"/>
+    </jxb:bindings>
+
+    <jxb:bindings node="//xs:complexType[@name='tString']">
+      <jxb:class name="PLEXString"/>
+    </jxb:bindings>
+
+    <jxb:bindings node="//xs:complexType[@name='tDouble']">
+      <jxb:class name="PLEXDouble"/>
+    </jxb:bindings>
+
+    <jxb:bindings node="//xs:complexType[@name='tSheetDescription']">
       <jxb:class name="PLEXSheetDescription"/>
     </jxb:bindings>
 
-    <jxb:bindings node="//xs:complexType[@name='columntype']">
+    <jxb:bindings node="//xs:complexType[@name='tColumn']">
       <jxb:class name="PLEXColumnDescription"/>
     </jxb:bindings>
 
-    <jxb:bindings node="//xs:complexType[@name='metadatatype']">
+    <jxb:bindings node="//xs:complexType[@name='tMetadata']">
       <jxb:class name="PLEXMetadata"/>
     </jxb:bindings>
 
-    <jxb:bindings node="//xs:complexType[@name='propertytype']">
+    <jxb:bindings node="//xs:complexType[@name='tProperty']">
       <jxb:class name="PLEXProperty"/>
     </jxb:bindings>
 
-    <jxb:bindings node="//xs:complexType[@name='columngrouptype']">
+    <jxb:bindings node="//xs:complexType[@name='tColumnGroup']">
       <jxb:class name="PLEXColumnGroup"/>
     </jxb:bindings>
 
-    <jxb:bindings node="//xs:complexType[@name='columngroupmembertype']">
+    <jxb:bindings node="//xs:complexType[@name='tColumnGroupMember']">
       <jxb:class name="PLEXColumnGroupMember"/>
     </jxb:bindings>
     
-    <jxb:bindings node="//xs:complexType[@name='interfacetype']">
+    <jxb:bindings node="//xs:complexType[@name='tInterface']">
       <jxb:class name="PLEXInterface"/>
     </jxb:bindings>
     
-    <jxb:bindings node="//xs:complexType[@name='apicalltype']">
+    <jxb:bindings node="//xs:complexType[@name='tApiCall']">
       <jxb:class name="PLEXApiCall"/>
     </jxb:bindings>
 
-    <jxb:bindings node="//xs:simpleType[@name='apitype']">
+    <jxb:bindings node="//xs:simpleType[@name='tApi']">
       <jxb:typesafeEnumClass name="PLEXApiType"/>
     </jxb:bindings>
 

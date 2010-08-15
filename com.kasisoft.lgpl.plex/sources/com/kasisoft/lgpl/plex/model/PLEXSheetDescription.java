@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "sheetdescriptiontype", propOrder = {
+@XmlType(name = "tSheetDescription", propOrder = {
     "firstrowdetect",
     "metadata",
     "column",

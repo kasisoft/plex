@@ -8,23 +8,45 @@
 
 package com.kasisoft.lgpl.plex.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlType;
 
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "interfacetype")
+@XmlType(name = "tInterface", propOrder = {
+    "injectors"
+})
 public class PLEXInterface {
 
+    @XmlElements({
+        @XmlElement(name = "double", type = PLEXDouble.class),
+        @XmlElement(name = "boolean", type = PLEXBoolean.class),
+        @XmlElement(name = "string", type = PLEXString.class),
+        @XmlElement(name = "list", type = PLEXStringList.class),
+        @XmlElement(name = "integer", type = PLEXInteger.class)
+    })
+    protected List<PLEXInjector> injectors;
     @XmlAttribute
     protected PLEXApiType api;
     @XmlAttribute
     protected String id;
     @XmlAttribute
     protected String classname;
+
+    
+    public List<PLEXInjector> getInjectors() {
+        if (injectors == null) {
+            injectors = new ArrayList<PLEXInjector>();
+        }
+        return this.injectors;
+    }
 
     
     public PLEXApiType getApi() {

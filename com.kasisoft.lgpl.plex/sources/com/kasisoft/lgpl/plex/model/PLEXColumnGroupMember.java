@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "columngroupmembertype", propOrder = {
+@XmlType(name = "tColumnGroupMember", propOrder = {
     "transformer"
 })
 public class PLEXColumnGroupMember {
