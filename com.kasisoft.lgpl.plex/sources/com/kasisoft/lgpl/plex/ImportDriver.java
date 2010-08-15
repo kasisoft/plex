@@ -35,11 +35,13 @@ class ImportDriver {
    * 
    * @param desc      The description model used for the import process. Not <code>null</code>.
    * @param tracker   The tracker used to monitor the import process. Not <code>null</code>.
+   * 
+   * @throws PLEXException   The declaration seems to be invalid.
    */
   public ImportDriver( 
     @KNotNull(name="desc")      PLEXModel       desc, 
     @KNotNull(name="tracker")   ImportTracker   tracker 
-  ) {
+  ) throws PLEXException {
     
     importtracker = tracker;
     descriptor    = desc;

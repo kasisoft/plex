@@ -10,19 +10,27 @@ package com.kasisoft.lgpl.plex.api;
 
 import com.kasisoft.lgpl.libs.common.util.*;
 
+import com.kasisoft.lgpl.plex.*;
 import com.kasisoft.lgpl.plex.instance.*;
 import com.kasisoft.lgpl.plex.model.*;
-import com.kasisoft.lgpl.plex.*;
 
 import org.apache.poi.ss.usermodel.*;
 
 import java.util.*;
+
+import java.lang.reflect.*;
 
 /**
  * Helper class used to manage the apis provided with a declaration file.
  */
 public class ApiManager {
 
+  private static final String MSG_INVALID_APITYPE = "The class '%s' does not support the api type %s !";
+
+  private static final String MSG_SETTER_FAILURE = "The setter '%s' caused an error when being used.";
+
+  private static final String MSG_MISSING_SETTER = "The setter '%s' (name=%s) for type '%s' doesn't exist !";
+  
   private Map<String,ColumnResolver>     columnresolvers;
   private Map<String,CountResolver>      countresolvers;
   private Map<String,ValueTransform>     valuetransformers;
@@ -34,8 +42,10 @@ public class ApiManager {
    * 
    * @param interfaces   A list of interface implementations provided by the ai declaration.
    *                     Not <code>null</code>.
+   *                     
+   * @throws PLEXException   The initialisation of an api instance failed for some reason.
    */
-  public ApiManager( List<PLEXInterface> interfaces ) {
+  public ApiManager( List<PLEXInterface> interfaces ) throws PLEXException {
     
     columnresolvers   = new Hashtable<String,ColumnResolver>();
     countresolvers    = new Hashtable<String,CountResolver>();
@@ -47,15 +57,112 @@ public class ApiManager {
       PLEXApiType apitype   = plexinterface.getApi();
       String      classname = plexinterface.getClassname();
       Object      instance  = MiscFunctions.newInstance( classname );
-      switch( apitype ) {
-      case COLUMN     : columnresolvers   . put( plexinterface.getId(), (ColumnResolver  ) instance ); break;
-      case COUNT      : countresolvers    . put( plexinterface.getId(), (CountResolver   ) instance ); break;
-      case TRANSFORM  : valuetransformers . put( plexinterface.getId(), (ValueTransform  ) instance ); break;
-      case ROW        : rowresolvers      . put( plexinterface.getId(), (RowResolver     ) instance ); break;
-      case METADATA   : metadataproviders . put( plexinterface.getId(), (MetadataProvider) instance ); break;
+      if( ! plexinterface.getInjectors().isEmpty() ) {
+        configureInstance( instance, plexinterface.getInjectors() );
+      }
+      try {
+        switch( apitype ) {
+        case COLUMN     : columnresolvers   . put( plexinterface.getId(), (ColumnResolver  ) instance ); break;
+        case COUNT      : countresolvers    . put( plexinterface.getId(), (CountResolver   ) instance ); break;
+        case TRANSFORM  : valuetransformers . put( plexinterface.getId(), (ValueTransform  ) instance ); break;
+        case ROW        : rowresolvers      . put( plexinterface.getId(), (RowResolver     ) instance ); break;
+        case METADATA   : metadataproviders . put( plexinterface.getId(), (MetadataProvider) instance ); break;
+        }
+      } catch( ClassCastException ex ) {
+        // easier than checking it before setting the map value
+        throw new PLEXException( PLEXFailure.DeclarationError, MSG_INVALID_APITYPE, classname, apitype );
       }
     }
 
+  }
+  
+  /**
+   * Configures a specified instance according to the injections provided by the declaration file.
+   * 
+   * @param instance    The instance which will be altered. Not <code>null</code>.
+   * @param injectors   The list of injections that have to be performed. Not <code>null</code>.
+   * 
+   * @throws PLEXException   The injection failed for some reason.
+   */
+  private void configureInstance( Object instance, List<PLEXInjector> injectors ) throws PLEXException {
+    for( PLEXInjector injector : injectors ) {
+      configureInstance( instance, injector );
+    }
+  }
+  
+  /**
+   * Configures a specified instance according to a injection provided by the declaration file.
+   * 
+   * @todo [15-Aug-2010:KASI]   Maybe the methods should be cached but for now there's no
+   *                            performance related constraint.
+   * 
+   * @param instance    The instance which will be altered. Not <code>null</code>.
+   * @param injector    The injection that has to be performed. Not <code>null</code>.
+   * 
+   * @throws PLEXException   The injection failed for some reason.
+   */
+  private void configureInstance( Object instance, PLEXInjector injector ) throws PLEXException {
+    Object value  = getValue( injector );
+    String setter = getSetter( injector );
+    try {
+      Method method = instance.getClass().getMethod( setter, value.getClass() );
+      method.invoke( instance, value );
+    } catch( NoSuchMethodException ex ) {
+      throw new PLEXException( PLEXFailure.DeclarationError, MSG_MISSING_SETTER, setter, injector.getName(), instance.getClass().getName() );
+    } catch( IllegalArgumentException  ex ) {
+      throw new PLEXException( PLEXFailure.DeclarationError, ex, MSG_SETTER_FAILURE, setter );
+    } catch( IllegalAccessException    ex ) {
+      throw new PLEXException( PLEXFailure.DeclarationError, ex, MSG_SETTER_FAILURE, setter );
+    } catch( InvocationTargetException ex ) {
+      throw new PLEXException( PLEXFailure.DeclarationError, ex, MSG_SETTER_FAILURE, setter );
+    }
+  }
+  
+  /**
+   * Returns the name of the setter method identified through the supplied injector.
+   * 
+   * @param injector   The injector instance used to identify the apropriate setter.
+   *                   Not <code>null</code>.
+   *                   
+   * @return   The setter name for the injection process. Neither <code>null</code> nor empty.
+   */
+  private String getSetter( PLEXInjector injector ) {
+    String name = injector.getName();
+    if( name.length() == 1 ) {
+      return String.format( "set%s", name.toUpperCase() );
+    } else {
+      return 
+        String.format( "set%s%s", 
+          String.valueOf( Character.toUpperCase( injector.getName().charAt(0) ) ), 
+          injector.getName().substring(1) 
+        );
+    }
+  }
+
+  /**
+   * Returns the value which has to be set for the injection.
+   * 
+   * @param injector   The injector which provides the value. Not <code>null</code>.
+   * 
+   * @return   The value associated with the supplied injector. Not <code>null</code>.
+   */
+  private Object getValue( PLEXInjector injector ) {
+    if( injector instanceof PLEXBoolean ) {
+      return Boolean.valueOf( ((PLEXBoolean) injector).isValue() );
+    } else if( injector instanceof PLEXInteger ) {
+      return Integer.valueOf( ((PLEXInteger) injector).getValue() );
+    } else if( injector instanceof PLEXString ) {
+      return ((PLEXString) injector).getValue();
+    } else if( injector instanceof PLEXDouble ) {
+      return Double.valueOf( ((PLEXDouble) injector).getValue() );
+    } else /* if( injector instanceof PLEXStringList ) */ {
+      PLEXStringList list   = (PLEXStringList) injector;
+      List<String>   result = new ArrayList<String>();
+      for( int i = 0; i < list.getItem().size(); i++ ) {
+        result.add( list.getItem().get(i) );
+      }
+      return result;
+    }
   }
   
   /**
