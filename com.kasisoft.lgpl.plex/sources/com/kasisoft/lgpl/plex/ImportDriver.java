@@ -24,6 +24,7 @@ import java.util.*;
  */
 class ImportDriver {
 
+  private static final String MSG_INVALIDCOLUMN = "The column '%s' could not be parsed !";
   private PLEXModel                           descriptor;
   private ImportTracker                       importtracker;
   private Map<Pattern,PLEXSheetDescription>   importspecs;
@@ -267,11 +268,42 @@ class ImportDriver {
    * 
    * @return   The column index which could be identified.
    */
-  private int getColumn( Sheet sheet, int column, PLEXApiCall apicall ) throws PLEXException {
-    if( column >= 0 ) {
-      return column;
+  private int getColumn( Sheet sheet, String column, PLEXApiCall apicall ) throws PLEXException {
+    int colidx = -1;
+    if( column != null ) {
+      try {
+        colidx = Integer.parseInt( column );
+      } catch( NumberFormatException ex ) {
+        colidx = toIndex( column );
+      }
+    }
+    if( colidx >= 0 ) {
+      return colidx;
     } else {
       return apimanager.detectColumn( apicall.getRefid(), apicall.getArg(), sheet );
+    }
+  }
+  
+  /**
+   * Returns the column associated with an alphabetical index.
+   * 
+   * @param column   The textual column. Neither <code>null</code> nor empty.
+   * 
+   * @return   The numerical index for the column.
+   * 
+   * @throws PLEXException   The column could not be parsed.
+   */
+  private int toIndex( String column ) throws PLEXException {
+    if( column.length() > 2 ) {
+      throw new PLEXException( PLEXFailure.DeclarationError, MSG_INVALIDCOLUMN, column  );
+    }
+    column = column.toLowerCase();
+    if ( column.length() == 1 ) {
+      return column.charAt(0) - 'a';
+    } else {
+      int c1 = column.charAt(0) - 'a' + 1;
+      int c2 = column.charAt(1) - 'a';
+      return c1 * 26 + c2;
     }
   }
 

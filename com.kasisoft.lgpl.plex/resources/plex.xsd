@@ -70,8 +70,8 @@
       <xs:element name="countdetect"  type="apicalltype"            minOccurs="0"/>
       <xs:element name="member"       type="columngroupmembertype"  maxOccurs="unbounded"/>
     </xs:sequence>
-    <xs:attribute name="column"  type="xs:int"  default="-1"/>
-    <xs:attribute name="count"   type="xs:int"  default="-1"/>
+    <xs:attribute name="column"  type="xs:string"   use="optional"/>
+    <xs:attribute name="count"   type="xs:int"      default="-1"/>
   </xs:complexType>
 
   <xs:complexType name="columngroupmembertype">
@@ -88,7 +88,7 @@
       <xs:element name="transformer"  type="apicalltype" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="title"    type="xs:string"/>
-    <xs:attribute name="column"   type="xs:int"       default="-1"/>
+    <xs:attribute name="column"   type="xs:string"       use="optional"/>
   </xs:complexType>
    
   <xs:complexType name="apicalltype">

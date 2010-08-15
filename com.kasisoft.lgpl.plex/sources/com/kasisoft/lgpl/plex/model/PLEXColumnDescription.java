@@ -29,7 +29,7 @@ public class PLEXColumnDescription {
     @XmlAttribute
     protected String title;
     @XmlAttribute
-    protected Integer column;
+    protected String column;
 
     
     public PLEXApiCall getColumndetect() {
@@ -60,16 +60,12 @@ public class PLEXColumnDescription {
     }
 
     
-    public int getColumn() {
-        if (column == null) {
-            return -1;
-        } else {
-            return column.intValue();
-        }
+    public String getColumn() {
+        return column;
     }
 
     
-    public void setColumn(Integer value) {
+    public void setColumn(String value) {
         this.column = value;
     }
 

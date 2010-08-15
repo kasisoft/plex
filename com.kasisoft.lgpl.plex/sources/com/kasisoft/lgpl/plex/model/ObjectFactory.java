@@ -21,28 +21,13 @@ public class ObjectFactory {
     }
 
     
-    public PLEXColumnGroupMember createPLEXColumnGroupMember() {
-        return new PLEXColumnGroupMember();
-    }
-
-    
-    public PLEXColumnGroup createPLEXColumnGroup() {
-        return new PLEXColumnGroup();
-    }
-
-    
-    public PLEXProperty createPLEXProperty() {
-        return new PLEXProperty();
-    }
-
-    
-    public PLEXMetadata createPLEXMetadata() {
-        return new PLEXMetadata();
-    }
-
-    
     public PLEXGeneral createPLEXGeneral() {
         return new PLEXGeneral();
+    }
+
+    
+    public PLEXModel createPLEXModel() {
+        return new PLEXModel();
     }
 
     
@@ -56,6 +41,26 @@ public class ObjectFactory {
     }
 
     
+    public PLEXMetadata createPLEXMetadata() {
+        return new PLEXMetadata();
+    }
+
+    
+    public PLEXColumnGroupMember createPLEXColumnGroupMember() {
+        return new PLEXColumnGroupMember();
+    }
+
+    
+    public PLEXProperty createPLEXProperty() {
+        return new PLEXProperty();
+    }
+
+    
+    public PLEXColumnGroup createPLEXColumnGroup() {
+        return new PLEXColumnGroup();
+    }
+
+    
     public PLEXSheetDescription createPLEXSheetDescription() {
         return new PLEXSheetDescription();
     }
@@ -63,11 +68,6 @@ public class ObjectFactory {
     
     public PLEXApiCall createPLEXApiCall() {
         return new PLEXApiCall();
-    }
-
-    
-    public PLEXModel createPLEXModel() {
-        return new PLEXModel();
     }
 
 }

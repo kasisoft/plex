@@ -31,7 +31,7 @@ public class PLEXColumnGroup {
     @XmlElement(required = true)
     protected List<PLEXColumnGroupMember> member;
     @XmlAttribute
-    protected Integer column;
+    protected String column;
     @XmlAttribute
     protected Integer count;
 
@@ -64,16 +64,12 @@ public class PLEXColumnGroup {
     }
 
     
-    public int getColumn() {
-        if (column == null) {
-            return -1;
-        } else {
-            return column.intValue();
-        }
+    public String getColumn() {
+        return column;
     }
 
     
-    public void setColumn(Integer value) {
+    public void setColumn(String value) {
         this.column = value;
     }
 
