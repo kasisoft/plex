@@ -82,12 +82,25 @@ public class SimpleSerializer {
    * 
    * @param tag       The tag that has to be opened. Neither <code>null</code> nor empty.
    * @param content   The content used for the tag. Maybe <code>null</code>.
+   * @param attrs     A list of pairs describing attributes. Maybe <code>null</code>.
    */
-  public void write( String tag, String content ) {
-    if( content == null ) {
-      buffer.appendF( "%s<%s/>\n", indention, tag );
+  public void write( String tag, String content, String ... attrs ) {
+    if( (attrs != null) && (attrs.length > 0) ) {
+      buffer.appendF( "%s<%s", indention, tag );
+      for( int i = 0; i < attrs.length; i += 2 ) {
+        buffer.appendF( " %s=\"%s\"", attrs[ i + 0 ], attrs[ i + 1 ] );
+      }
+      if( content == null ) {
+        buffer.append( "/>\n" );
+      } else {
+        buffer.appendF( ">%s</%s>\n", content, tag );
+      }
     } else {
-      buffer.appendF( "%s<%s>%s</%s>\n", indention, tag, content, tag );
+      if( content == null ) {
+        buffer.appendF( "%s<%s/>\n", indention, tag );
+      } else {
+        buffer.appendF( "%s<%s>%s</%s>\n", indention, tag, content, tag );
+      }
     }
   }
   
