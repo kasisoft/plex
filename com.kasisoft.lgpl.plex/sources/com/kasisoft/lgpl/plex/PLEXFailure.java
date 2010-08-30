@@ -13,11 +13,21 @@ package com.kasisoft.lgpl.plex;
  */
 public enum PLEXFailure {
 
-  MissingApiFunction,
-  ErrorInApiFunction,
-  IO,
-  InvalidExcel,
-  DeclarationError,
-  MissingSchema;
+  MissingApiFunction  ( "Failed to identify API function '%s' !"    ),
+  ErrorInApiFunction  ( "An error occured within an API function !" ),
+  IO                  ( "" ),
+  InvalidExcel        ( "" ),
+  DeclarationError    ( "" ),
+  MissingSchema       ( "" );
+  
+  private String   formatstr;
+  
+  PLEXFailure( String fmt ) {
+    formatstr = fmt;
+  }
+  
+  public String toString( Object ... args ) {
+    return String.format( formatstr, args );
+  }
   
 } /* ENDENUM */

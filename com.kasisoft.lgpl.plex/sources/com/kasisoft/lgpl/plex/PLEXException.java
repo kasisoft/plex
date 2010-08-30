@@ -30,11 +30,10 @@ public class PLEXException extends Exception {
    * Initialises this exception with the supplied cause.
    * 
    * @param code   The failuecode providing a more specific error cause. Not <code>null</code>.
-   * @param msg    A message stating the cause of the error.
    * @param args   The arguments used to format the message.
    */
-  public PLEXException( PLEXFailure code, String msg, Object ... args ) {
-    super( args != null ? String.format( msg, args ) : msg );
+  public PLEXException( PLEXFailure code, Object ... args ) {
+    super( args != null ? code.toString( args ) : code.toString() );
     failurecode = code;
   }
 
@@ -43,11 +42,10 @@ public class PLEXException extends Exception {
    * 
    * @param code   The failuecode providing a more specific error cause. Not <code>null</code>.
    * @param ex     The exception that caused this one. Not <code>null</code>.
-   * @param msg    A message stating the cause of the error.
    * @param args   The arguments used to format the message.
    */
-  public PLEXException( PLEXFailure code, Exception ex, String msg, Object ... args ) {
-    super( args != null ? String.format( msg, args ) : msg, ex );
+  public PLEXException( PLEXFailure code, Exception ex,Object ... args ) {
+    super( args != null ? code.toString( args ) : code.toString(), ex );
     failurecode = code;
   }
 
