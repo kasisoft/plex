@@ -339,8 +339,10 @@ class ImportDriver {
   private int getFirstRow( Sheet sheet, int firstrow, PLEXApiCall apicall ) throws PLEXException {
     if( firstrow >= 0 ) {
       return firstrow;
-    } else {
+    } else if( apicall != null ) {
       return apimanager.detectRow( apicall.getRefid(), apicall.getArg(), sheet );
+    } else {
+      throw new PLEXException( PLEXFailure.DeclarationError, "Missing first row !" );
     }
   }
 
