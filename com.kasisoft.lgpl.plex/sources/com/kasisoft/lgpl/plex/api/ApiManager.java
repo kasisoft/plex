@@ -10,26 +10,29 @@ package com.kasisoft.lgpl.plex.api;
 
 import com.kasisoft.lgpl.libs.common.util.*;
 
-import com.kasisoft.lgpl.plex.*;
 import com.kasisoft.lgpl.plex.instance.*;
 import com.kasisoft.lgpl.plex.model.*;
+import com.kasisoft.lgpl.plex.*;
 
 import org.apache.poi.ss.usermodel.*;
 
-import java.util.*;
-
 import java.lang.reflect.*;
+
+import java.util.*;
 
 /**
  * Helper class used to manage the apis provided with a declaration file.
  */
 public class ApiManager {
 
-  private static final String MSG_INVALID_APITYPE = "The class '%s' does not support the api type %s !";
+  private static final String MSG_INVALID_APITYPE = 
+    "The class '%s' does not support the api type %s !";
 
-  private static final String MSG_SETTER_FAILURE = "The setter '%s' caused an error when being used.";
+  private static final String MSG_SETTER_FAILURE = 
+    "The setter '%s' caused an error when being used.";
 
-  private static final String MSG_MISSING_SETTER = "The setter '%s' (name=%s) for type '%s' doesn't exist !";
+  private static final String MSG_MISSING_SETTER = 
+    "The setter '%s' (name=%s) for type '%s' doesn't exist !";
   
   private Map<String,ColumnResolver>     columnresolvers;
   private Map<String,CountResolver>      countresolvers;
