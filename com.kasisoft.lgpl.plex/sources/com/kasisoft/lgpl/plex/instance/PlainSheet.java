@@ -189,10 +189,15 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
     if( serializer == null ) {
       serializer = new SimpleSerializer();
     }
-    serializer.open( "sheet", "name", getSheetName(), "columns", String.valueOf( getColumnCount() ), "rows", String.valueOf( getRowCount() ) );
-    for( int row = 0; row < getRowCount(); row++ ) {
+    int columns = getColumnCount();
+    int rows    = getRowCount();
+    serializer.open( "sheet", "name", getSheetName(), "columns", String.valueOf( columns ), "rows", String.valueOf( rows ) );
+    for( int col = 0; col < columns; col++ ) {
+      serializer.write( "column", null, "name", getColumnName( col ), "type", getColumnClass( col ).getName() );
+    }
+    for( int row = 0; row < rows; row++ ) {
       serializer.open( "row", "row", String.valueOf( row ) );
-      for( int col = 0; col < getColumnCount(); col++ ) {
+      for( int col = 0; col < columns; col++ ) {
         Object value = getValueAt( row, col );
         if( value == null ) {
           serializer.write( getColumnName( col ), null );

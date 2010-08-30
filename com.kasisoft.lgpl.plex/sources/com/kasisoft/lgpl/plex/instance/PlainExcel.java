@@ -100,4 +100,11 @@ public class PlainExcel {
     return serializer.toString();
   }
   
+  /**
+   * {@inheritDoc}
+   */
+  public String toString() {
+    return serialize( new SimpleSerializer() );
+  }
+  
 } /* ENDCLASS */
