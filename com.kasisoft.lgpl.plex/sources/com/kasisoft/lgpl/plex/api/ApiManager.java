@@ -10,15 +10,16 @@ package com.kasisoft.lgpl.plex.api;
 
 import com.kasisoft.lgpl.libs.common.util.*;
 
+import com.kasisoft.lgpl.plex.*;
+import com.kasisoft.lgpl.plex.api.proxy.*;
 import com.kasisoft.lgpl.plex.instance.*;
 import com.kasisoft.lgpl.plex.model.*;
-import com.kasisoft.lgpl.plex.*;
 
 import org.apache.poi.ss.usermodel.*;
 
-import java.lang.reflect.*;
-
 import java.util.*;
+
+import java.lang.reflect.*;
 
 /**
  * Helper class used to manage the apis provided with a declaration file.
@@ -65,11 +66,11 @@ public class ApiManager {
       }
       try {
         switch( apitype ) {
-        case COLUMN     : columnresolvers   . put( plexinterface.getId(), (ColumnResolver  ) instance ); break;
-        case COUNT      : countresolvers    . put( plexinterface.getId(), (CountResolver   ) instance ); break;
-        case TRANSFORM  : valuetransformers . put( plexinterface.getId(), (ValueTransform  ) instance ); break;
-        case ROW        : rowresolvers      . put( plexinterface.getId(), (RowResolver     ) instance ); break;
-        case METADATA   : metadataproviders . put( plexinterface.getId(), (MetadataProvider) instance ); break;
+        case COLUMN     : columnresolvers   . put( plexinterface.getId(), new ColumnResolverProxy   ( (ColumnResolver  ) instance ) ); break;
+        case COUNT      : countresolvers    . put( plexinterface.getId(), new CountResolverProxy    ( (CountResolver   ) instance ) ); break;
+        case TRANSFORM  : valuetransformers . put( plexinterface.getId(), new ValueTransformProxy   ( (ValueTransform  ) instance ) ); break;
+        case ROW        : rowresolvers      . put( plexinterface.getId(), new RowResolverProxy      ( (RowResolver     ) instance ) ); break;
+        case METADATA   : metadataproviders . put( plexinterface.getId(), new MetadataProviderProxy ( (MetadataProvider) instance ) ); break;
         }
       } catch( ClassCastException ex ) {
         // easier than checking it before setting the map value

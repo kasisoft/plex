@@ -13,9 +13,9 @@ package com.kasisoft.lgpl.plex;
  */
 public enum PLEXFailure {
 
-  MissingApiFunction  ( "Failed to identify API function '%s' !"    ),
-  ErrorInApiFunction  ( "An error occured within an API function !" ),
-  InvalidApiCall      ( "ID: %s accepts the following args: %s !"   ),
+  MissingApiFunction  ( "Failed to identify API function '%s' !"              ),
+  ErrorInApiFunction  ( "An error occured within an API function ! Cause: %s" ),
+  InvalidApiCall      ( "ID: %s accepts the following args: %s !"             ),
   IO                  ( "" ),
   InvalidExcel        ( "" ),
   DeclarationError    ( "" ),

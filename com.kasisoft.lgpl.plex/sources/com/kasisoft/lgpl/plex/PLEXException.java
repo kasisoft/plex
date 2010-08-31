@@ -44,7 +44,7 @@ public class PLEXException extends Exception {
    * @param ex     The exception that caused this one. Not <code>null</code>.
    * @param args   The arguments used to format the message.
    */
-  public PLEXException( PLEXFailure code, Exception ex,Object ... args ) {
+  public PLEXException( PLEXFailure code, Exception ex, Object ... args ) {
     super( args != null ? code.toString( args ) : code.toString(), ex );
     failurecode = code;
   }
