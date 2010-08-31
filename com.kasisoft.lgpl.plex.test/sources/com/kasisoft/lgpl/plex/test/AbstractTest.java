@@ -41,8 +41,8 @@ public abstract class AbstractTest {
   }
   
   protected void runTest( String groupname, String testcase ) {
-    File excelfile        = new File( inputdir    , String.format( "%s/%s.xls"  , groupname , groupname ) );
-    File declarationfile  = new File( inputdir    , String.format( "%s/%s.plex" , groupname , groupname ) );
+    File excelfile        = new File( inputdir    , String.format( "%s/%s.xls"  , groupname , testcase  ) );
+    File declarationfile  = new File( inputdir    , String.format( "%s/%s.plex" , groupname , testcase  ) );
     File expectedfile     = new File( expecteddir , String.format( "%s/%s.txt"  , groupname , testcase  ) );
     File outputfile       = new File( outputdir   , String.format( "%s/%s.txt"  , groupname , testcase  ) );
     Assert.assertTrue( excelfile       . isFile() );
