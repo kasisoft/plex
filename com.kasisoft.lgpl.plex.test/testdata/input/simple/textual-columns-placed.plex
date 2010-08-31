@@ -5,11 +5,11 @@
     <interface api="transform" id="cleanup"          classname="com.kasisoft.lgpl.plex.impl.CleanupTransform"     />
   </general>
 
-  <sheet name="numerical-columns" firstrow="1">
-    <column title="key"       column="0">
+  <sheet name="textual-columns-placed" firstrow="14">
+    <column title="key"       column="e">
       <transformer refid="cleanup"      />
     </column>
-    <column title="value"     column="1">
+    <column title="value"     column="f">
       <transformer refid="cleanup"      />
     </column>
   </sheet>

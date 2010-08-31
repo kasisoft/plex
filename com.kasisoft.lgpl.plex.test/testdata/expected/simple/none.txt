@@ -1,0 +1,6 @@
+<workbook>
+  <sheet name="none" columns="2" rows="0">
+    <column name="key" type="java.lang.Object"/>
+    <column name="value" type="java.lang.Object"/>
+  </sheet>
+</workbook>

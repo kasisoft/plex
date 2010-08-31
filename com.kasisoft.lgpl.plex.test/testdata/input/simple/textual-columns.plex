@@ -5,7 +5,7 @@
     <interface api="transform" id="cleanup"          classname="com.kasisoft.lgpl.plex.impl.CleanupTransform"     />
   </general>
 
-  <sheet namepattern="textual-columns" firstrow="1">
+  <sheet name="textual-columns" firstrow="1">
     <column title="key"       column="A">
       <transformer refid="cleanup"      />
     </column>
