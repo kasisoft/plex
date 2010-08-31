@@ -8,6 +8,8 @@
  */
 package com.kasisoft.lgpl.plex.api;
 
+import com.kasisoft.lgpl.plex.*;
+
 import org.apache.poi.ss.usermodel.*;
 
 /**
@@ -22,7 +24,9 @@ public interface ColumnResolver {
    * @param args    The arguments provided by the declaration file. Maybe <code>null</code>.
    * 
    * @return    The index of the column that could be detected.
+   * 
+   * @throws PLEXException   The execution failed for some reason.
    */
-  int detectColumn( Sheet sheet, String ... args );
+  int detectColumn( Sheet sheet, String ... args ) throws PLEXException;
   
 } /* ENDINTERFACE */

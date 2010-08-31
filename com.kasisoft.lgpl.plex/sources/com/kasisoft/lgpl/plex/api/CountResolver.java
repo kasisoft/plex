@@ -8,6 +8,8 @@
  */
 package com.kasisoft.lgpl.plex.api;
 
+import com.kasisoft.lgpl.plex.*;
+
 import org.apache.poi.ss.usermodel.*;
 
 /**
@@ -23,7 +25,9 @@ public interface CountResolver {
    * @param args          The arguments provided by the declaration file. Maybe <code>null</code>.
    * 
    * @return   The count of the columngroups that could be detected.
+   * 
+   * @throws PLEXException   The execution failed for some reason.
    */
-  int detectCount( Sheet sheet, int firstcolumn, String ... args );
+  int detectCount( Sheet sheet, int firstcolumn, String ... args ) throws PLEXException;
   
 } /* ENDINTERFACE */

@@ -8,6 +8,8 @@
  */
 package com.kasisoft.lgpl.plex.api;
 
+import com.kasisoft.lgpl.plex.*;
+
 /**
  * Each implementor is capable to alter the content of a value.
  */
@@ -21,7 +23,9 @@ public interface ValueTransform {
    * @param args    The arguments provided by the declaration file. Maybe <code>null</code>.
    * 
    * @return   The transformed value.
+   * 
+   * @throws PLEXException   The execution failed for some reason.
    */
-  Object transformValue( Object value, String ... args );
+  Object transformValue( Object value, String ... args ) throws PLEXException;
   
 } /* ENDINTERFACE */

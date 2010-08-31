@@ -8,6 +8,8 @@
  */
 package com.kasisoft.lgpl.plex.api;
 
+import com.kasisoft.lgpl.plex.*;
+
 import org.apache.poi.ss.usermodel.*;
 
 import java.util.*;
@@ -24,7 +26,9 @@ public interface MetadataProvider {
    * @param args    The arguments provided by the declaration file. Maybe <code>null</code>.
    * 
    * @return   The map providing the metadata. Not <code>null</code>.
+   * 
+   * @throws PLEXException   The execution failed for some reason.
    */
-  Map<String,String> getMetadata( Sheet sheet, String ... args );
+  Map<String,String> getMetadata( Sheet sheet, String ... args ) throws PLEXException;
   
 } /* ENDINTERFACE */

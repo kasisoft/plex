@@ -8,6 +8,8 @@
  */
 package com.kasisoft.lgpl.plex.api;
 
+import com.kasisoft.lgpl.plex.*;
+
 import org.apache.poi.ss.usermodel.*;
 
 /**
@@ -22,7 +24,9 @@ public interface RowResolver {
    * @param args    The arguments provided by the declaration file. Maybe <code>null</code>.
    * 
    * @return   The detected row index.
+   * 
+   * @throws PLEXException   The execution failed for some reason.
    */
-  int detectRow( Sheet sheet, String ... args );
+  int detectRow( Sheet sheet, String ... args ) throws PLEXException;
   
 } /* ENDINTERFACE */
