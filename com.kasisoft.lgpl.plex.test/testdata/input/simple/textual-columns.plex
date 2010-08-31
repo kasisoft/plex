@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plex>
+
+  <general>
+    <interface api="transform" id="cleanup"          classname="com.kasisoft.lgpl.plex.impl.CleanupTransform"     />
+  </general>
+
+  <sheet namepattern="textual-columns" firstrow="1">
+    <column title="key"       column="A">
+      <transformer refid="cleanup"      />
+    </column>
+    <column title="value"     column="B">
+      <transformer refid="cleanup"      />
+    </column>
+  </sheet>
+  
+</plex>

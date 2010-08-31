@@ -1,6 +1,6 @@
 /**
  * Name........: SimpleTest
- * Description.: 
+ * Description.: Collection of simple tests.
  * Author......: Daniel Kasmeroglu
  * E-Mail......: daniel.kasmeroglu@kasisoft.net
  * Company.....: Kasisoft
@@ -10,6 +10,9 @@ package com.kasisoft.lgpl.plex.test;
 
 import org.testng.annotations.*;
 
+/**
+ * Collection of simple tests.
+ */
 @Test
 public class SimpleTest extends AbstractTest {
 
@@ -17,7 +20,8 @@ public class SimpleTest extends AbstractTest {
   @DataProvider(name="createSimpleData")
   public Object[][] createSimpleData() {
     return new Object[][] {
-      { "simple", "simple-numerical-columns" },
+      { "simple"  , "numerical-columns"   },
+      { "simple"  , "textual-columns"     },
     };
   }
   
