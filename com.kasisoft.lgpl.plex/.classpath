@@ -10,6 +10,13 @@
 	<classpathentry exported="true" kind="var" path="HOME_POI/poi-scratchpad.jar"/>
 	<classpathentry exported="true" kind="var" path="HOME_POI/poi.jar"/>
 	<classpathentry exported="true" kind="var" path="HOME_KASISOFTCOMMON/diagnostic-annotations.jar"/>
+	<classpathentry exported="true" kind="var" path="HOME_XMLBEANS/lib/jsr173_1.0_api.jar"/>
+	<classpathentry exported="true" kind="var" path="HOME_XMLBEANS/lib/resolver.jar"/>
+	<classpathentry exported="true" kind="var" path="HOME_XMLBEANS/lib/xbean_xpath.jar"/>
+	<classpathentry exported="true" kind="var" path="HOME_XMLBEANS/lib/xbean.jar"/>
+	<classpathentry exported="true" kind="var" path="HOME_XMLBEANS/lib/xmlbeans-qname.jar"/>
+	<classpathentry exported="true" kind="var" path="HOME_XMLBEANS/lib/xmlpublic.jar"/>
+	<classpathentry exported="true" kind="var" path="HOME_DOM4J/dom4j.jar" sourcepath="/HOME_DOM4J/sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
