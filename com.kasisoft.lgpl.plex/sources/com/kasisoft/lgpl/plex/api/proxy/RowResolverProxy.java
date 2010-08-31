@@ -36,9 +36,9 @@ public class RowResolverProxy implements RowResolver {
   /**
    * {@inheritDoc}
    */
-  public int detectRow( Sheet sheet, String... args ) throws PLEXException {
+  public int detectRow( String id, Sheet sheet, String... args ) throws PLEXException {
     try {
-      return delegate.detectRow( sheet, args );
+      return delegate.detectRow( id, sheet, args );
     } catch( RuntimeException ex ) {
       throw new PLEXException( PLEXFailure.ErrorInApiFunction, ex, ex.getMessage() );
     }

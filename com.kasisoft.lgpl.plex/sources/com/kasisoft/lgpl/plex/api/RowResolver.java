@@ -20,6 +20,7 @@ public interface RowResolver {
   /**
    * Detects a row index.
    * 
+   * @param id      The ID of the api instance. Neither <code>null</code> nor empty.
    * @param sheet   The sheet which column has to be detected. Not <code>null</code>.
    * @param args    The arguments provided by the declaration file. Maybe <code>null</code>.
    * 
@@ -27,6 +28,6 @@ public interface RowResolver {
    * 
    * @throws PLEXException   The execution failed for some reason.
    */
-  int detectRow( Sheet sheet, String ... args ) throws PLEXException;
+  int detectRow( String id, Sheet sheet, String ... args ) throws PLEXException;
   
 } /* ENDINTERFACE */

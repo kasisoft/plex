@@ -38,9 +38,9 @@ public class MetadataProviderProxy implements MetadataProvider {
   /**
    * {@inheritDoc}
    */
-  public Map<String, String> getMetadata( Sheet sheet, String... args ) throws PLEXException {
+  public Map<String, String> getMetadata( String id, Sheet sheet, String... args ) throws PLEXException {
     try {
-      return delegate.getMetadata( sheet, args );
+      return delegate.getMetadata( id, sheet, args );
     } catch( RuntimeException ex ) {
       throw new PLEXException( PLEXFailure.ErrorInApiFunction, ex, ex.getMessage() );
     }

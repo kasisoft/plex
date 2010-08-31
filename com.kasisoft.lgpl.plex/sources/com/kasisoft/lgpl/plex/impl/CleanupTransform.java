@@ -20,7 +20,7 @@ public class CleanupTransform implements ValueTransform {
   /**
    * {@inheritDoc}
    */
-  public Object transformValue( Object value, String ... args ) {
+  public Object transformValue( String id, Object value, String ... args ) {
     if( value instanceof String ) {
       return ((String) value).trim();
     } else {

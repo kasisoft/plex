@@ -19,6 +19,7 @@ public interface ValueTransform {
    * Transforms the content of a value. The provided type can be a Double, a String or a Boolean. 
    * If an error occurred the transformer is supposed to generate an ErrorValue instance.
    * 
+   * @param id      The ID of the api instance. Neither <code>null</code> nor empty.
    * @param value   The value which has to be transformed. Maybe <code>null</code>.
    * @param args    The arguments provided by the declaration file. Maybe <code>null</code>.
    * 
@@ -26,6 +27,6 @@ public interface ValueTransform {
    * 
    * @throws PLEXException   The execution failed for some reason.
    */
-  Object transformValue( Object value, String ... args ) throws PLEXException;
+  Object transformValue( String id, Object value, String ... args ) throws PLEXException;
   
 } /* ENDINTERFACE */

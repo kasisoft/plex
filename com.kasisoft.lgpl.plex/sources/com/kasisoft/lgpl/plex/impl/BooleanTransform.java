@@ -33,7 +33,7 @@ public class BooleanTransform implements ValueTransform {
   /**
    * {@inheritDoc}
    */
-  public Object transformValue( Object value, String ... args ) {
+  public Object transformValue( String id, Object value, String ... args ) {
     if( value instanceof String ) {
       String str = (String) value;
       return Boolean.valueOf( truevalues.contains( str.toLowerCase() ) );

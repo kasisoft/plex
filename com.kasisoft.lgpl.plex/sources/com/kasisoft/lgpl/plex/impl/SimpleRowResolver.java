@@ -20,18 +20,18 @@ import org.apache.poi.ss.usermodel.*;
  */
 public class SimpleRowResolver implements RowResolver {
 
-  private static final String SYNTAX  = "SimpleRowResolver(int)";
+  private static final String SYNTAX  = "SimpleRowResolver( offset : int {0} )";
   
   /**
    * {@inheritDoc}
    */
-  public int detectRow( Sheet sheet, String... args ) throws PLEXException {
+  public int detectRow( String id, Sheet sheet, String... args ) throws PLEXException {
     int offset = 0;
     if( args.length > 0 ) {
       try {
         offset = Integer.parseInt( args[0] );
       } catch( NumberFormatException ex ) {
-        throw new PLEXException( PLEXFailure.InvalidApiCall, "", SYNTAX );
+        throw new PLEXException( PLEXFailure.InvalidApiCall, id, SYNTAX );
       }
     }
     return sheet.getFirstRowNum() + offset;

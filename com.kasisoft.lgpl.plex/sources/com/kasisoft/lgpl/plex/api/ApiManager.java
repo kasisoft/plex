@@ -179,11 +179,7 @@ public class ApiManager {
     if( apifunction == null ) {
       throw new PLEXException( PLEXFailure.MissingApiFunction, id );
     }
-    try {
-      return apifunction.getMetadata( sheet, toArray( args ) );
-    } catch( RuntimeException ex ) {
-      throw new PLEXException( PLEXFailure.ErrorInApiFunction, ex );
-    }
+    return apifunction.getMetadata( id, sheet, toArray( args ) );
   }
   
   /**
@@ -196,11 +192,7 @@ public class ApiManager {
     if( apifunction == null ) {
       throw new PLEXException( PLEXFailure.MissingApiFunction, id );
     }
-    try {
-      return apifunction.detectColumn( sheet, toArray( args ) );
-    } catch( RuntimeException ex ) {
-      throw new PLEXException( PLEXFailure.ErrorInApiFunction, ex );
-    }
+    return apifunction.detectColumn( id, sheet, toArray( args ) );
   }
 
   /**
@@ -213,11 +205,7 @@ public class ApiManager {
     if( apifunction == null ) {
       throw new PLEXException( PLEXFailure.MissingApiFunction, id );
     }
-    try {
-      return apifunction.detectCount( sheet, firstcolumn, toArray( args ) );
-    } catch( RuntimeException ex ) {
-      throw new PLEXException( PLEXFailure.ErrorInApiFunction, ex );
-    }
+    return apifunction.detectCount( id, sheet, firstcolumn, toArray( args ) );
   }
 
   /**
@@ -234,11 +222,7 @@ public class ApiManager {
     if( apifunction == null ) {
       throw new PLEXException( PLEXFailure.MissingApiFunction, id );
     }
-    try {
-      return apifunction.transformValue( value, toArray( args ) );
-    } catch( RuntimeException ex ) {
-      throw new PLEXException( PLEXFailure.ErrorInApiFunction, ex );
-    }
+    return apifunction.transformValue( id, value, toArray( args ) );
   }
   
   /**
@@ -251,11 +235,7 @@ public class ApiManager {
     if( apifunction == null ) {
       throw new PLEXException( PLEXFailure.MissingApiFunction, id );
     }
-    try {
-      return apifunction.detectRow( sheet, toArray( args ) );
-    } catch( RuntimeException ex ) {
-      throw new PLEXException( PLEXFailure.ErrorInApiFunction, ex );
-    }
+    return apifunction.detectRow( id, sheet, toArray( args ) );
   }
   
   /**

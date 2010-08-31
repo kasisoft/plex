@@ -36,9 +36,9 @@ public class ColumnResolverProxy implements ColumnResolver {
   /**
    * {@inheritDoc}
    */
-  public int detectColumn( Sheet sheet, String... args ) throws PLEXException {
+  public int detectColumn( String id, Sheet sheet, String... args ) throws PLEXException {
     try {
-      return delegate.detectColumn( sheet, args );
+      return delegate.detectColumn( id, sheet, args );
     } catch( RuntimeException ex ) {
       throw new PLEXException( PLEXFailure.ErrorInApiFunction, ex, ex.getMessage() );
     }

@@ -36,9 +36,9 @@ public class CountResolverProxy implements CountResolver {
   /**
    * {@inheritDoc}
    */
-  public int detectCount( Sheet sheet, int firstcolumn, String... args ) throws PLEXException {
+  public int detectCount( String id, Sheet sheet, int firstcolumn, String... args ) throws PLEXException {
     try {
-      return delegate.detectCount( sheet, firstcolumn, args );
+      return delegate.detectCount( id, sheet, firstcolumn, args );
     } catch( RuntimeException ex ) {
       throw new PLEXException( PLEXFailure.ErrorInApiFunction, ex, ex.getMessage() );
     }

@@ -34,9 +34,9 @@ public class ValueTransformProxy implements ValueTransform {
   /**
    * {@inheritDoc}
    */
-  public Object transformValue( Object value, String... args ) throws PLEXException {
+  public Object transformValue( String id, Object value, String... args ) throws PLEXException {
     try {
-      return delegate.transformValue( value, args );
+      return delegate.transformValue( id, value, args );
     } catch( RuntimeException ex ) {
       throw new PLEXException( PLEXFailure.ErrorInApiFunction, ex, ex.getMessage() );
     }

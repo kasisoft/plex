@@ -22,6 +22,7 @@ public interface MetadataProvider {
   /**
    * Returns a map providing the metadata.
    * 
+   * @param id      The ID of the api instance. Neither <code>null</code> nor empty.
    * @param sheet   The sheet used to access the metadata. Not <code>null</code>.
    * @param args    The arguments provided by the declaration file. Maybe <code>null</code>.
    * 
@@ -29,6 +30,6 @@ public interface MetadataProvider {
    * 
    * @throws PLEXException   The execution failed for some reason.
    */
-  Map<String,String> getMetadata( Sheet sheet, String ... args ) throws PLEXException;
+  Map<String,String> getMetadata( String id, Sheet sheet, String ... args ) throws PLEXException;
   
 } /* ENDINTERFACE */
