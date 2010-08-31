@@ -20,11 +20,13 @@ public class SimpleTest extends AbstractTest {
   @DataProvider(name="createSimpleData")
   public Object[][] createSimpleData() {
     return new Object[][] {
-      { "simple"  , "none"                    },
-      { "simple"  , "numerical-columns"       },
-      { "simple"  , "textual-columns"         },
-      { "simple"  , "textual-high-columns"    },
-      { "simple"  , "textual-columns-placed"  },
+      { "simple"  , "none"                            },
+      { "simple"  , "numerical-columns"               },
+      { "simple"  , "textual-columns"                 },
+      { "simple"  , "textual-high-columns"            },
+      { "simple"  , "textual-columns-placed"          },
+      { "simple"  , "textual-columns-placed-detect"   },
+      { "simple"  , "textual-columns-detect-offset"   },
     };
   }
   

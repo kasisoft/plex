@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plex>
+
+  <general>
+    <interface api="transform" id="cleanup"         classname="com.kasisoft.lgpl.plex.impl.CleanupTransform"    />
+    <interface api="row"       id="simpleresolver"  classname="com.kasisoft.lgpl.plex.impl.SimpleRowResolver"   /> 
+  </general>
+
+  <sheet name="textual-columns-detect-offset">
+    <firstrowdetect refid="simpleresolver">
+      <arg>1</arg>
+    </firstrowdetect>
+    <column title="key"       column="e">
+      <transformer refid="cleanup"      />
+    </column>
+    <column title="value"     column="f">
+      <transformer refid="cleanup"      />
+    </column>
+  </sheet>
+  
+</plex>
