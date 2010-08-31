@@ -33,6 +33,8 @@ public class PLEXSheetDescription {
     @XmlAttribute
     protected String namepattern;
     @XmlAttribute
+    protected String name;
+    @XmlAttribute
     protected Integer firstrow;
 
     
@@ -79,6 +81,16 @@ public class PLEXSheetDescription {
     
     public void setNamepattern(String value) {
         this.namepattern = value;
+    }
+
+    
+    public String getName() {
+        return name;
+    }
+
+    
+    public void setName(String value) {
+        this.name = value;
     }
 
     

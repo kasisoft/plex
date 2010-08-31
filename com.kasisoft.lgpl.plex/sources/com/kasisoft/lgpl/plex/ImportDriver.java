@@ -25,6 +25,7 @@ import java.util.*;
 class ImportDriver {
 
   private static final String MSG_INVALIDCOLUMN = "The column '%s' could not be parsed !";
+  
   private PLEXModel                           descriptor;
   private ImportTracker                       importtracker;
   private Map<Pattern,PLEXSheetDescription>   importspecs;
@@ -47,7 +48,12 @@ class ImportDriver {
     descriptor    = desc;
     importspecs   = new Hashtable<Pattern,PLEXSheetDescription>();
     for( PLEXSheetDescription description : descriptor.getSheet() ) {
-      importspecs.put( Pattern.compile( description.getNamepattern() ), description );
+      if( description.getNamepattern() != null ) {
+        importspecs.put( Pattern.compile( description.getNamepattern() ), description );
+      }
+      if( description.getName() != null ) {
+        importspecs.put( Pattern.compile( Pattern.quote( description.getName() ) ), description );
+      }
     }
     
     PLEXGeneral general = descriptor.getGeneral();

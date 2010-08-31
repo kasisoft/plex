@@ -101,7 +101,8 @@
       <xs:element name="column"         type="tColumn"       minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="columngroup"    type="tColumnGroup"  minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
-    <xs:attribute name="namepattern"  type="xs:string"/>
+    <xs:attribute name="namepattern"  type="xs:string"  use="optional"/>
+    <xs:attribute name="name"         type="xs:string"  use="optional"/>
     <xs:attribute name="firstrow"     type="xs:int"     default="-1"/>
   </xs:complexType>
   

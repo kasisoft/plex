@@ -21,8 +21,13 @@ public class ObjectFactory {
     }
 
     
-    public PLEXMetadata createPLEXMetadata() {
-        return new PLEXMetadata();
+    public PLEXSheetDescription createPLEXSheetDescription() {
+        return new PLEXSheetDescription();
+    }
+
+    
+    public PLEXDouble createPLEXDouble() {
+        return new PLEXDouble();
     }
 
     
@@ -31,13 +36,18 @@ public class ObjectFactory {
     }
 
     
-    public PLEXSheetDescription createPLEXSheetDescription() {
-        return new PLEXSheetDescription();
+    public PLEXString createPLEXString() {
+        return new PLEXString();
     }
 
     
-    public PLEXColumnDescription createPLEXColumnDescription() {
-        return new PLEXColumnDescription();
+    public PLEXInjector createPLEXInjector() {
+        return new PLEXInjector();
+    }
+
+    
+    public PLEXProperty createPLEXProperty() {
+        return new PLEXProperty();
     }
 
     
@@ -46,8 +56,8 @@ public class ObjectFactory {
     }
 
     
-    public PLEXDouble createPLEXDouble() {
-        return new PLEXDouble();
+    public PLEXColumnGroupMember createPLEXColumnGroupMember() {
+        return new PLEXColumnGroupMember();
     }
 
     
@@ -61,18 +71,23 @@ public class ObjectFactory {
     }
 
     
-    public PLEXInjector createPLEXInjector() {
-        return new PLEXInjector();
-    }
-
-    
     public PLEXStringList createPLEXStringList() {
         return new PLEXStringList();
     }
 
     
-    public PLEXString createPLEXString() {
-        return new PLEXString();
+    public PLEXInteger createPLEXInteger() {
+        return new PLEXInteger();
+    }
+
+    
+    public PLEXMetadata createPLEXMetadata() {
+        return new PLEXMetadata();
+    }
+
+    
+    public PLEXColumnDescription createPLEXColumnDescription() {
+        return new PLEXColumnDescription();
     }
 
     
@@ -83,21 +98,6 @@ public class ObjectFactory {
     
     public PLEXGeneral createPLEXGeneral() {
         return new PLEXGeneral();
-    }
-
-    
-    public PLEXInteger createPLEXInteger() {
-        return new PLEXInteger();
-    }
-
-    
-    public PLEXColumnGroupMember createPLEXColumnGroupMember() {
-        return new PLEXColumnGroupMember();
-    }
-
-    
-    public PLEXProperty createPLEXProperty() {
-        return new PLEXProperty();
     }
 
 }

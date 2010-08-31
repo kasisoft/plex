@@ -28,9 +28,9 @@ public class PLEXInterface {
     @XmlElements({
         @XmlElement(name = "double", type = PLEXDouble.class),
         @XmlElement(name = "boolean", type = PLEXBoolean.class),
-        @XmlElement(name = "string", type = PLEXString.class),
+        @XmlElement(name = "integer", type = PLEXInteger.class),
         @XmlElement(name = "list", type = PLEXStringList.class),
-        @XmlElement(name = "integer", type = PLEXInteger.class)
+        @XmlElement(name = "string", type = PLEXString.class)
     })
     protected List<PLEXInjector> injectors;
     @XmlAttribute
