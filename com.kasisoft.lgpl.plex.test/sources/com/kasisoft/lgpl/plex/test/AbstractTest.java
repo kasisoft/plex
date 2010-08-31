@@ -41,26 +41,52 @@ public abstract class AbstractTest {
   }
   
   protected void runTest( String groupname, String testcase ) {
-    File excelfile        = new File( inputdir    , String.format( "%s/%s.xls"  , groupname , testcase  ) );
-    File declarationfile  = new File( inputdir    , String.format( "%s/%s.plex" , groupname , testcase  ) );
-    File expectedfile     = new File( expecteddir , String.format( "%s/%s.txt"  , groupname , testcase  ) );
-    File outputfile       = new File( outputdir   , String.format( "%s/%s.txt"  , groupname , testcase  ) );
+    
+    File excelfile        = new File( inputdir    , String.format( "%s/%s.xls"        , groupname , testcase  ) );
+    File modernexcelfile  = new File( inputdir    , String.format( "%s/%s.xlsx"       , groupname , testcase  ) );
+    File declarationfile  = new File( inputdir    , String.format( "%s/%s.plex"       , groupname , testcase  ) );
+    File expectedfile     = new File( expecteddir , String.format( "%s/%s.txt"        , groupname , testcase  ) );
+    File outputfile       = new File( outputdir   , String.format( "%s/%s.txt"        , groupname , testcase  ) );
+    File modernoutputfile = new File( outputdir   , String.format( "%s/%s-modern.txt" , groupname , testcase  ) );
+    
     Assert.assertTrue( excelfile       . isFile() );
+    Assert.assertTrue( modernexcelfile . isFile() );
     Assert.assertTrue( declarationfile . isFile() );
     Assert.assertTrue( expectedfile    . isFile() );
+
+    Importer importer = null;
     try {
-      Importer   importer = new Importer( declarationfile.toURI().toURL(), null );
+      importer = new Importer( declarationfile.toURI().toURL(), null );
+    } catch( MalformedURLException ex ) {
+      Assert.fail( ex.getMessage() );
+      return;
+    } catch( PLEXException ex ) {
+      Assert.fail( ex.getMessage() );
+      return;
+    }
+    
+    try {
       PlainExcel plex     = importer.runImport( excelfile );
       Assert.assertNotNull( plex );
       String     current  = plex.toString();
       IoFunctions.writeText( outputfile, current, Encoding.UTF8 );
       String     expected  = new String( IoFunctions.loadChars( expectedfile, null, Encoding.UTF8 ) );
       Assert.assertEquals( current, expected );
-    } catch( MalformedURLException ex ) {
-      Assert.fail( ex.getMessage() );
     } catch( PLEXException ex ) {
       Assert.fail( ex.getMessage() );
     }
+
+    try {
+      PlainExcel plex     = importer.runImport( modernexcelfile );
+      Assert.assertNotNull( plex );
+      String     current  = plex.toString();
+      IoFunctions.writeText( modernoutputfile, current, Encoding.UTF8 );
+      String     expected  = new String( IoFunctions.loadChars( expectedfile, null, Encoding.UTF8 ) );
+      Assert.assertEquals( current, expected );
+    } catch( PLEXException ex ) {
+      Assert.fail( ex.getMessage() );
+    }
+
   }
   
 } /* ENDCLASS */
