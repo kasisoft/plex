@@ -49,6 +49,8 @@ public abstract class AbstractTest {
     File outputfile       = new File( outputdir   , String.format( "%s/%s.txt"        , groupname , testcase  ) );
     File modernoutputfile = new File( outputdir   , String.format( "%s/%s-modern.txt" , groupname , testcase  ) );
     
+    outputfile.getParentFile().mkdirs();
+    
     Assert.assertTrue( excelfile       . isFile() );
     Assert.assertTrue( modernexcelfile . isFile() );
     Assert.assertTrue( declarationfile . isFile() );

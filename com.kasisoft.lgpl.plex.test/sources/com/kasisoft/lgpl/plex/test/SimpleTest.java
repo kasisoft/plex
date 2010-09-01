@@ -25,8 +25,6 @@ public class SimpleTest extends AbstractTest {
       { "simple"  , "textual-columns"                 },
       { "simple"  , "textual-high-columns"            },
       { "simple"  , "textual-columns-placed"          },
-      { "simple"  , "textual-columns-placed-detect"   },
-      { "simple"  , "textual-columns-detect-offset"   },
     };
   }
   
