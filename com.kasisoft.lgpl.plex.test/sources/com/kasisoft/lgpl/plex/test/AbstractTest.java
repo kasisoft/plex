@@ -63,6 +63,7 @@ public abstract class AbstractTest {
       Assert.fail( ex.getMessage() );
       return;
     } catch( PLEXException ex ) {
+      ex.printStackTrace();
       Assert.fail( ex.getMessage() );
       return;
     }

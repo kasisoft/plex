@@ -6,7 +6,7 @@
   </general>
 
   <sheet name="none" firstrow="1">
-    <column title="key"       column="1000">
+    <column title="key"       column="200">
       <transformer refid="cleanup"      />
     </column>
     <column title="value">

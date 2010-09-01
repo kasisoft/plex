@@ -21,13 +21,23 @@ public class ObjectFactory {
     }
 
     
-    public PLEXApiCall createPLEXApiCall() {
-        return new PLEXApiCall();
+    public PLEXColumnGroupMember createPLEXColumnGroupMember() {
+        return new PLEXColumnGroupMember();
     }
 
     
-    public PLEXColumnGroupMember createPLEXColumnGroupMember() {
-        return new PLEXColumnGroupMember();
+    public PLEXModel createPLEXModel() {
+        return new PLEXModel();
+    }
+
+    
+    public PLEXInterface createPLEXInterface() {
+        return new PLEXInterface();
+    }
+
+    
+    public PLEXProperty createPLEXProperty() {
+        return new PLEXProperty();
     }
 
     
@@ -36,8 +46,23 @@ public class ObjectFactory {
     }
 
     
-    public PLEXSheetDescription createPLEXSheetDescription() {
-        return new PLEXSheetDescription();
+    public PLEXGeneral createPLEXGeneral() {
+        return new PLEXGeneral();
+    }
+
+    
+    public PLEXStringList createPLEXStringList() {
+        return new PLEXStringList();
+    }
+
+    
+    public PLEXBoolean createPLEXBoolean() {
+        return new PLEXBoolean();
+    }
+
+    
+    public PLEXString createPLEXString() {
+        return new PLEXString();
     }
 
     
@@ -51,28 +76,8 @@ public class ObjectFactory {
     }
 
     
-    public PLEXModel createPLEXModel() {
-        return new PLEXModel();
-    }
-
-    
-    public PLEXMetadata createPLEXMetadata() {
-        return new PLEXMetadata();
-    }
-
-    
-    public PLEXGeneral createPLEXGeneral() {
-        return new PLEXGeneral();
-    }
-
-    
-    public PLEXProperty createPLEXProperty() {
-        return new PLEXProperty();
-    }
-
-    
-    public PLEXColumnGroup createPLEXColumnGroup() {
-        return new PLEXColumnGroup();
+    public PLEXApiCall createPLEXApiCall() {
+        return new PLEXApiCall();
     }
 
     
@@ -81,23 +86,18 @@ public class ObjectFactory {
     }
 
     
-    public PLEXBoolean createPLEXBoolean() {
-        return new PLEXBoolean();
+    public PLEXSheetDescription createPLEXSheetDescription() {
+        return new PLEXSheetDescription();
     }
 
     
-    public PLEXInterface createPLEXInterface() {
-        return new PLEXInterface();
+    public PLEXMetadata createPLEXMetadata() {
+        return new PLEXMetadata();
     }
 
     
-    public PLEXStringList createPLEXStringList() {
-        return new PLEXStringList();
-    }
-
-    
-    public PLEXString createPLEXString() {
-        return new PLEXString();
+    public PLEXColumnGroup createPLEXColumnGroup() {
+        return new PLEXColumnGroup();
     }
 
 }

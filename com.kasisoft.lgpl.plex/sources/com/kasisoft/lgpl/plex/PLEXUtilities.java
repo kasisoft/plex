@@ -212,7 +212,7 @@ public class PLEXUtilities {
   
   private static final void checkConsistency( ApiManager apiman, PLEXColumnDescription column, boolean first ) throws PLEXException {
     if( (column.getColumn() == null) && (column.getColumndetect() == null) ) {
-      if( ! first ) {
+      if( first ) {
         throw new PLEXException( PLEXFailure.DeclarationError, MSG_MISSING_COLUMN_INFORMATION );
       }
     }
