@@ -232,11 +232,24 @@ class ImportDriver {
     List<Column> columns = new ArrayList<Column>();
     
     // collect simple columns
-    for( PLEXColumnDescription columndesc : description.getColumn() ) {
-      Column column       = new Column();
-      column.column       = getColumn( sheet, columndesc.getColumn(), columndesc.getColumndetect() );
-      column.title        = columndesc.getTitle();
-      column.transformer  = columndesc.getTransformer();
+    int          lastcol = -1;
+    for( int i = 0; i < description.getColumn().size(); i++ ) {
+      PLEXColumnDescription columndesc  = description.getColumn().get(i);
+      Column column                     = new Column();
+      if( (columndesc.getColumn() != null) || (columndesc.getColumndetect() != null) ) {
+        // there is a column specification
+        column.column                   = getColumn( sheet, columndesc.getColumn(), columndesc.getColumndetect() );
+      } else {
+        if( lastcol != -1 ) {
+          // just use the last column index + 1
+          column.column                 = lastcol + 1;
+        } else {
+          // no last column, so there's a lookup error
+        }
+      }
+      lastcol                           = column.column;
+      column.title                      = columndesc.getTitle();
+      column.transformer                = columndesc.getTransformer();
       columns.add( column );
     }
     

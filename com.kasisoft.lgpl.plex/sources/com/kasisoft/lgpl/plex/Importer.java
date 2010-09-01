@@ -92,9 +92,9 @@ public class Importer {
       instream  = new FileInputStream( excel );
       workbook  = WorkbookFactory.create( instream );
     } catch( IOException            ex ) {
-      throw new PLEXException( PLEXFailure.IO, ex );
+      throw new PLEXException( PLEXFailure.IO, ex, excel );
     } catch( InvalidFormatException ex ) {
-      throw new PLEXException( PLEXFailure.InvalidExcel, ex );
+      throw new PLEXException( PLEXFailure.InvalidExcel, ex, excel );
     } finally {
       IoFunctions.close( instream );
     }
