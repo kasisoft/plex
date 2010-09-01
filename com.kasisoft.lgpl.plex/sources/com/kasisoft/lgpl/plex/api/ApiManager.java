@@ -175,10 +175,7 @@ public class ApiManager {
    * @param id   The id used to identify the resolver.
    */
   public Map<String,String> getMetadata( String id, List<String> args, Sheet sheet ) throws PLEXException {
-    MetadataProvider apifunction = metadataproviders.get( id );
-    if( apifunction == null ) {
-      throw new PLEXException( PLEXFailure.MissingApiFunction, id );
-    }
+    MetadataProvider apifunction = getFunction( metadataproviders, id );
     return apifunction.getMetadata( id, sheet, toArray( args ) );
   }
   
@@ -188,10 +185,7 @@ public class ApiManager {
    * @param id   The id used to identify the resolver.
    */
   public int detectColumn( String id, List<String> args , Sheet sheet ) throws PLEXException {
-    ColumnResolver apifunction = columnresolvers.get( id );
-    if( apifunction == null ) {
-      throw new PLEXException( PLEXFailure.MissingApiFunction, id );
-    }
+    ColumnResolver apifunction = getFunction( columnresolvers, id );
     return apifunction.detectColumn( id, sheet, toArray( args ) );
   }
 
@@ -201,10 +195,7 @@ public class ApiManager {
    * @param id   The id used to identify the resolver.
    */
   public int detectCount( String id, List<String> args, Sheet sheet, int firstcolumn ) throws PLEXException {
-    CountResolver apifunction = countresolvers.get( id );
-    if( apifunction == null ) {
-      throw new PLEXException( PLEXFailure.MissingApiFunction, id );
-    }
+    CountResolver apifunction = getFunction( countresolvers, id );
     return apifunction.detectCount( id, sheet, firstcolumn, toArray( args ) );
   }
 
@@ -218,10 +209,7 @@ public class ApiManager {
       // errors will not be transformed again
       return value;
     }
-    ValueTransform apifunction = valuetransformers.get( id ); 
-    if( apifunction == null ) {
-      throw new PLEXException( PLEXFailure.MissingApiFunction, id );
-    }
+    ValueTransform apifunction = getFunction( valuetransformers, id ); 
     return apifunction.transformValue( id, value, toArray( args ) );
   }
   
@@ -231,11 +219,27 @@ public class ApiManager {
    * @param id   The id used to identify the value transformer.
    */
   public int detectRow( String id, List<String> args , Sheet sheet ) throws PLEXException {
-    RowResolver apifunction = rowresolvers.get( id );
-    if( apifunction == null ) {
+    RowResolver apifunction = getFunction( rowresolvers, id );
+    return apifunction.detectRow( id, sheet, toArray( args ) );
+  }
+  
+  /**
+   * Returns a function associated with a specific id. This helper makes sure that there's a
+   * function available.
+   * 
+   * @param map   The map providing the functions. Not <code>null</code>.
+   * @param id    The id of the desired function. Neither <code>null</code> nor empty.
+   * 
+   * @return   The function instance. Not <code>null</code>.
+   * 
+   * @throws PLEXException   An exception indicating the failure.
+   */
+  private <T> T getFunction( Map<String,T> map, String id ) throws PLEXException {
+    T result = map.get( id );
+    if( result == null ) {
       throw new PLEXException( PLEXFailure.MissingApiFunction, id );
     }
-    return apifunction.detectRow( id, sheet, toArray( args ) );
+    return result;
   }
   
   /**
