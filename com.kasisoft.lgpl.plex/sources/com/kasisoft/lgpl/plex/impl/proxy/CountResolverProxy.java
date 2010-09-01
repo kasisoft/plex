@@ -1,13 +1,13 @@
 /**
- * Name........: ColumnResolverProxy
- * Description.: A simple wrapper for the API ColumnResolver which makes sure that internal errors
+ * Name........: CountResolverProxy
+ * Description.: A simple wrapper for the API CountResolver which makes sure that internal errors
  *               won't be passed besided the expected PLEXException .
  * Author......: Daniel Kasmeroglu
  * E-Mail......: daniel.kasmeroglu@kasisoft.net
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.plex.api.proxy;
+package com.kasisoft.lgpl.plex.impl.proxy;
 
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
@@ -17,28 +17,28 @@ import com.kasisoft.lgpl.plex.*;
 import org.apache.poi.ss.usermodel.*;
 
 /**
- * A simple wrapper for the API ColumnResolver which makes sure that internal errors won't be 
+ * A simple wrapper for the API CountResolver which makes sure that internal errors won't be 
  * passed besided the expected PLEXException .
  */
-public class ColumnResolverProxy implements ColumnResolver {
+public class CountResolverProxy implements CountResolver {
 
-  private ColumnResolver   delegate;
+  private CountResolver   delegate;
   
   /**
    * Initializes this proxy with the supplied implementation.
    * 
    * @param impl   The original implementation providing the functionality.
    */
-  public ColumnResolverProxy( @KNotNull(name="impl") ColumnResolver impl ) {
+  public CountResolverProxy( @KNotNull(name="impl") CountResolver impl ) {
     delegate  = impl;
   }
   
   /**
    * {@inheritDoc}
    */
-  public int detectColumn( String id, Sheet sheet, String... args ) throws PLEXException {
+  public int detectCount( String id, Sheet sheet, int firstcolumn, String... args ) throws PLEXException {
     try {
-      return delegate.detectColumn( id, sheet, args );
+      return delegate.detectCount( id, sheet, firstcolumn, args );
     } catch( RuntimeException ex ) {
       throw new PLEXException( PLEXFailure.ErrorInApiFunction, ex, ex.getMessage() );
     }
