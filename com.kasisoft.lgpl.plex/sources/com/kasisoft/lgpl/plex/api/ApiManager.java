@@ -8,48 +8,33 @@
  */
 package com.kasisoft.lgpl.plex.api;
 
-import com.kasisoft.lgpl.libs.common.util.*;
-
+import com.kasisoft.lgpl.plex.*;
 import com.kasisoft.lgpl.plex.impl.proxy.*;
 import com.kasisoft.lgpl.plex.instance.*;
-import com.kasisoft.lgpl.plex.model.*;
-import com.kasisoft.lgpl.plex.*;
+import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import org.apache.poi.ss.usermodel.*;
 
 import java.util.*;
-
-import java.lang.reflect.*;
 
 /**
  * Helper class used to manage the apis provided with a declaration file.
  */
 public class ApiManager {
 
-  private static final String MSG_INVALID_APITYPE = 
-    "The class '%s' does not support the api type %s !";
-
-  private static final String MSG_SETTER_FAILURE = 
-    "The setter '%s' caused an error when being used.";
-
-  private static final String MSG_MISSING_SETTER = 
-    "The setter '%s' (name=%s) for type '%s' doesn't exist !";
-  
   private Map<String,ColumnResolver>     columnresolvers;
   private Map<String,CountResolver>      countresolvers;
   private Map<String,ValueTransform>     valuetransformers;
   private Map<String,RowResolver>        rowresolvers;
   private Map<String,MetadataProvider>   metadataproviders;
-
+  
   /**
-   * Initialises this management class using the supplied list of interface declarations.
+   * Initialises this management class using the supplied api definitions.
    * 
-   * @param interfaces   A list of interface implementations provided by the ai declaration.
+   * @param apidefs      A list of interface implementations provided by the ai declaration.
    *                     Not <code>null</code>.
-   *                     
-   * @throws PLEXException   The initialisation of an api instance failed for some reason.
    */
-  public ApiManager( List<PLEXInterface> interfaces ) throws PLEXException {
+  public ApiManager( Map<String,ApiDefinition> apidefs ) {
     
     columnresolvers   = new Hashtable<String,ColumnResolver>();
     countresolvers    = new Hashtable<String,CountResolver>();
@@ -57,111 +42,24 @@ public class ApiManager {
     rowresolvers      = new Hashtable<String,RowResolver>();
     metadataproviders = new Hashtable<String,MetadataProvider>();
     
-    for( PLEXInterface plexinterface : interfaces ) {
-      PLEXApiType apitype   = plexinterface.getApi();
-      String      classname = plexinterface.getClassname();
-      Object      instance  = MiscFunctions.newInstance( classname );
-      if( ! plexinterface.getInjectors().isEmpty() ) {
-        configureInstance( instance, plexinterface.getInjectors() );
+    for( Map.Entry<String,ApiDefinition> apidef : apidefs.entrySet() ) {
+      if( apidef.getValue() instanceof ColumnResolver ) {
+        columnresolvers.put( apidef.getKey(), new ColumnResolverProxy( (ColumnResolver) apidef.getValue() ) );
       }
-      switch( apitype ) {
-      case COLUMN     : columnresolvers   . put( plexinterface.getId(), new ColumnResolverProxy   ( (ColumnResolver  ) instance ) ); break;
-      case COUNT      : countresolvers    . put( plexinterface.getId(), new CountResolverProxy    ( (CountResolver   ) instance ) ); break;
-      case TRANSFORM  : valuetransformers . put( plexinterface.getId(), new ValueTransformProxy   ( (ValueTransform  ) instance ) ); break;
-      case ROW        : rowresolvers      . put( plexinterface.getId(), new RowResolverProxy      ( (RowResolver     ) instance ) ); break;
-      case METADATA   : metadataproviders . put( plexinterface.getId(), new MetadataProviderProxy ( (MetadataProvider) instance ) ); break;
+      if( apidef.getValue() instanceof CountResolver ) {
+        countresolvers.put( apidef.getKey(), new CountResolverProxy( (CountResolver) apidef.getValue() ) );
+      }
+      if( apidef.getValue() instanceof ValueTransform ) {
+        valuetransformers.put( apidef.getKey(), new ValueTransformProxy( (ValueTransform) apidef.getValue() ) );
+      }
+      if( apidef.getValue() instanceof RowResolver ) {
+        rowresolvers.put( apidef.getKey(), new RowResolverProxy( (RowResolver) apidef.getValue() ) );
+      }
+      if( apidef.getValue() instanceof MetadataProvider ) {
+        metadataproviders.put( apidef.getKey(), new MetadataProviderProxy( (MetadataProvider) apidef.getValue() ) );
       }
     }
-
-  }
-  
-  /**
-   * Configures a specified instance according to the injections provided by the declaration file.
-   * 
-   * @param instance    The instance which will be altered. Not <code>null</code>.
-   * @param injectors   The list of injections that have to be performed. Not <code>null</code>.
-   * 
-   * @throws PLEXException   The injection failed for some reason.
-   */
-  private void configureInstance( Object instance, List<PLEXInjector> injectors ) throws PLEXException {
-    for( PLEXInjector injector : injectors ) {
-      configureInstance( instance, injector );
-    }
-  }
-  
-  /**
-   * Configures a specified instance according to a injection provided by the declaration file.
-   * 
-   * @todo [15-Aug-2010:KASI]   Maybe the methods should be cached but for now there's no
-   *                            performance related constraint.
-   * 
-   * @param instance    The instance which will be altered. Not <code>null</code>.
-   * @param injector    The injection that has to be performed. Not <code>null</code>.
-   * 
-   * @throws PLEXException   The injection failed for some reason.
-   */
-  private void configureInstance( Object instance, PLEXInjector injector ) throws PLEXException {
-    Object value  = getValue( injector );
-    String setter = getSetter( injector );
-    try {
-      Method method = instance.getClass().getMethod( setter, value.getClass() );
-      method.invoke( instance, value );
-    } catch( NoSuchMethodException ex ) {
-      throw new PLEXException( PLEXFailure.DeclarationError, MSG_MISSING_SETTER, setter, injector.getName(), instance.getClass().getName() );
-    } catch( IllegalArgumentException  ex ) {
-      throw new PLEXException( PLEXFailure.DeclarationError, ex, MSG_SETTER_FAILURE, setter );
-    } catch( IllegalAccessException    ex ) {
-      throw new PLEXException( PLEXFailure.DeclarationError, ex, MSG_SETTER_FAILURE, setter );
-    } catch( InvocationTargetException ex ) {
-      throw new PLEXException( PLEXFailure.DeclarationError, ex, MSG_SETTER_FAILURE, setter );
-    }
-  }
-  
-  /**
-   * Returns the name of the setter method identified through the supplied injector.
-   * 
-   * @param injector   The injector instance used to identify the apropriate setter.
-   *                   Not <code>null</code>.
-   *                   
-   * @return   The setter name for the injection process. Neither <code>null</code> nor empty.
-   */
-  private String getSetter( PLEXInjector injector ) {
-    String name = injector.getName();
-    if( name.length() == 1 ) {
-      return String.format( "set%s", name.toUpperCase() );
-    } else {
-      return 
-        String.format( "set%s%s", 
-          String.valueOf( Character.toUpperCase( injector.getName().charAt(0) ) ), 
-          injector.getName().substring(1) 
-        );
-    }
-  }
-
-  /**
-   * Returns the value which has to be set for the injection.
-   * 
-   * @param injector   The injector which provides the value. Not <code>null</code>.
-   * 
-   * @return   The value associated with the supplied injector. Not <code>null</code>.
-   */
-  private Object getValue( PLEXInjector injector ) {
-    if( injector instanceof PLEXBoolean ) {
-      return Boolean.valueOf( ((PLEXBoolean) injector).isValue() );
-    } else if( injector instanceof PLEXInteger ) {
-      return Integer.valueOf( ((PLEXInteger) injector).getValue() );
-    } else if( injector instanceof PLEXString ) {
-      return ((PLEXString) injector).getValue();
-    } else if( injector instanceof PLEXDouble ) {
-      return Double.valueOf( ((PLEXDouble) injector).getValue() );
-    } else /* if( injector instanceof PLEXStringList ) */ {
-      PLEXStringList list   = (PLEXStringList) injector;
-      List<String>   result = new ArrayList<String>();
-      for( int i = 0; i < list.getItem().size(); i++ ) {
-        result.add( list.getItem().get(i) );
-      }
-      return result;
-    }
+    
   }
   
   /**
@@ -170,7 +68,7 @@ public class ApiManager {
    * @param id   The id used to identify the resolver.
    */
   public Map<String,String> getMetadata( String id, List<String> args, Sheet sheet ) throws PLEXException {
-    MetadataProvider apifunction = getFunction( metadataproviders, id );
+    MetadataProvider apifunction = metadataproviders.get( id );
     return apifunction.getMetadata( id, sheet, toArray( args ) );
   }
   
@@ -180,7 +78,7 @@ public class ApiManager {
    * @param id   The id used to identify the resolver.
    */
   public int detectColumn( String id, List<String> args , Sheet sheet ) throws PLEXException {
-    ColumnResolver apifunction = getFunction( columnresolvers, id );
+    ColumnResolver apifunction = columnresolvers.get( id );
     return apifunction.detectColumn( id, sheet, toArray( args ) );
   }
 
@@ -190,7 +88,7 @@ public class ApiManager {
    * @param id   The id used to identify the resolver.
    */
   public int detectCount( String id, List<String> args, Sheet sheet, int firstcolumn ) throws PLEXException {
-    CountResolver apifunction = getFunction( countresolvers, id );
+    CountResolver apifunction = countresolvers.get( id );
     return apifunction.detectCount( id, sheet, firstcolumn, toArray( args ) );
   }
 
@@ -204,7 +102,7 @@ public class ApiManager {
       // errors will not be transformed again
       return value;
     }
-    ValueTransform apifunction = getFunction( valuetransformers, id ); 
+    ValueTransform apifunction = valuetransformers.get( id ); 
     return apifunction.transformValue( id, value, toArray( args ) );
   }
   
@@ -214,27 +112,8 @@ public class ApiManager {
    * @param id   The id used to identify the value transformer.
    */
   public int detectRow( String id, List<String> args , Sheet sheet ) throws PLEXException {
-    RowResolver apifunction = getFunction( rowresolvers, id );
+    RowResolver apifunction = rowresolvers.get( id );
     return apifunction.detectRow( id, sheet, toArray( args ) );
-  }
-  
-  /**
-   * Returns a function associated with a specific id. This helper makes sure that there's a
-   * function available.
-   * 
-   * @param map   The map providing the functions. Not <code>null</code>.
-   * @param id    The id of the desired function. Neither <code>null</code> nor empty.
-   * 
-   * @return   The function instance. Not <code>null</code>.
-   * 
-   * @throws PLEXException   An exception indicating the failure.
-   */
-  private <T> T getFunction( Map<String,T> map, String id ) throws PLEXException {
-    T result = map.get( id );
-    if( result == null ) {
-      throw new PLEXException( PLEXFailure.MissingApiFunction, id );
-    }
-    return result;
   }
   
   /**
@@ -250,4 +129,59 @@ public class ApiManager {
     return result;
   }
   
+  /**
+   * Returns <code>true</code> if the supplied api id is available.
+   * 
+   * @param id   The ID used to access a specific api. Neither <code>null</code> nor empty.
+   * 
+   * @return   <code>true</code> <=> An api with the supplied id is available.
+   */
+  public boolean isColumnResolver( @KNotEmpty(name="id") String id ) {
+    return columnresolvers.containsKey( id );
+  }
+
+  /**
+   * Returns <code>true</code> if the supplied api id is available.
+   * 
+   * @param id   The ID used to access a specific api. Neither <code>null</code> nor empty.
+   * 
+   * @return   <code>true</code> <=> An api with the supplied id is available.
+   */
+  public boolean isCountResolver( @KNotEmpty(name="id") String id ) {
+    return countresolvers.containsKey( id );
+  }
+
+  /**
+   * Returns <code>true</code> if the supplied api id is available.
+   * 
+   * @param id   The ID used to access a specific api. Neither <code>null</code> nor empty.
+   * 
+   * @return   <code>true</code> <=> An api with the supplied id is available.
+   */
+  public boolean isMetdataProvider( @KNotEmpty(name="id") String id ) {
+    return metadataproviders.containsKey( id );
+  }
+
+  /**
+   * Returns <code>true</code> if the supplied api id is available.
+   * 
+   * @param id   The ID used to access a specific api. Neither <code>null</code> nor empty.
+   * 
+   * @return   <code>true</code> <=> An api with the supplied id is available.
+   */
+  public boolean isRowResolver( @KNotEmpty(name="id") String id ) {
+    return rowresolvers.containsKey( id );
+  }
+
+  /**
+   * Returns <code>true</code> if the supplied api id is available.
+   * 
+   * @param id   The ID used to access a specific api. Neither <code>null</code> nor empty.
+   * 
+   * @return   <code>true</code> <=> An api with the supplied id is available.
+   */
+  public boolean isValueTransform( @KNotEmpty(name="id") String id ) {
+    return valuetransformers.containsKey( id );
+  }
+
 } /* ENDCLASS */

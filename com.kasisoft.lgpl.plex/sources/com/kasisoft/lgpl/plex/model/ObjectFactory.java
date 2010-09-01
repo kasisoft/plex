@@ -26,8 +26,13 @@ public class ObjectFactory {
     }
 
     
-    public PLEXInjector createPLEXInjector() {
-        return new PLEXInjector();
+    public PLEXColumnGroupMember createPLEXColumnGroupMember() {
+        return new PLEXColumnGroupMember();
+    }
+
+    
+    public PLEXDouble createPLEXDouble() {
+        return new PLEXDouble();
     }
 
     
@@ -36,43 +41,13 @@ public class ObjectFactory {
     }
 
     
-    public PLEXGeneral createPLEXGeneral() {
-        return new PLEXGeneral();
-    }
-
-    
-    public PLEXString createPLEXString() {
-        return new PLEXString();
-    }
-
-    
-    public PLEXColumnDescription createPLEXColumnDescription() {
-        return new PLEXColumnDescription();
-    }
-
-    
-    public PLEXColumnGroup createPLEXColumnGroup() {
-        return new PLEXColumnGroup();
-    }
-
-    
-    public PLEXMetadata createPLEXMetadata() {
-        return new PLEXMetadata();
-    }
-
-    
     public PLEXInteger createPLEXInteger() {
         return new PLEXInteger();
     }
 
     
-    public PLEXProperty createPLEXProperty() {
-        return new PLEXProperty();
-    }
-
-    
-    public PLEXColumnGroupMember createPLEXColumnGroupMember() {
-        return new PLEXColumnGroupMember();
+    public PLEXInjector createPLEXInjector() {
+        return new PLEXInjector();
     }
 
     
@@ -81,8 +56,33 @@ public class ObjectFactory {
     }
 
     
-    public PLEXDouble createPLEXDouble() {
-        return new PLEXDouble();
+    public PLEXMetadata createPLEXMetadata() {
+        return new PLEXMetadata();
+    }
+
+    
+    public PLEXGeneral createPLEXGeneral() {
+        return new PLEXGeneral();
+    }
+
+    
+    public PLEXProperty createPLEXProperty() {
+        return new PLEXProperty();
+    }
+
+    
+    public PLEXColumnGroup createPLEXColumnGroup() {
+        return new PLEXColumnGroup();
+    }
+
+    
+    public PLEXColumnDescription createPLEXColumnDescription() {
+        return new PLEXColumnDescription();
+    }
+
+    
+    public PLEXBoolean createPLEXBoolean() {
+        return new PLEXBoolean();
     }
 
     
@@ -96,8 +96,8 @@ public class ObjectFactory {
     }
 
     
-    public PLEXBoolean createPLEXBoolean() {
-        return new PLEXBoolean();
+    public PLEXString createPLEXString() {
+        return new PLEXString();
     }
 
 }

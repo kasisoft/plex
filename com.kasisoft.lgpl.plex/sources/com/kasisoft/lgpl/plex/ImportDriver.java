@@ -8,10 +8,11 @@
  */
 package com.kasisoft.lgpl.plex;
 
-import com.kasisoft.lgpl.plex.api.*;
+import com.kasisoft.lgpl.tools.diagnostic.*;
+
 import com.kasisoft.lgpl.plex.instance.*;
 import com.kasisoft.lgpl.plex.model.*;
-import com.kasisoft.lgpl.tools.diagnostic.*;
+import com.kasisoft.lgpl.plex.api.*;
 
 import org.apache.poi.ss.usermodel.*;
 
@@ -24,10 +25,7 @@ import java.util.*;
  */
 class ImportDriver {
 
-  private static final String MSG_INVALIDCOLUMN = "The column '%s' could not be parsed !";
-  
   private PLEXModel                           descriptor;
-  private ImportTracker                       importtracker;
   private Map<Pattern,PLEXSheetDescription>   importspecs;
   private ApiManager                          apimanager;
   
@@ -35,17 +33,18 @@ class ImportDriver {
    * Initialises this driver for the import process.
    * 
    * @param desc      The description model used for the import process. Not <code>null</code>.
+   * @param manager   The managing class for the apis. Not <code>null</code>.
    * @param tracker   The tracker used to monitor the import process. Not <code>null</code>.
    * 
    * @throws PLEXException   The declaration seems to be invalid.
    */
   public ImportDriver( 
-    @KNotNull(name="desc")      PLEXModel       desc, 
-    @KNotNull(name="tracker")   ImportTracker   tracker 
+    @KNotNull(name="desc")     PLEXModel    desc, 
+    @KNotNull(name="apiman")   ApiManager   manager
   ) throws PLEXException {
     
-    importtracker = tracker;
     descriptor    = desc;
+    apimanager    = manager;
     importspecs   = new Hashtable<Pattern,PLEXSheetDescription>();
     for( PLEXSheetDescription description : descriptor.getSheet() ) {
       if( description.getNamepattern() != null ) {
@@ -55,9 +54,6 @@ class ImportDriver {
         importspecs.put( Pattern.compile( Pattern.quote( description.getName() ) ), description );
       }
     }
-    
-    PLEXGeneral general = descriptor.getGeneral();
-    apimanager          = new ApiManager( general.getInterface() );
     
   }
   
@@ -71,31 +67,19 @@ class ImportDriver {
    * @throws PLEXException   The import failed for some reason.
    */
   public PlainExcel importData( @KNotNull(name="workbook") Workbook workbook ) throws PLEXException  {
-    
     PlainExcel  result  = new PlainExcel();
-    int       count   = workbook.getNumberOfSheets();
-    
+    int         count   = workbook.getNumberOfSheets();
     for( int i = 0; i < count; i++ ) {
-      
       Sheet   sheet = workbook.getSheetAt(i);
       String  name  = sheet.getSheetName();
-      
-      if( (name == null) || (name.trim().length() == 0) ) {
-        importtracker.sheetWithoutName( workbook, sheet, i );
-      } else {
+      if( (name != null) && (name.trim().length() > 0) ) {
         PLEXSheetDescription description = identifySheet( name );
-        if( description == null ) {
-          importtracker.unhandledSheet( workbook, sheet, i );
-        } else {
-          importtracker.handlingSheet( workbook, sheet, i );
+        if( description != null ) {
           importSheet( result, sheet, description );
         }
       }
-      
     }
-    
     return result;
-    
   }
 
   /**
@@ -114,6 +98,23 @@ class ImportDriver {
     return null;
   }
   
+  private void importMetadata( PlainSheet tablemodel, PLEXMetadata metadata, Sheet sheet ) throws PLEXException{
+    if( metadata != null ) {
+      for( PLEXProperty property : metadata.getProperty() ) {
+        tablemodel.setMetadata( property.getKey(), property.getValue() );
+      }
+      PLEXApiCall apicall = metadata.getMetadetect();
+      if( apicall != null ) {
+        Map<String,String> properties = apimanager.getMetadata( apicall.getRefid(), apicall.getArg(), sheet );
+        if( properties != null ) {
+          for( Map.Entry<String,String> entry : properties.entrySet() ) {
+            tablemodel.setMetadata( entry.getKey(), entry.getValue() );
+          }
+        }
+      }
+    }
+  }
+  
   /**
    * Imports the content of the supplied sheet.
    * 
@@ -126,30 +127,17 @@ class ImportDriver {
     PlainSheet    tablemodel  = new PlainSheet( sheet.getSheetName() );
     receiver.addTable( tablemodel );
     
-    PLEXMetadata  metadata    = description.getMetadata();
-    if( metadata != null ) {
-      for( PLEXProperty property : metadata.getProperty() ) {
-        tablemodel.setMetadata( property.getKey(), property.getValue() );
-      }
-      if( metadata.getMetadetect() != null ) {
-        Map<String,String> properties = apimanager.getMetadata( metadata.getMetadetect().getRefid(), metadata.getMetadetect().getArg(), sheet );
-        if( properties != null ) {
-          for( Map.Entry<String,String> entry : properties.entrySet() ) {
-            tablemodel.setMetadata( entry.getKey(), entry.getValue() );
-          }
-        }
-      }
-    }
+    importMetadata( tablemodel, description.getMetadata(), sheet );
     
     // get the columns sorted according to the input order
-    Column[]            columns     = calculateColumns( sheet, description );
+    Column[]      columns     = calculateColumns( sheet, description );
     
     // create titles for the table
     for( Column column : columns ) {
       tablemodel.addColumn( column.title );
     }
     
-    int firstrow = getFirstRow( sheet, description.getFirstrow(), description.getFirstrowdetect() );
+    int firstrow = getFirstRow( sheet, description );
     for( int row = firstrow; row <= sheet.getLastRowNum(); row++ ) {
       
       Row      rowobj  = sheet.getRow( row );
@@ -238,14 +226,10 @@ class ImportDriver {
       Column column                     = new Column();
       if( (columndesc.getColumn() != null) || (columndesc.getColumndetect() != null) ) {
         // there is a column specification
-        column.column                   = getColumn( sheet, columndesc.getColumn(), columndesc.getColumndetect() );
+        column.column                   = getColumn( sheet, columndesc );
       } else {
-        if( lastcol != -1 ) {
-          // just use the last column index + 1
-          column.column                 = lastcol + 1;
-        } else {
-          // no last column, so there's a lookup error
-        }
+        // just use the last column index + 1
+        column.column                   = lastcol + 1;
       }
       lastcol                           = column.column;
       column.title                      = columndesc.getTitle();
@@ -255,8 +239,8 @@ class ImportDriver {
     
     // collect groups of columns
     for( PLEXColumnGroup columngroup : description.getColumngroup() ) {
-      int columnbase  = getColumn( sheet, columngroup.getColumn(), columngroup.getColumndetect() );
-      int count       = getCount( sheet, columnbase, columngroup.getCount(), columngroup.getCountdetect() );
+      int columnbase  = getColumn ( sheet, columngroup );
+      int count       = getCount  ( sheet, columnbase, columngroup  );
       if( count > 0 ) {
         for( int i = 0; i < count; i++ ) {
           int max = columnbase;
@@ -283,28 +267,45 @@ class ImportDriver {
   /**
    * Returns the column index either by value or an api call.
    * 
-   * @param sheet     The sheet currently being used. Not <code>null</code>.
-   * @param column    The actual column value.
-   * @param apicall   The api call description used to identify the column value. Maybe <code>null</code>.
+   * @param sheet    The sheet currently being used. Not <code>null</code>.
+   * @param column   The actual column description. Not <code>null</code>.
    * 
    * @return   The column index which could be identified.
    */
-  private int getColumn( Sheet sheet, String column, PLEXApiCall apicall ) throws PLEXException {
-    int colidx = -1;
-    if( column != null ) {
+  private int getColumn( Sheet sheet, PLEXColumnDescription column ) throws PLEXException {
+    if( column.getColumn() != null ) {
       try {
-        colidx = Integer.parseInt( column );
+        return Integer.parseInt( column.getColumn() );
       } catch( NumberFormatException ex ) {
-        colidx = toIndex( column );
+        return toIndex( column.getColumn() );
       }
-    }
-    if( colidx >= 0 ) {
-      return colidx;
-    } else {
+    } else /* if( column.getColumndetect() != null ) */ {
+      PLEXApiCall apicall = column.getColumndetect();
       return apimanager.detectColumn( apicall.getRefid(), apicall.getArg(), sheet );
     }
   }
-  
+
+  /**
+   * Returns the column index either by value or an api call.
+   * 
+   * @param sheet         The sheet currently being used. Not <code>null</code>.
+   * @param columngroup   The actual column description. Not <code>null</code>.
+   * 
+   * @return   The column index which could be identified.
+   */
+  private int getColumn( Sheet sheet, PLEXColumnGroup columngroup ) throws PLEXException {
+    if( columngroup.getColumn() != null ) {
+      try {
+        return Integer.parseInt( columngroup.getColumn() );
+      } catch( NumberFormatException ex ) {
+        return toIndex( columngroup.getColumn() );
+      }
+    } else /* if( column.getColumndetect() != null ) */ {
+      PLEXApiCall apicall = columngroup.getColumndetect();
+      return apimanager.detectColumn( apicall.getRefid(), apicall.getArg(), sheet );
+    }
+  }
+
   /**
    * Returns the column associated with an alphabetical index.
    * 
@@ -330,15 +331,15 @@ class ImportDriver {
    * 
    * @param sheet         The sheet currently being used. Not <code>null</code>.
    * @param firstcolumn   The column where the column group starts.
-   * @param count         The actual count value.
-   * @param apicall       The api call description used to identify the column value. Maybe <code>null</code>.
+   * @param columngroup   The description for the column group. Not <code>null</code>.
    * 
    * @return   The column index which could be identified.
    */
-  private int getCount( Sheet sheet, int firstcolumn, int count, PLEXApiCall apicall ) throws PLEXException {
-    if( count >= 0 ) {
-      return count;
-    } else {
+  private int getCount( Sheet sheet, int firstcolumn, PLEXColumnGroup columngroup ) throws PLEXException {
+    if( columngroup.getCount() != null ) {
+      return columngroup.getCount().intValue();
+    } else /* if( columngroup.getCountdetect() != null ) */ {
+      PLEXApiCall apicall = columngroup.getCountdetect();
       return apimanager.detectCount( apicall.getRefid(), apicall.getArg(), sheet, firstcolumn );
     }
   }
@@ -347,15 +348,15 @@ class ImportDriver {
    * Returns the first row within a sheet or an api call.
    * 
    * @param sheet         The sheet currently being used. Not <code>null</code>.
-   * @param firstrow      The actual row value.
-   * @param apicall       The api call description used to identify the column value. Maybe <code>null</code>.
+   * @param description   The sheet which first row has to be calculated. 
    * 
    * @return   The column index which could be identified.
    */
-  private int getFirstRow( Sheet sheet, int firstrow, PLEXApiCall apicall ) throws PLEXException {
-    if( firstrow >= 0 ) {
-      return firstrow;
-    } else /* if( apicall != null ) */ {
+  private int getFirstRow( Sheet sheet, PLEXSheetDescription description ) throws PLEXException {
+    if( description.getFirstrow() != null ) {
+      return description.getFirstrow().intValue();
+    } else /* if( description.getFirstrowdetect() != null ) */ {
+      PLEXApiCall apicall = description.getFirstrowdetect();
       return apimanager.detectRow( apicall.getRefid(), apicall.getArg(), sheet );
     }
   }

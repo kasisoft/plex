@@ -20,8 +20,10 @@ public class DetectionTest extends AbstractTest {
   @DataProvider(name="createDetectionData")
   public Object[][] createDetectionData() {
     return new Object[][] {
-      { "detection" , "detect-row"              },
-      { "detection" , "detect-row-with-offset"  },
+      { "detection" , "detect-row"                },
+      { "detection" , "detect-row-with-offset"    },
+      { "detection" , "detect-column"             },
+//      { "detection" , "detect-column-with-offset" },
     };
   }
   

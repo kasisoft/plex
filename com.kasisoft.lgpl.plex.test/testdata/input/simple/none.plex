@@ -9,7 +9,7 @@
     <column title="key"       column="1000">
       <transformer refid="cleanup"      />
     </column>
-    <column title="value"     column="1001">
+    <column title="value">
       <transformer refid="cleanup"      />
     </column>
   </sheet>
