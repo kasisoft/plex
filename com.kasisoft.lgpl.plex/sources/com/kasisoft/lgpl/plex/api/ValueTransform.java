@@ -13,7 +13,7 @@ import com.kasisoft.lgpl.plex.*;
 /**
  * Each implementor is capable to alter the content of a value.
  */
-public interface ValueTransform {
+public interface ValueTransform extends ApiDefinition {
 
   /**
    * Transforms the content of a value. The provided type can be a Double, a String or a Boolean. 

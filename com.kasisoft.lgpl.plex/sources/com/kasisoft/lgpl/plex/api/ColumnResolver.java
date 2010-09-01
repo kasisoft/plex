@@ -15,7 +15,7 @@ import org.apache.poi.ss.usermodel.*;
 /**
  * Resolver used to identify column numbers.
  */
-public interface ColumnResolver {
+public interface ColumnResolver extends ApiDefinition {
 
   /**
    * Detects a column for a sheet.

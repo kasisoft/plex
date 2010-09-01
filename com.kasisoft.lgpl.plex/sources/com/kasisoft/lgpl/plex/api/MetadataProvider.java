@@ -17,7 +17,7 @@ import java.util.*;
 /**
  * Each implementor is capable to provide metadata information for a specific sheet.
  */
-public interface MetadataProvider {
+public interface MetadataProvider extends ApiDefinition {
 
   /**
    * Returns a map providing the metadata.

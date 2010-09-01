@@ -15,7 +15,7 @@ import org.apache.poi.ss.usermodel.*;
 /**
  * Resolver used to identify row indices.
  */
-public interface RowResolver {
+public interface RowResolver extends ApiDefinition {
 
   /**
    * Detects a row index.

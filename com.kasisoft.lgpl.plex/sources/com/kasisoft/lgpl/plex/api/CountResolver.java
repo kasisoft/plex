@@ -15,7 +15,7 @@ import org.apache.poi.ss.usermodel.*;
 /**
  * Resolver used for the count for a columngroup.
  */
-public interface CountResolver {
+public interface CountResolver extends ApiDefinition {
 
   /**
    * Detects the count for a columngroup within a sheet.
