@@ -20,8 +20,8 @@ public class DetectionTest extends AbstractTest {
   @DataProvider(name="createDetectionData")
   public Object[][] createDetectionData() {
     return new Object[][] {
-      { "detection" , "textual-columns-placed-detect"   },
-      { "detection" , "textual-columns-detect-offset"   },
+      { "detection" , "detect-row"              },
+      { "detection" , "detect-row-with-offset"  },
     };
   }
   
