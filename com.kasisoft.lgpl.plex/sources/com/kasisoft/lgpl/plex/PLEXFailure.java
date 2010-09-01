@@ -18,7 +18,7 @@ public enum PLEXFailure {
   InvalidApiCall      ( "ID: %s accepts the following args: %s !"             ),  //
   IO                  ( "The resource '%s' could not be loaded !"             ),  // 
   InvalidExcel        ( "The excel file '%s' is not valid !"                  ),  //
-  DeclarationError    ( "" ),
+//  DeclarationError    ( "%s"                                                  ),
   MissingSchema       ( "" );
   
   private String   formatstr;

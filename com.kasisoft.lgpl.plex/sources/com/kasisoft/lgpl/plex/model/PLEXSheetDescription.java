@@ -94,12 +94,8 @@ public class PLEXSheetDescription {
     }
 
     
-    public int getFirstrow() {
-        if (firstrow == null) {
-            return -1;
-        } else {
-            return firstrow.intValue();
-        }
+    public Integer getFirstrow() {
+        return firstrow;
     }
 
     

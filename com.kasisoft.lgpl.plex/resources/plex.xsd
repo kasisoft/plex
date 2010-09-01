@@ -86,11 +86,11 @@
   
   <xs:simpleType name="tApi">
     <xs:restriction base="xs:string">
-      <xs:enumeration value="column"/>
-      <xs:enumeration value="row"/>
-      <xs:enumeration value="count"/>
-      <xs:enumeration value="transform"/>
-      <xs:enumeration value="metadata"/>
+      <xs:enumeration value="column"    />
+      <xs:enumeration value="row"       />
+      <xs:enumeration value="count"     />
+      <xs:enumeration value="transform" />
+      <xs:enumeration value="metadata"  />
     </xs:restriction>
   </xs:simpleType>
   
@@ -103,7 +103,7 @@
     </xs:sequence>
     <xs:attribute name="namepattern"  type="xs:string"  use="optional"/>
     <xs:attribute name="name"         type="xs:string"  use="optional"/>
-    <xs:attribute name="firstrow"     type="xs:int"     default="-1"/>
+    <xs:attribute name="firstrow"     type="sRow"       use="optional"/>
   </xs:complexType>
   
   <xs:complexType name="tMetadata">
@@ -124,8 +124,8 @@
       <xs:element name="countdetect"  type="tApiCall"            minOccurs="0"/>
       <xs:element name="member"       type="tColumnGroupMember"  maxOccurs="unbounded"/>
     </xs:sequence>
-    <xs:attribute name="column"  type="xs:string"   use="optional"/>
-    <xs:attribute name="count"   type="xs:int"      default="-1"/>
+    <xs:attribute name="column"  type="sColumn"     use="optional"/>
+    <xs:attribute name="count"   type="xs:int"      use="optional"/>
   </xs:complexType>
 
   <xs:complexType name="tColumnGroupMember">
@@ -142,7 +142,7 @@
       <xs:element name="transformer"  type="tApiCall" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="title"    type="xs:string"/>
-    <xs:attribute name="column"   type="xs:string"       use="optional"/>
+    <xs:attribute name="column"   type="sColumn"       use="optional"/>
   </xs:complexType>
    
   <xs:complexType name="tApiCall">
@@ -151,5 +151,28 @@
     </xs:sequence>
     <xs:attribute name="refid"/>
   </xs:complexType>
-   
+
+  <xs:simpleType name="sRow">
+    <xs:restriction base="xs:int">
+      <xs:minInclusive value="0"/>
+      <xs:maxInclusive value="65536"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="sColumn">
+    <xs:union>
+      <xs:simpleType>
+        <xs:restriction base="xs:int">
+          <xs:minInclusive value="0"/>
+          <xs:maxInclusive value="255"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[a-zA-Z][a-zA-Z]?"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:union>
+  </xs:simpleType>
+  
 </xs:schema>

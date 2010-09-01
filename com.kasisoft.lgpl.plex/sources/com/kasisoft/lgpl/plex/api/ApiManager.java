@@ -10,10 +10,10 @@ package com.kasisoft.lgpl.plex.api;
 
 import com.kasisoft.lgpl.libs.common.util.*;
 
-import com.kasisoft.lgpl.plex.*;
 import com.kasisoft.lgpl.plex.impl.proxy.*;
 import com.kasisoft.lgpl.plex.instance.*;
 import com.kasisoft.lgpl.plex.model.*;
+import com.kasisoft.lgpl.plex.*;
 
 import org.apache.poi.ss.usermodel.*;
 
@@ -64,17 +64,12 @@ public class ApiManager {
       if( ! plexinterface.getInjectors().isEmpty() ) {
         configureInstance( instance, plexinterface.getInjectors() );
       }
-      try {
-        switch( apitype ) {
-        case COLUMN     : columnresolvers   . put( plexinterface.getId(), new ColumnResolverProxy   ( (ColumnResolver  ) instance ) ); break;
-        case COUNT      : countresolvers    . put( plexinterface.getId(), new CountResolverProxy    ( (CountResolver   ) instance ) ); break;
-        case TRANSFORM  : valuetransformers . put( plexinterface.getId(), new ValueTransformProxy   ( (ValueTransform  ) instance ) ); break;
-        case ROW        : rowresolvers      . put( plexinterface.getId(), new RowResolverProxy      ( (RowResolver     ) instance ) ); break;
-        case METADATA   : metadataproviders . put( plexinterface.getId(), new MetadataProviderProxy ( (MetadataProvider) instance ) ); break;
-        }
-      } catch( ClassCastException ex ) {
-        // easier than checking it before setting the map value
-        throw new PLEXException( PLEXFailure.DeclarationError, MSG_INVALID_APITYPE, classname, apitype );
+      switch( apitype ) {
+      case COLUMN     : columnresolvers   . put( plexinterface.getId(), new ColumnResolverProxy   ( (ColumnResolver  ) instance ) ); break;
+      case COUNT      : countresolvers    . put( plexinterface.getId(), new CountResolverProxy    ( (CountResolver   ) instance ) ); break;
+      case TRANSFORM  : valuetransformers . put( plexinterface.getId(), new ValueTransformProxy   ( (ValueTransform  ) instance ) ); break;
+      case ROW        : rowresolvers      . put( plexinterface.getId(), new RowResolverProxy      ( (RowResolver     ) instance ) ); break;
+      case METADATA   : metadataproviders . put( plexinterface.getId(), new MetadataProviderProxy ( (MetadataProvider) instance ) ); break;
       }
     }
 

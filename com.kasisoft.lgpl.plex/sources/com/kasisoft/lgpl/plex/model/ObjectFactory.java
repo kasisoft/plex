@@ -21,23 +21,8 @@ public class ObjectFactory {
     }
 
     
-    public PLEXSheetDescription createPLEXSheetDescription() {
-        return new PLEXSheetDescription();
-    }
-
-    
-    public PLEXDouble createPLEXDouble() {
-        return new PLEXDouble();
-    }
-
-    
-    public PLEXColumnGroup createPLEXColumnGroup() {
-        return new PLEXColumnGroup();
-    }
-
-    
-    public PLEXString createPLEXString() {
-        return new PLEXString();
+    public PLEXApiCall createPLEXApiCall() {
+        return new PLEXApiCall();
     }
 
     
@@ -46,43 +31,18 @@ public class ObjectFactory {
     }
 
     
-    public PLEXProperty createPLEXProperty() {
-        return new PLEXProperty();
+    public PLEXSheetDescription createPLEXSheetDescription() {
+        return new PLEXSheetDescription();
     }
 
     
-    public PLEXModel createPLEXModel() {
-        return new PLEXModel();
+    public PLEXGeneral createPLEXGeneral() {
+        return new PLEXGeneral();
     }
 
     
-    public PLEXColumnGroupMember createPLEXColumnGroupMember() {
-        return new PLEXColumnGroupMember();
-    }
-
-    
-    public PLEXBoolean createPLEXBoolean() {
-        return new PLEXBoolean();
-    }
-
-    
-    public PLEXApiCall createPLEXApiCall() {
-        return new PLEXApiCall();
-    }
-
-    
-    public PLEXStringList createPLEXStringList() {
-        return new PLEXStringList();
-    }
-
-    
-    public PLEXInteger createPLEXInteger() {
-        return new PLEXInteger();
-    }
-
-    
-    public PLEXMetadata createPLEXMetadata() {
-        return new PLEXMetadata();
+    public PLEXString createPLEXString() {
+        return new PLEXString();
     }
 
     
@@ -91,13 +51,53 @@ public class ObjectFactory {
     }
 
     
+    public PLEXColumnGroup createPLEXColumnGroup() {
+        return new PLEXColumnGroup();
+    }
+
+    
+    public PLEXMetadata createPLEXMetadata() {
+        return new PLEXMetadata();
+    }
+
+    
+    public PLEXInteger createPLEXInteger() {
+        return new PLEXInteger();
+    }
+
+    
+    public PLEXProperty createPLEXProperty() {
+        return new PLEXProperty();
+    }
+
+    
+    public PLEXColumnGroupMember createPLEXColumnGroupMember() {
+        return new PLEXColumnGroupMember();
+    }
+
+    
+    public PLEXModel createPLEXModel() {
+        return new PLEXModel();
+    }
+
+    
+    public PLEXDouble createPLEXDouble() {
+        return new PLEXDouble();
+    }
+
+    
     public PLEXInterface createPLEXInterface() {
         return new PLEXInterface();
     }
 
     
-    public PLEXGeneral createPLEXGeneral() {
-        return new PLEXGeneral();
+    public PLEXStringList createPLEXStringList() {
+        return new PLEXStringList();
+    }
+
+    
+    public PLEXBoolean createPLEXBoolean() {
+        return new PLEXBoolean();
     }
 
 }

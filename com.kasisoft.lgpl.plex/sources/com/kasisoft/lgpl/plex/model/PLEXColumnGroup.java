@@ -74,12 +74,8 @@ public class PLEXColumnGroup {
     }
 
     
-    public int getCount() {
-        if (count == null) {
-            return -1;
-        } else {
-            return count.intValue();
-        }
+    public Integer getCount() {
+        return count;
     }
 
     

@@ -315,9 +315,6 @@ class ImportDriver {
    * @throws PLEXException   The column could not be parsed.
    */
   private int toIndex( String column ) throws PLEXException {
-    if( column.length() > 2 ) {
-      throw new PLEXException( PLEXFailure.DeclarationError, MSG_INVALIDCOLUMN, column  );
-    }
     column = column.toLowerCase();
     if ( column.length() == 1 ) {
       return column.charAt(0) - 'a';
@@ -358,10 +355,8 @@ class ImportDriver {
   private int getFirstRow( Sheet sheet, int firstrow, PLEXApiCall apicall ) throws PLEXException {
     if( firstrow >= 0 ) {
       return firstrow;
-    } else if( apicall != null ) {
+    } else /* if( apicall != null ) */ {
       return apimanager.detectRow( apicall.getRefid(), apicall.getArg(), sheet );
-    } else {
-      throw new PLEXException( PLEXFailure.DeclarationError, "Missing first row !" );
     }
   }
 

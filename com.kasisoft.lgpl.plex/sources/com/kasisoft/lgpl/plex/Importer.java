@@ -11,6 +11,7 @@ package com.kasisoft.lgpl.plex;
 
 import com.kasisoft.lgpl.libs.common.io.*;
 
+import com.kasisoft.lgpl.plex.api.*;
 import com.kasisoft.lgpl.plex.instance.*;
 import com.kasisoft.lgpl.plex.model.*;
 
@@ -31,6 +32,19 @@ import java.io.*;
  */
 public class Importer {
 
+  private static final String MSG_INVALID_TYPE = "The type '%s' doesn't implement '%s' !";
+
+  private static final String MSG_MISSING_CLASSNAME = "The class '%s' is not available on the classpath !";
+
+  private static final String MSG_MISSING_FIRSTROW            = 
+    "A sheet must declare either the 'firstrow' or 'firstrowdetect' setting!";
+  
+  private static final String MSG_MISSING_COLUMN_INFORMATION  = 
+    "A first column must declare either the 'column' or 'columndetect' !";
+  
+  private static final String MSG_INVALID_DECLARATION         = 
+    "The plex declaration is invalid.";
+  
   private ImportDriver   driver;
   
   /**
@@ -66,13 +80,67 @@ public class Importer {
       
       PLEXModel     plexmodel     = (PLEXModel) unmarshaller.unmarshal( declaration );
   
+      checkConsistency( plexmodel );
+      
       // initialize the import driver
       driver                      = new ImportDriver( plexmodel, tracker );
     
     } catch( JAXBException  ex ) {
-      throw new PLEXException( PLEXFailure.DeclarationError, ex );
+      throw new PLEXException( PLEXFailure.DeclarationError, ex, MSG_INVALID_DECLARATION );
     }
     
+  }
+  
+  private void checkConsistency( PLEXModel model ) throws PLEXException {
+    checkConsistency( model.getGeneral() );
+    for( PLEXSheetDescription sheet : model.getSheet() ) {
+      checkConsistency( sheet );
+    }
+  }
+  
+  private void checkConsistency( PLEXGeneral general ) throws PLEXException {
+    for( PLEXInterface apitype : general.getInterface() ) {
+      checkConsistency( apitype );
+    }
+  }
+  
+  private void checkConsistency( PLEXInterface apidecl ) throws PLEXException {
+    String classname = apidecl.getClassname();
+    try {
+      Class<?> clazz = Class.forName( classname );
+      switch( apidecl.getApi() ) {
+      case COLUMN     : checkType ( ColumnResolver    . class, clazz ); break;
+      case COUNT      : checkType ( CountResolver     . class, clazz ); break;
+      case METADATA   : checkType ( MetadataProvider  . class, clazz ); break;
+      case ROW        : checkType ( RowResolver       . class, clazz ); break;
+      case TRANSFORM  : checkType ( ValueTransform    . class, clazz );break;
+      }
+    } catch( ClassNotFoundException ex ) {
+      throw new PLEXException( PLEXFailure.DeclarationError, String.format( MSG_MISSING_CLASSNAME, classname ) );
+    }
+  }
+  
+  private void checkType( Class<?> requiredapi, Class<?> currenttype ) throws PLEXException {
+    if( ! requiredapi.isAssignableFrom( currenttype ) ) {
+      throw new PLEXException( PLEXFailure.DeclarationError, String.format( MSG_INVALID_TYPE, currenttype.getName(), requiredapi.getName() ) );
+    }
+  }
+  
+  private void checkConsistency( PLEXSheetDescription sheet ) throws PLEXException {
+    if( (sheet.getFirstrow() == null) && (sheet.getFirstrowdetect() == null) ) {
+      throw new PLEXException( PLEXFailure.DeclarationError, MSG_MISSING_FIRSTROW );
+    }
+    for( int i = 0; i < sheet.getColumn().size(); i++ ) {
+      checkConsistency( sheet.getColumn().get(i), i == 0 );
+    }
+  }
+  
+  private void checkConsistency( PLEXColumnDescription column, boolean first ) throws PLEXException {
+    if( (column.getColumn() == null) && (column.getColumndetect() == null) ) {
+      if( ! first ) {
+        throw new PLEXException( PLEXFailure.DeclarationError, MSG_MISSING_COLUMN_INFORMATION );
+      }
+    }
   }
   
   /**
