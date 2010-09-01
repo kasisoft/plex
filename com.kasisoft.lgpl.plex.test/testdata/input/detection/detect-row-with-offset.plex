@@ -6,7 +6,7 @@
     <interface api="row"       id="simpleresolver"  classname="com.kasisoft.lgpl.plex.impl.SimpleRowResolver"   /> 
   </general>
 
-  <sheet name="textual-columns-detect-offset">
+  <sheet name="detect-row-with-offset">
     <firstrowdetect refid="simpleresolver">
       <arg>1</arg>
     </firstrowdetect>

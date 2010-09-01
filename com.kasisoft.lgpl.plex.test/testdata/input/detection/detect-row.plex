@@ -6,7 +6,7 @@
     <interface api="row"       id="simpleresolver"  classname="com.kasisoft.lgpl.plex.impl.SimpleRowResolver"   /> 
   </general>
 
-  <sheet name="textual-columns-placed-detect">
+  <sheet name="detect-row">
     <firstrowdetect refid="simpleresolver">
     </firstrowdetect>
     <column title="key"       column="e">

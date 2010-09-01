@@ -1,5 +1,5 @@
 <workbook>
-  <sheet name="textual-columns-detect-offset" columns="2" rows="4">
+  <sheet name="detect-row-with-offset" columns="2" rows="4">
     <column name="key" type="java.lang.String"/>
     <column name="value" type="java.lang.String"/>
     <row row="0">
