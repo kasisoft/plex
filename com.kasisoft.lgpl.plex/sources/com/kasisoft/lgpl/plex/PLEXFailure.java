@@ -14,7 +14,6 @@ package com.kasisoft.lgpl.plex;
 public enum PLEXFailure {
 
   ErrorInApiFunction  ( "An error occured within an API function ! Cause: %s" ),
-  InvalidApiCall      ( "ID: %s accepts the following args: %s !"             ),
   IO                  ( "The resource '%s' could not be loaded !"             ),
   InvalidExcel        ( "The excel file '%s' is not valid !"                  ),
   DeclarationError    ( "%s"                                                  ),
