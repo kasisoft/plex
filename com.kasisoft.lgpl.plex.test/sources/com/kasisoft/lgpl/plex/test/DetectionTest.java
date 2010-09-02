@@ -23,7 +23,7 @@ public class DetectionTest extends AbstractTest {
       { "detection" , "detect-row"                },
       { "detection" , "detect-row-with-offset"    },
       { "detection" , "detect-column"             },
-//      { "detection" , "detect-column-with-offset" },
+      { "detection" , "detect-column-with-offset" },
     };
   }
   

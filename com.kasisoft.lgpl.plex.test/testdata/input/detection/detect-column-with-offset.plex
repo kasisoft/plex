@@ -9,6 +9,7 @@
   <sheet name="detect-column-with-offset" firstrow="0">
     <column title="key">
       <columndetect refid="simpleresolver">
+        <arg>1</arg>
       </columndetect>
       <transformer refid="cleanup"      />
     </column>
