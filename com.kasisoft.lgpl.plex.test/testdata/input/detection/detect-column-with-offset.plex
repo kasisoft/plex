@@ -7,12 +7,12 @@
   </general>
 
   <sheet name="detect-column-with-offset" firstrow="0">
-    <column title="key"       column="e">
+    <column title="key">
       <columndetect refid="simpleresolver">
       </columndetect>
       <transformer refid="cleanup"      />
     </column>
-    <column title="value"     column="f">
+    <column title="value">
       <transformer refid="cleanup"      />
     </column>
   </sheet>
