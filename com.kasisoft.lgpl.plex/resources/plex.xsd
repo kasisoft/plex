@@ -55,15 +55,15 @@
 
   <xs:complexType name="tInterface">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element name="list"     type="tStringList"/>
-      <xs:element name="integer"  type="tInteger"/>
-      <xs:element name="boolean"  type="tBoolean"/>
-      <xs:element name="double"   type="tDouble"/>
-      <xs:element name="string"   type="tString"/>
+      <xs:element name="list"     type="tStringList"  />
+      <xs:element name="integer"  type="tInteger"     />
+      <xs:element name="boolean"  type="tBoolean"     />
+      <xs:element name="double"   type="tDouble"      />
+      <xs:element name="string"   type="tString"      />
     </xs:choice>
-    <xs:attribute name="api"        type="tApi"/>
-    <xs:attribute name="id"         type="xs:string"/>
-    <xs:attribute name="classname"  type="xs:string"/>
+    <xs:attribute name="api"        type="tApi"       />
+    <xs:attribute name="id"         type="xs:string"  />
+    <xs:attribute name="classname"  type="xs:string"  />
   </xs:complexType>
   
   <xs:complexType name="tInjector">
