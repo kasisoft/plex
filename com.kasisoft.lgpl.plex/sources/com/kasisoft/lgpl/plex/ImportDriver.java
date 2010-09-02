@@ -250,7 +250,7 @@ class ImportDriver {
             column.title        = member.getTitle() + "[" + i + "]";
             column.transformer  = member.getTransformer();
             columns.add( column );
-            max           = Math.max( column.column, max );
+            max                 = Math.max( column.column, max );
           }
           columnbase  = max + 1;
         }
