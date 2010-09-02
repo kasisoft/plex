@@ -16,6 +16,8 @@ import com.kasisoft.lgpl.plex.*;
 
 import org.apache.poi.ss.usermodel.*;
 
+import java.util.*;
+
 /**
  * A simple wrapper for the API ColumnResolver which makes sure that internal errors won't be 
  * passed besided the expected PLEXException .
@@ -41,6 +43,17 @@ public class ColumnResolverProxy implements ColumnResolver {
       return delegate.detectColumn( id, sheet, args );
     } catch( RuntimeException ex ) {
       throw new PLEXException( PLEXFailure.ErrorInApiFunction, ex, ex.getMessage() );
+    }
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public boolean canHandleArguments( String id, List<String> args ) {
+    try {
+      return delegate.canHandleArguments( id, args );
+    } catch( RuntimeException ex ) {
+      return false;
     }
   }
 

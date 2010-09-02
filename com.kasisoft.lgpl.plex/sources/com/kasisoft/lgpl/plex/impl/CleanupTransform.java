@@ -11,6 +11,8 @@ package com.kasisoft.lgpl.plex.impl;
 
 import com.kasisoft.lgpl.plex.api.*;
 
+import java.util.*;
+
 /**
  * Cleans up a string which means that it will be trimmed and useless values will be corrected.
  * All non-String types will remain untouched.
@@ -26,6 +28,13 @@ public class CleanupTransform implements ValueTransform {
     } else {
       return value;
     }
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public boolean canHandleArguments( String id, List<String> args ) {
+    return true;
   }
 
 } /* ENDCLASS */

@@ -15,10 +15,10 @@ public enum PLEXFailure {
 
   ErrorInApiFunction  ( "An error occured within an API function ! Cause: %s" ),
   InvalidApiCall      ( "ID: %s accepts the following args: %s !"             ),
-  IO                  ( "The resource '%s' could not be loaded !"             ), 
+  IO                  ( "The resource '%s' could not be loaded !"             ),
   InvalidExcel        ( "The excel file '%s' is not valid !"                  ),
   DeclarationError    ( "%s"                                                  ),
-  MissingSchema       ( "" );
+  MissingSchema       ( "The schema 'plex.xsd' could not be found !"          );
   
   private String   formatstr;
   

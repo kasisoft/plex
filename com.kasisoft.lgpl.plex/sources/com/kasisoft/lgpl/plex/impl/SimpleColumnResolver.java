@@ -14,13 +14,13 @@ import com.kasisoft.lgpl.plex.api.*;
 
 import org.apache.poi.ss.usermodel.*;
 
+import java.util.*;
+
 /**
  * This ColumnResolver implementation simply checks for the occurrence of the first column which 
  * contains content.
  */
 public class SimpleColumnResolver implements ColumnResolver {
-
-  private static final String SYNTAX  = "SimpleColumnResolver( offset : int {0} )";
 
   /**
    * {@inheritDoc}
@@ -32,11 +32,7 @@ public class SimpleColumnResolver implements ColumnResolver {
     }
     int offset = 0;
     if( args.length > 0 ) {
-      try {
-        offset = Integer.parseInt( args[0] );
-      } catch( NumberFormatException ex ) {
-        throw new PLEXException( PLEXFailure.InvalidApiCall, id, SYNTAX );
-      }
+      offset = Integer.parseInt( args[0] );
     }
     return result + offset;
   }
@@ -52,5 +48,18 @@ public class SimpleColumnResolver implements ColumnResolver {
     return -1;
   }
   
-  
+  /**
+   * {@inheritDoc}
+   */
+  public boolean canHandleArguments( String id, List<String> args ) {
+    if( args.size() > 0 ) {
+      try {
+        Integer.parseInt( args.get(0) );
+      } catch( NumberFormatException ex ) {
+        return false;
+      }
+    }
+    return true;
+  }
+
 } /* ENDCLASS */

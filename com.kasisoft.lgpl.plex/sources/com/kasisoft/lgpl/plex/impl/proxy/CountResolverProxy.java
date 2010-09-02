@@ -16,6 +16,8 @@ import com.kasisoft.lgpl.plex.*;
 
 import org.apache.poi.ss.usermodel.*;
 
+import java.util.*;
+
 /**
  * A simple wrapper for the API CountResolver which makes sure that internal errors won't be 
  * passed besided the expected PLEXException .
@@ -41,6 +43,17 @@ public class CountResolverProxy implements CountResolver {
       return delegate.detectCount( id, sheet, firstcolumn, args );
     } catch( RuntimeException ex ) {
       throw new PLEXException( PLEXFailure.ErrorInApiFunction, ex, ex.getMessage() );
+    }
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public boolean canHandleArguments( String id, List<String> args ) {
+    try {
+      return delegate.canHandleArguments( id, args );
+    } catch( RuntimeException ex ) {
+      return false;
     }
   }
 

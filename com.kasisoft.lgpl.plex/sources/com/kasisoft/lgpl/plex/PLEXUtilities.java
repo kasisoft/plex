@@ -1,6 +1,6 @@
 /**
  * Name........: PLEXUtilities
- * Description.: 
+ * Description.: Collection of several utility functions. 
  * Author......: Daniel Kasmeroglu
  * E-Mail......: daniel.kasmeroglu@kasisoft.net
  * Company.....: Kasisoft
@@ -12,22 +12,35 @@ import com.kasisoft.lgpl.libs.common.util.*;
 
 import com.kasisoft.lgpl.plex.api.*;
 import com.kasisoft.lgpl.plex.model.*;
+import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import java.util.*;
 
 import java.lang.reflect.*;
 
+/**
+ * Collection of several utility functions.
+ */
 public class PLEXUtilities {
 
   private static final String MSG_MISSING_COLUMNRESOLVER      = 
     "A 'ColumnResolver' with the id '%s' doesn't exist !";
 
+  private static final String MSG_SYNTAX_COLUMNRESOLVER       = 
+    "The arguments {%s} for the 'ColumnResolver' with the id '%s' aren't valid !";
+
   private static final String MSG_MISSING_ROWRESOLVER         = 
     "A 'RowResolver' with the id '%s' doesn't exist !";
 
-  private static final String MSG_MISSING_METADATAPROVIDER         = 
+  private static final String MSG_SYNTAX_ROWRESOLVER          = 
+    "The arguments {%s} for the 'RowResolver' with the id '%s' aren't valid !";
+
+  private static final String MSG_MISSING_METADATAPROVIDER    = 
     "A 'MetadataProvider' with the id '%s' doesn't exist !";
-  
+
+  private static final String MSG_SYNTAX_METADATAPROVIDER     = 
+    "The arguments {%s} for the 'MetadataProvider' with the id '%s' aren't valid !";
+
   private static final String MSG_FAILED_CONFIGURATION        = 
     "Failed to configure the api type '%s' !";
 
@@ -43,7 +56,16 @@ public class PLEXUtilities {
   private static final String MSG_MISSING_COLUMN_INFORMATION  = 
     "A first column must declare either the 'column' or 'columndetect' !";
   
-
+  /**
+   * Creates a new instance of an api manager based upon a specific plex declaration.
+   * 
+   * @param model   The plex declaration which provides the necessary information for the
+   *                api definitions.
+   * 
+   * @return   A new instance of an api manager. Not <code>null</code>.
+   * 
+   * @throws PLEXException   The plex declaration is invalid. 
+   */
   public static final ApiManager createApiManager( PLEXModel model ) throws PLEXException {
     Map<String,ApiDefinition> result = new Hashtable<String,ApiDefinition>();
     if( model.getGeneral() != null ) {
@@ -79,8 +101,8 @@ public class PLEXUtilities {
    * @todo [15-Aug-2010:KASI]   Maybe the methods should be cached but for now there's no
    *                            performance related constraint.
    * 
-   * @param instance    The instance which will be altered. Not <code>null</code>.
-   * @param injector    The injection that has to be performed. Not <code>null</code>.
+   * @param instance   The instance which will be altered. Not <code>null</code>.
+   * @param injector   The injection that has to be performed. Not <code>null</code>.
    * 
    * @throws PLEXException   The injection failed for some reason.
    */
@@ -148,19 +170,46 @@ public class PLEXUtilities {
     }
   }
   
-  public static final void checkConsistency( ApiManager apiman, PLEXModel model ) throws PLEXException {
+  /**
+   * Checks the consistency for the supplied model.
+   * 
+   * @param apiman   The api manager used to access the functions. Not <code>null</code>.
+   * @param model    The declaration which has to be checked for consistency errors. Not <code>null</code>.
+   * 
+   * @throws PLEXException   A declaration inconsistency has been discovered.
+   */
+  public static final void checkConsistency( 
+    @KNotNull(name="apiman")   ApiManager   apiman, 
+    @KNotNull(name="model")    PLEXModel    model 
+  ) throws PLEXException {
     checkConsistency( apiman, model.getGeneral() );
     for( PLEXSheetDescription sheet : model.getSheet() ) {
       checkConsistency( apiman, sheet );
     }
   }
   
+  /**
+   * Checks the consistency for the supplied model.
+   * 
+   * @param apiman    The api manager used to access the functions. Not <code>null</code>.
+   * @param general   The declaration which has to be checked for consistency errors. Not <code>null</code>.
+   * 
+   * @throws PLEXException   A declaration inconsistency has been discovered.
+   */
   private static final void checkConsistency( ApiManager apiman, PLEXGeneral general ) throws PLEXException {
     for( PLEXInterface apitype : general.getInterface() ) {
       checkConsistency( apiman, apitype );
     }
   }
   
+  /**
+   * Checks the consistency for the supplied model.
+   * 
+   * @param apiman    The api manager used to access the functions. Not <code>null</code>.
+   * @param apidecl   The declaration which has to be checked for consistency errors. Not <code>null</code>.
+   * 
+   * @throws PLEXException   A declaration inconsistency has been discovered.
+   */
   private static final void checkConsistency( ApiManager apiman, PLEXInterface apidecl ) throws PLEXException {
     String classname = apidecl.getClassname();
     try {
@@ -177,12 +226,28 @@ public class PLEXUtilities {
     }
   }
   
+  /**
+   * Checks whether a specific type supports a specific api.
+   * 
+   * @param requiredapi   The API that needs to be supported. Not <code>null</code>.
+   * @param currenttype   The current type that needs to be tested. Not <code>null</code>.
+   * 
+   * @throws PLEXException   The type is considered to be invalid.
+   */
   private static final void checkType( Class<?> requiredapi, Class<?> currenttype ) throws PLEXException {
     if( ! requiredapi.isAssignableFrom( currenttype ) ) {
       throw new PLEXException( PLEXFailure.DeclarationError, String.format( MSG_INVALID_TYPE, currenttype.getName(), requiredapi.getName() ) );
     }
   }
   
+  /**
+   * Checks the consistency for the supplied model.
+   * 
+   * @param apiman   The api manager used to access the functions. Not <code>null</code>.
+   * @param sheet    The declaration which has to be checked for consistency errors. Not <code>null</code>.
+   * 
+   * @throws PLEXException   A declaration inconsistency has been discovered.
+   */
   private static final void checkConsistency( ApiManager apiman, PLEXSheetDescription sheet ) throws PLEXException {
     if( (sheet.getFirstrow() == null) && (sheet.getFirstrowdetect() == null) ) {
       throw new PLEXException( PLEXFailure.DeclarationError, MSG_MISSING_FIRSTROW );
@@ -191,6 +256,9 @@ public class PLEXUtilities {
     if( apicall != null ) {
       if( ! apiman.isRowResolver( apicall.getRefid() ) ) {
         throw new PLEXException( PLEXFailure.DeclarationError, String.format( MSG_MISSING_ROWRESOLVER, apicall.getRefid() ) );
+      }
+      if( ! apiman.canHandleArgs( apicall.getRefid(), apicall.getArg() ) ) {
+        throw new PLEXException( PLEXFailure.DeclarationError, String.format( MSG_SYNTAX_ROWRESOLVER, StringFunctions.toString( apicall.getArg().toArray() ), apicall.getRefid() ) );
       }
     }
     for( int i = 0; i < sheet.getColumn().size(); i++ ) {
@@ -201,15 +269,35 @@ public class PLEXUtilities {
     }
   }
   
+  /**
+   * Checks the consistency for the supplied model.
+   * 
+   * @param apiman     The api manager used to access the functions. Not <code>null</code>.
+   * @param metadata   The declaration which has to be checked for consistency errors. Not <code>null</code>.
+   * 
+   * @throws PLEXException   A declaration inconsistency has been discovered.
+   */
   private static final void checkConsistency( ApiManager apiman, PLEXMetadata metadata ) throws PLEXException {
     PLEXApiCall apicall = metadata.getMetadetect();
     if( apicall != null ) {
       if( ! apiman.isMetdataProvider( apicall.getRefid() ) ) {
         throw new PLEXException( PLEXFailure.DeclarationError, String.format( MSG_MISSING_METADATAPROVIDER, apicall.getRefid() ) );
       }
+      if( ! apiman.canHandleArgs( apicall.getRefid(), apicall.getArg() ) ) {
+        throw new PLEXException( PLEXFailure.DeclarationError, String.format( MSG_SYNTAX_METADATAPROVIDER, StringFunctions.toString( apicall.getArg().toArray() ), apicall.getRefid() ) );
+      }
     }
   }
   
+  /**
+   * Checks the consistency for the supplied model.
+   * 
+   * @param apiman     The api manager used to access the functions. Not <code>null</code>.
+   * @param metadata   The declaration which has to be checked for consistency errors. Not <code>null</code>.
+   * @param first      <code>true</code> <=> The first column is about to be checked.
+   * 
+   * @throws PLEXException   A declaration inconsistency has been discovered.
+   */
   private static final void checkConsistency( ApiManager apiman, PLEXColumnDescription column, boolean first ) throws PLEXException {
     if( (column.getColumn() == null) && (column.getColumndetect() == null) ) {
       if( first ) {
@@ -220,6 +308,9 @@ public class PLEXUtilities {
     if( apicall != null ) {
       if( ! apiman.isColumnResolver( apicall.getRefid() ) ) {
         throw new PLEXException( PLEXFailure.DeclarationError, String.format( MSG_MISSING_COLUMNRESOLVER, apicall.getRefid() ) );
+      }
+      if( ! apiman.canHandleArgs( apicall.getRefid(), apicall.getArg() ) ) {
+        throw new PLEXException( PLEXFailure.DeclarationError, String.format( MSG_SYNTAX_COLUMNRESOLVER, StringFunctions.toString( apicall.getArg().toArray() ), apicall.getRefid() ) );
       }
     }
   }

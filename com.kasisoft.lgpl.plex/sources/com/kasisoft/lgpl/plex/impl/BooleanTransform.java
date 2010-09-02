@@ -41,4 +41,11 @@ public class BooleanTransform implements ValueTransform {
     return value;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  public boolean canHandleArguments( String id, List<String> args ) {
+    return true;
+  }
+
 } /* ENDCLASS */

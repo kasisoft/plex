@@ -14,6 +14,8 @@ import com.kasisoft.lgpl.tools.diagnostic.*;
 import com.kasisoft.lgpl.plex.api.*;
 import com.kasisoft.lgpl.plex.*;
 
+import java.util.*;
+
 /**
  * A simple wrapper for the API ValueTransform which makes sure that internal errors won't be 
  * passed besided the expected PLEXException .
@@ -39,6 +41,17 @@ public class ValueTransformProxy implements ValueTransform {
       return delegate.transformValue( id, value, args );
     } catch( RuntimeException ex ) {
       throw new PLEXException( PLEXFailure.ErrorInApiFunction, ex, ex.getMessage() );
+    }
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public boolean canHandleArguments( String id, List<String> args ) {
+    try {
+      return delegate.canHandleArguments( id, args );
+    } catch( RuntimeException ex ) {
+      return false;
     }
   }
 

@@ -27,6 +27,7 @@ public class ApiManager {
   private Map<String,ValueTransform>     valuetransformers;
   private Map<String,RowResolver>        rowresolvers;
   private Map<String,MetadataProvider>   metadataproviders;
+  private Map<String,ApiDefinition>      apidefinitions;
   
   /**
    * Initialises this management class using the supplied api definitions.
@@ -41,7 +42,8 @@ public class ApiManager {
     valuetransformers = new Hashtable<String,ValueTransform>();
     rowresolvers      = new Hashtable<String,RowResolver>();
     metadataproviders = new Hashtable<String,MetadataProvider>();
-    
+    apidefinitions    = new Hashtable<String,ApiDefinition>();
+
     for( Map.Entry<String,ApiDefinition> apidef : apidefs.entrySet() ) {
       if( apidef.getValue() instanceof ColumnResolver ) {
         columnresolvers.put( apidef.getKey(), new ColumnResolverProxy( (ColumnResolver) apidef.getValue() ) );
@@ -59,6 +61,12 @@ public class ApiManager {
         metadataproviders.put( apidef.getKey(), new MetadataProviderProxy( (MetadataProvider) apidef.getValue() ) );
       }
     }
+    
+    apidefinitions.putAll( columnresolvers    );
+    apidefinitions.putAll( countresolvers     );
+    apidefinitions.putAll( valuetransformers  );
+    apidefinitions.putAll( rowresolvers       );
+    apidefinitions.putAll( metadataproviders  );
     
   }
   
@@ -184,4 +192,13 @@ public class ApiManager {
     return valuetransformers.containsKey( id );
   }
 
+  public boolean canHandleArgs( @KNotEmpty(name="id") String id, List<String> args ) {
+    ApiDefinition apidef = apidefinitions.get( id );
+    if( apidef == null ) {
+      return false;
+    } else {
+      return apidef.canHandleArguments( id, args );
+    }
+  }
+  
 } /* ENDCLASS */

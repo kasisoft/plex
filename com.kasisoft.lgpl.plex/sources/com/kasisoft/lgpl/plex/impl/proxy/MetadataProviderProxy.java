@@ -46,4 +46,15 @@ public class MetadataProviderProxy implements MetadataProvider {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  public boolean canHandleArguments( String id, List<String> args ) {
+    try {
+      return delegate.canHandleArguments( id, args );
+    } catch( RuntimeException ex ) {
+      return false;
+    }
+  }
+
 } /* ENDCLASS */
