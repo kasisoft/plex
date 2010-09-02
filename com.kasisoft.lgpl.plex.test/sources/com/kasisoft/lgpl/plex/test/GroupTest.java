@@ -13,7 +13,7 @@ import org.testng.annotations.*;
 /**
  * Tests to verify the column group import.
  */
-@Test
+@Test(groups="all")
 public class GroupTest extends AbstractTest {
 
   
@@ -27,6 +27,11 @@ public class GroupTest extends AbstractTest {
   @Test(dataProvider="createGroupData")
   public void runTest( String groupname, String testcase ) {
     super.runTest( groupname, testcase );
+  }
+  
+  @BeforeClass
+  public void prepare() {
+    super.prepare();
   }
   
 } /* ENDCLASS */

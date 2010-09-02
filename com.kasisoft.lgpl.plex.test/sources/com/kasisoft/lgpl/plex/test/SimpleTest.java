@@ -13,7 +13,7 @@ import org.testng.annotations.*;
 /**
  * Collection of simple tests.
  */
-@Test
+@Test(groups="all")
 public class SimpleTest extends AbstractTest {
 
   
@@ -31,6 +31,11 @@ public class SimpleTest extends AbstractTest {
   @Test(dataProvider="createSimpleData")
   public void runTest( String groupname, String testcase ) {
     super.runTest( groupname, testcase );
+  }
+  
+  @BeforeClass
+  public void prepare() {
+    super.prepare();
   }
   
 } /* ENDCLASS */

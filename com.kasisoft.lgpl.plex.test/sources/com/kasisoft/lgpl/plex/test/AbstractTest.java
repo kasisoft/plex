@@ -9,18 +9,14 @@
 package com.kasisoft.lgpl.plex.test;
 
 import com.kasisoft.lgpl.libs.common.constants.*;
-
 import com.kasisoft.lgpl.libs.common.io.*;
 
-import com.kasisoft.lgpl.plex.*;
 import com.kasisoft.lgpl.plex.instance.*;
-
-import org.testng.annotations.*;
+import com.kasisoft.lgpl.plex.*;
 
 import org.testng.*;
 
 import java.net.*;
-
 import java.io.*;
 
 /**
@@ -32,9 +28,13 @@ public abstract class AbstractTest {
   private File      outputdir;
   private File      expecteddir;
   
-  @BeforeClass
   public void prepare() {
     File testdata = new File( "testdata" );
+    try {
+      testdata      = testdata.getCanonicalFile();
+    } catch( IOException ex ) {
+      Assert.fail( ex.getMessage() );
+    }
     inputdir      = new File( testdata, "input"     );
     outputdir     = new File( testdata, "output"    );
     expecteddir   = new File( testdata, "expected"  );

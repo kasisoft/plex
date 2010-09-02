@@ -13,7 +13,7 @@ import org.testng.annotations.*;
 /**
  * Tests to verify the detection strategies.
  */
-@Test
+@Test(groups="all")
 public class DetectionTest extends AbstractTest {
 
   
@@ -30,6 +30,11 @@ public class DetectionTest extends AbstractTest {
   @Test(dataProvider="createDetectionData")
   public void runTest( String groupname, String testcase ) {
     super.runTest( groupname, testcase );
+  }
+  
+  @BeforeClass
+  public void prepare() {
+    super.prepare();
   }
   
 } /* ENDCLASS */
