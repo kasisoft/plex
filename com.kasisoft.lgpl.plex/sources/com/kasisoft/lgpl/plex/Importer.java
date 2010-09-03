@@ -39,42 +39,45 @@ import java.lang.reflect.*;
  */
 public class Importer {
 
+  private static final String MSG_FAILED_CONFIGURATION        = 
+    "Failed to configure the api type '%s' !";
+  
+  private static final String MSG_INSTANTIATION_FAILURE = 
+    "Failed to instantiate class '%s' !";
+
   private static final String MSG_INVALID_DECLARATION         = 
     "The plex declaration is invalid.";
+  
+  private static final String MSG_INVALID_TYPE                = 
+    "The type '%s' doesn't implement '%s' !";
+  
+  private static final String MSG_MISSING_CLASSNAME           = 
+    "The class '%s' is not available on the classpath !";
   
   private static final String MSG_MISSING_COLUMNRESOLVER      = 
     "A 'ColumnResolver' with the id '%s' doesn't exist !";
 
-  private static final String MSG_SYNTAX_COLUMNRESOLVER       = 
-    "The arguments {%s} for the 'ColumnResolver' with the id '%s' aren't valid !";
-
-  private static final String MSG_MISSING_ROWRESOLVER         = 
-    "A 'RowResolver' with the id '%s' doesn't exist !";
-
-  private static final String MSG_SYNTAX_ROWRESOLVER          = 
-    "The arguments {%s} for the 'RowResolver' with the id '%s' aren't valid !";
-
-  private static final String MSG_MISSING_METADATAPROVIDER    = 
-    "A 'MetadataProvider' with the id '%s' doesn't exist !";
-
-  private static final String MSG_SYNTAX_METADATAPROVIDER     = 
-    "The arguments {%s} for the 'MetadataProvider' with the id '%s' aren't valid !";
-
-  private static final String MSG_FAILED_CONFIGURATION        = 
-    "Failed to configure the api type '%s' !";
-
-  private static final String MSG_INVALID_TYPE                = 
-    "The type '%s' doesn't implement '%s' !";
-
-  private static final String MSG_MISSING_CLASSNAME           = 
-    "The class '%s' is not available on the classpath !";
-
-  private static final String MSG_MISSING_FIRSTROW            = 
-    "A sheet must declare either the 'firstrow' or 'firstrowdetect' setting!";
-  
   private static final String MSG_MISSING_COLUMN_INFORMATION  = 
     "A first column must declare either the 'column' or 'columndetect' !";
   
+  private static final String MSG_MISSING_FIRSTROW            = 
+    "A sheet must declare either the 'firstrow' or 'firstrowdetect' setting!";
+  
+  private static final String MSG_MISSING_ROWRESOLVER         = 
+    "A 'RowResolver' with the id '%s' doesn't exist !";
+  
+  private static final String MSG_MISSING_METADATAPROVIDER    = 
+    "A 'MetadataProvider' with the id '%s' doesn't exist !";
+  
+  private static final String MSG_SYNTAX_COLUMNRESOLVER       = 
+    "The arguments {%s} for the 'ColumnResolver' with the id '%s' aren't valid !";
+
+  private static final String MSG_SYNTAX_METADATAPROVIDER     = 
+    "The arguments {%s} for the 'MetadataProvider' with the id '%s' aren't valid !";
+  
+  private static final String MSG_SYNTAX_ROWRESOLVER          = 
+    "The arguments {%s} for the 'RowResolver' with the id '%s' aren't valid !";
+
   private ImportDriver   driver;
   
   /**
@@ -160,6 +163,9 @@ public class Importer {
       for( PLEXInterface plexinterface : model.getGeneral().getInterface() ) {
         String      classname = plexinterface.getClassname();
         Object      instance  = MiscFunctions.newInstance( classname );
+        if( instance == null ) {
+          throw new PLEXException( PLEXFailure.DeclarationError, String.format( MSG_INSTANTIATION_FAILURE, classname ) );
+        }
         if( ! plexinterface.getInjectors().isEmpty() ) {
           configureInstance( instance, plexinterface.getInjectors() );
         }
