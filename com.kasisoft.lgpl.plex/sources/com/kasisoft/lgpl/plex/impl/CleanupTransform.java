@@ -19,15 +19,44 @@ import java.util.*;
  */
 public class CleanupTransform implements ValueTransform {
 
+  private boolean        ignorecase = false;
+  private List<String>   empties    = null;
+  
+  /**
+   * Enables/disables the case sensitivity for the test.
+   * 
+   * @param enable   <code>true</code> <=> Disable the case sensitivity.
+   */
+  public void setIgnoreCase( boolean enable ) {
+    ignorecase = enable;
+  }
+  
+  public void setEmpties( List<String> newempties ) {
+    empties = newempties;
+  }
+  
   /**
    * {@inheritDoc}
    */
   public Object transformValue( String id, Object value, String ... args ) {
     if( value instanceof String ) {
-      return ((String) value).trim();
-    } else {
-      return value;
+      String str = ((String) value).trim();
+      if( str.length() == 0 ) {
+        return null;
+      }
+      if( empties != null ) {
+        for( String item : empties ) {
+          if( item.equals( str ) ) {
+            return null;
+          }
+          if( ignorecase && item.equalsIgnoreCase( str ) ) {
+            return null;
+          }
+        }
+      }
+      return str;
     }
+    return value;
   }
 
   /**
