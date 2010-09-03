@@ -201,11 +201,24 @@ public class Importer {
    * @throws PLEXException   The injection failed for some reason.
    */
   private void configureInstance( Object instance, PLEXInjector injector ) throws PLEXException {
+    
     Object value  = getValue  ( injector );
     String setter = getSetter ( injector );
+    
     try {
-      Method method = instance.getClass().getMethod( setter, value.getClass() );
-      method.invoke( instance, value );
+      
+      Method    method    = lookupMethod( instance.getClass(), setter );
+      if( method == null ) {
+        throw new NoSuchMethodException();
+      }
+      
+      Class<?>[] paramtypes = method.getParameterTypes();
+      if( (paramtypes == null) || (paramtypes.length != 1) ) {
+        throw new NoSuchMethodException();
+      }
+      
+        method.invoke( instance, value );
+      
     } catch( NoSuchMethodException ex ) {
       throw new PLEXException( PLEXFailure.DeclarationError, ex, String.format( MSG_FAILED_CONFIGURATION, instance.getClass().getName() ) );
     } catch( IllegalArgumentException  ex ) {
@@ -215,6 +228,17 @@ public class Importer {
     } catch( InvocationTargetException ex ) {
       throw new PLEXException( PLEXFailure.DeclarationError, ex, String.format( MSG_FAILED_CONFIGURATION, instance.getClass().getName() ) );
     }
+    
+  }
+  
+  private Method lookupMethod( Class<?> clazz, String setter ) {
+    Method[] methods = clazz.getMethods();
+    for( Method method : methods ) {
+      if( setter.equals( method.getName() ) ) {
+        return method;
+      }
+    }
+    return null;
   }
   
   /**
