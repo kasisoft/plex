@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plex>
+
+  <general>
+    <interface api="transform"  id="cleanup"          classname="com.kasisoft.lgpl.plex.impl.CleanupTransform"      />
+    <interface api="count"      id="simpleresolver"   classname="com.kasisoft.lgpl.plex.impl.SimpleCountResolver"   />
+  </general>
+
+  <sheet name="count-detect" firstrow="0">
+    <columngroup column="E">
+      <countdetect refid="simpleresolver">
+        <arg>3</arg>
+      </countdetect>
+      <member title="name"       offset="0"/>
+      <member title="callname"   offset="1"/>
+      <member title="age"        offset="2"/>
+    </columngroup>
+  </sheet>
+  
+</plex>

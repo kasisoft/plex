@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plex>
+
+  <general>
+    <interface api="transform"  id="cleanup"          classname="com.kasisoft.lgpl.plex.impl.CleanupTransform"      />
+    <interface api="column"     id="simpleresolver"   classname="com.kasisoft.lgpl.plex.impl.SimpleColumnResolver"  />
+  </general>
+
+  <sheet name="column-group-detect" firstrow="0">
+    <columngroup count="2">
+      <columndetect refid="simpleresolver">
+      </columndetect>
+      <member title="name"       offset="0"/>
+      <member title="callname"   offset="1"/>
+      <member title="age"        offset="2"/>
+    </columngroup>
+  </sheet>
+  
+</plex>

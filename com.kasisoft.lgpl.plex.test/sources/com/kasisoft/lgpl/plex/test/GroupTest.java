@@ -20,7 +20,9 @@ public class GroupTest extends AbstractTest {
   @DataProvider(name="createGroupData")
   public Object[][] createGroupData() {
     return new Object[][] {
-      { "group" , "column-group"      },
+      { "group" , "column-group"          },
+      { "group" , "column-group-detect"   },
+      { "group" , "count-detect"          },
     };
   }
   
