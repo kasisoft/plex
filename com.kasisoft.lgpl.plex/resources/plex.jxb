@@ -64,14 +64,6 @@
     <jxb:bindings node="//xs:complexType[@name='tProperty']">
       <jxb:class name="PLEXProperty"/>
     </jxb:bindings>
-
-    <jxb:bindings node="//xs:complexType[@name='tColumnGroup']">
-      <jxb:class name="PLEXColumnGroup"/>
-    </jxb:bindings>
-
-    <jxb:bindings node="//xs:complexType[@name='tColumnGroupMember']">
-      <jxb:class name="PLEXColumnGroupMember"/>
-    </jxb:bindings>
     
     <jxb:bindings node="//xs:complexType[@name='tInterface']">
       <jxb:class name="PLEXInterface"/>

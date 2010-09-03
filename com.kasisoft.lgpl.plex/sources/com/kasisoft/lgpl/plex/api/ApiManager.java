@@ -8,9 +8,12 @@
  */
 package com.kasisoft.lgpl.plex.api;
 
-import com.kasisoft.lgpl.plex.*;
 import com.kasisoft.lgpl.plex.impl.proxy.*;
+
 import com.kasisoft.lgpl.plex.instance.*;
+
+import com.kasisoft.lgpl.plex.*;
+
 import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import org.apache.poi.ss.usermodel.*;
@@ -23,7 +26,6 @@ import java.util.*;
 public class ApiManager {
 
   private Map<String,ColumnResolver>     columnresolvers;
-  private Map<String,CountResolver>      countresolvers;
   private Map<String,ValueTransform>     valuetransformers;
   private Map<String,RowResolver>        rowresolvers;
   private Map<String,MetadataProvider>   metadataproviders;
@@ -38,7 +40,6 @@ public class ApiManager {
   public ApiManager( Map<String,ApiDefinition> apidefs ) {
     
     columnresolvers   = new Hashtable<String,ColumnResolver>();
-    countresolvers    = new Hashtable<String,CountResolver>();
     valuetransformers = new Hashtable<String,ValueTransform>();
     rowresolvers      = new Hashtable<String,RowResolver>();
     metadataproviders = new Hashtable<String,MetadataProvider>();
@@ -47,9 +48,6 @@ public class ApiManager {
     for( Map.Entry<String,ApiDefinition> apidef : apidefs.entrySet() ) {
       if( apidef.getValue() instanceof ColumnResolver ) {
         columnresolvers.put( apidef.getKey(), new ColumnResolverProxy( (ColumnResolver) apidef.getValue() ) );
-      }
-      if( apidef.getValue() instanceof CountResolver ) {
-        countresolvers.put( apidef.getKey(), new CountResolverProxy( (CountResolver) apidef.getValue() ) );
       }
       if( apidef.getValue() instanceof ValueTransform ) {
         valuetransformers.put( apidef.getKey(), new ValueTransformProxy( (ValueTransform) apidef.getValue() ) );
@@ -63,7 +61,6 @@ public class ApiManager {
     }
     
     apidefinitions.putAll( columnresolvers    );
-    apidefinitions.putAll( countresolvers     );
     apidefinitions.putAll( valuetransformers  );
     apidefinitions.putAll( rowresolvers       );
     apidefinitions.putAll( metadataproviders  );
@@ -88,16 +85,6 @@ public class ApiManager {
   public int detectColumn( String id, List<String> args , Sheet sheet ) throws PLEXException {
     ColumnResolver apifunction = columnresolvers.get( id );
     return apifunction.detectColumn( id, sheet, toArray( args ) );
-  }
-
-  /**
-   * @see CountResolver#detectCount(Sheet, int, List<String>)
-   * 
-   * @param id   The id used to identify the resolver.
-   */
-  public int detectCount( String id, List<String> args, Sheet sheet, int firstcolumn ) throws PLEXException {
-    CountResolver apifunction = countresolvers.get( id );
-    return apifunction.detectCount( id, sheet, firstcolumn, toArray( args ) );
   }
 
   /**
@@ -146,17 +133,6 @@ public class ApiManager {
    */
   public boolean isColumnResolver( @KNotEmpty(name="id") String id ) {
     return columnresolvers.containsKey( id );
-  }
-
-  /**
-   * Returns <code>true</code> if the supplied api id is available.
-   * 
-   * @param id   The ID used to access a specific api. Neither <code>null</code> nor empty.
-   * 
-   * @return   <code>true</code> <=> An api with the supplied id is available.
-   */
-  public boolean isCountResolver( @KNotEmpty(name="id") String id ) {
-    return countresolvers.containsKey( id );
   }
 
   /**

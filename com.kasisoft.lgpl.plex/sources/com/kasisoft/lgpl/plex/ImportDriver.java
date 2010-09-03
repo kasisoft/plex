@@ -237,26 +237,6 @@ class ImportDriver {
       columns.add( column );
     }
     
-    // collect groups of columns
-    for( PLEXColumnGroup columngroup : description.getColumngroup() ) {
-      int columnbase  = getColumn ( sheet, columngroup );
-      int count       = getCount  ( sheet, columnbase, columngroup  );
-      if( count > 0 ) {
-        for( int i = 0; i < count; i++ ) {
-          int max = columnbase;
-          for( PLEXColumnGroupMember member : columngroup.getMember() ) {
-            Column column       = new Column();
-            column.column       = columnbase + member.getOffset();
-            column.title        = member.getTitle() + "[" + i + "]";
-            column.transformer  = member.getTransformer();
-            columns.add( column );
-            max                 = Math.max( column.column, max );
-          }
-          columnbase  = max + 1;
-        }
-      }
-    }
-    
     Column[] result = new Column[ columns.size() ];
     columns.toArray( result );
     Arrays.sort( result );
@@ -286,27 +266,6 @@ class ImportDriver {
   }
 
   /**
-   * Returns the column index either by value or an api call.
-   * 
-   * @param sheet         The sheet currently being used. Not <code>null</code>.
-   * @param columngroup   The actual column description. Not <code>null</code>.
-   * 
-   * @return   The column index which could be identified.
-   */
-  private int getColumn( Sheet sheet, PLEXColumnGroup columngroup ) throws PLEXException {
-    if( columngroup.getColumn() != null ) {
-      try {
-        return Integer.parseInt( columngroup.getColumn() );
-      } catch( NumberFormatException ex ) {
-        return toIndex( columngroup.getColumn() );
-      }
-    } else /* if( column.getColumndetect() != null ) */ {
-      PLEXApiCall apicall = columngroup.getColumndetect();
-      return apimanager.detectColumn( apicall.getRefid(), apicall.getArg(), sheet );
-    }
-  }
-
-  /**
    * Returns the column associated with an alphabetical index.
    * 
    * @param column   The textual column. Neither <code>null</code> nor empty.
@@ -323,24 +282,6 @@ class ImportDriver {
       int c1 = column.charAt(0) - 'a' + 1;
       int c2 = column.charAt(1) - 'a';
       return c1 * 26 + c2;
-    }
-  }
-
-  /**
-   * Returns the count of column groups either by value or an api call.
-   * 
-   * @param sheet         The sheet currently being used. Not <code>null</code>.
-   * @param firstcolumn   The column where the column group starts.
-   * @param columngroup   The description for the column group. Not <code>null</code>.
-   * 
-   * @return   The column index which could be identified.
-   */
-  private int getCount( Sheet sheet, int firstcolumn, PLEXColumnGroup columngroup ) throws PLEXException {
-    if( columngroup.getCount() != null ) {
-      return columngroup.getCount().intValue();
-    } else /* if( columngroup.getCountdetect() != null ) */ {
-      PLEXApiCall apicall = columngroup.getCountdetect();
-      return apimanager.detectCount( apicall.getRefid(), apicall.getArg(), sheet, firstcolumn );
     }
   }
 

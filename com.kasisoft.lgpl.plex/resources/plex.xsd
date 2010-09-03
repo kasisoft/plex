@@ -37,10 +37,6 @@
       <xs:selector xpath="*/columndetect"   />
       <xs:field xpath="@refid"/>
     </xs:keyref>
-    <xs:keyref name="countdetectRef" refer="apiKey">
-      <xs:selector xpath="*/countdetect"   />
-      <xs:field xpath="@refid"/>
-    </xs:keyref>
     <xs:keyref name="transformerRef" refer="apiKey">
       <xs:selector xpath="*/transformer"    />
       <xs:field xpath="@refid"/>
@@ -116,7 +112,6 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="column"    />
       <xs:enumeration value="row"       />
-      <xs:enumeration value="count"     />
       <xs:enumeration value="transform" />
       <xs:enumeration value="metadata"  />
     </xs:restriction>
@@ -127,7 +122,6 @@
       <xs:element name="firstrowdetect" type="tApiCall"      minOccurs="0"/>
       <xs:element name="metadata"       type="tMetadata"     minOccurs="0"/>
       <xs:element name="column"         type="tColumn"       minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="columngroup"    type="tColumnGroup"  minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="namepattern"  type="xs:string"  use="optional"/>
     <xs:attribute name="name"         type="xs:string"  use="optional"/>
@@ -144,24 +138,6 @@
   <xs:complexType name="tProperty">
     <xs:attribute name="key"      type="xs:string"/>
     <xs:attribute name="value"    type="xs:string"/>
-  </xs:complexType>
-  
-  <xs:complexType name="tColumnGroup">
-    <xs:sequence>
-      <xs:element name="columndetect" type="tApiCall"            minOccurs="0"/>
-      <xs:element name="countdetect"  type="tApiCall"            minOccurs="0"/>
-      <xs:element name="member"       type="tColumnGroupMember"  maxOccurs="unbounded"/>
-    </xs:sequence>
-    <xs:attribute name="column"  type="sColumn"     use="optional"/>
-    <xs:attribute name="count"   type="xs:int"      use="optional"/>
-  </xs:complexType>
-
-  <xs:complexType name="tColumnGroupMember">
-    <xs:sequence>
-      <xs:element name="transformer"  type="tApiCall"  minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
-    <xs:attribute name="title"        type="xs:string"/>
-    <xs:attribute name="offset"       type="xs:int"       use="required"/>
   </xs:complexType>
   
   <xs:complexType name="tColumn">

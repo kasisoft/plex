@@ -304,7 +304,6 @@ public class Importer {
       Class<?> clazz = Class.forName( classname );
       switch( apidecl.getApi() ) {
       case COLUMN     : checkType ( ColumnResolver    . class, clazz ); break;
-      case COUNT      : checkType ( CountResolver     . class, clazz ); break;
       case METADATA   : checkType ( MetadataProvider  . class, clazz ); break;
       case ROW        : checkType ( RowResolver       . class, clazz ); break;
       case TRANSFORM  : checkType ( ValueTransform    . class, clazz ); break;

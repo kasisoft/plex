@@ -20,8 +20,6 @@ public enum PLEXApiType {
     COLUMN("column"),
     @XmlEnumValue("row")
     ROW("row"),
-    @XmlEnumValue("count")
-    COUNT("count"),
     @XmlEnumValue("transform")
     TRANSFORM("transform"),
     @XmlEnumValue("metadata")

@@ -21,15 +21,13 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "tSheetDescription", propOrder = {
     "firstrowdetect",
     "metadata",
-    "column",
-    "columngroup"
+    "column"
 })
 public class PLEXSheetDescription {
 
     protected PLEXApiCall firstrowdetect;
     protected PLEXMetadata metadata;
     protected List<PLEXColumnDescription> column;
-    protected List<PLEXColumnGroup> columngroup;
     @XmlAttribute
     protected String namepattern;
     @XmlAttribute
@@ -63,14 +61,6 @@ public class PLEXSheetDescription {
             column = new ArrayList<PLEXColumnDescription>();
         }
         return this.column;
-    }
-
-    
-    public List<PLEXColumnGroup> getColumngroup() {
-        if (columngroup == null) {
-            columngroup = new ArrayList<PLEXColumnGroup>();
-        }
-        return this.columngroup;
     }
 
     
