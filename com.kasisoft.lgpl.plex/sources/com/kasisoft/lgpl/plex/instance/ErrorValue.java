@@ -16,9 +16,9 @@ public class ErrorValue {
   private String   textual;
   private String   cause;
   
-  public ErrorValue() {
-    textual = null;
-    cause   = null;
+  public ErrorValue( String value, String fmt, Object ... args ) {
+    textual = value;
+    cause   = String.format( fmt, args );
   }
   
   /**
@@ -31,30 +31,19 @@ public class ErrorValue {
   }
   
   /**
-   * Changes the type for the value.
+   * Delivers an error message.
    * 
-   * @param newvalue   The new value.
-   */
-  public void setValue( String newvalue ) {
-    textual = newvalue;
-  }
-  
-  /**
-   * Delivers a literal representing the error cause.
-   * 
-   * @return   A literal representing the error cause. Neither <code>null</code> nor empty.
+   * @return   An error message. Neither <code>null</code> nor empty.
    */
   public String getCause() {
     return cause;
   }
 
   /**
-   * Changes the literal used to identify the error cause.
-   * 
-   * @param newcause   The literal used to identify the error cause. Neither <code>null</code> nor empty.
+   * {@inheritDoc}
    */
-  public void setCause( String newcause ) {
-    cause = newcause;
+  public String toString() {
+    return String.format( "%s [%s]", cause, textual );
   }
   
 } /* ENDCLASS */
