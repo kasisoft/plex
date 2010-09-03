@@ -1,0 +1,26 @@
+<workbook>
+  <sheet name="int-transform" columns="2" rows="5">
+    <column name="bug" type="java.lang.Long"/>
+    <column name="state" type="com.kasisoft.lgpl.plex.test.TransformTest$StateEnum"/>
+    <row row="0">
+      <bug>72887</bug>
+      <state>Resolved</state>
+    </row>
+    <row row="1">
+      <bug>2973</bug>
+      <state>Fixed</state>
+    </row>
+    <row row="2">
+      <bug>3098</bug>
+      <state>Closed</state>
+    </row>
+    <row row="3">
+      <bug>3093</bug>
+      <state>Invalid</state>
+    </row>
+    <row row="4">
+      <bug>88472</bug>
+      <state>Fixed</state>
+    </row>
+  </sheet>
+</workbook>

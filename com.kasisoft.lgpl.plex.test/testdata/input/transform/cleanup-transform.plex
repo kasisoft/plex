@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plex>
+
+  <general>
+    <interface api="transform" id="cleanup"   classname="com.kasisoft.lgpl.plex.impl.CleanupTransform">
+      <list name="empties">
+        <item>N/A</item>
+        <item>na</item>
+      </list>
+    </interface>
+    <interface api="transform" id="enum"      classname="com.kasisoft.lgpl.plex.test.TransformTest$EnumTransform"  />
+  </general>
+
+  <sheet name="cleanup-transform" firstrow="1">
+    <column title="bug" column="a">
+      <transformer refid="cleanup"      />
+    </column>
+    <column title="state">
+      <transformer refid="cleanup"      />
+      <transformer refid="enum"         />
+    </column>
+  </sheet>
+  
+</plex>

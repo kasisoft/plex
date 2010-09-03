@@ -8,8 +8,8 @@
  */
 package com.kasisoft.lgpl.plex.test;
 
-import com.kasisoft.lgpl.plex.*;
 import com.kasisoft.lgpl.plex.api.*;
+import com.kasisoft.lgpl.plex.*;
 
 import org.testng.annotations.*;
 
@@ -26,6 +26,10 @@ public class TransformTest extends AbstractTest {
   public Object[][] createTransformData() {
     return new Object[][] {
       { "transform"   , "enum-transform"      },
+      { "transform"   , "int-transform"       },
+      { "transform"   , "error-transform"     },
+      { "transform"   , "cleanup-transform"   },
+      { "transform"   , "cleanup-transform-2" },
     };
   }
   

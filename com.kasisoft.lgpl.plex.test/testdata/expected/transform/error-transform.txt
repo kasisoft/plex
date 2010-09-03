@@ -1,0 +1,26 @@
+<workbook>
+  <sheet name="error-transform" columns="2" rows="5">
+    <column name="bug" type="java.lang.Long"/>
+    <column name="state" type="com.kasisoft.lgpl.plex.test.TransformTest$StateEnum"/>
+    <row row="0">
+      <bug>tolong: The value is not supposed to contain a rest (=0.39999999999417923). [72887.4]</bug>
+      <state>Resolved</state>
+    </row>
+    <row row="1">
+      <bug>2973</bug>
+      <state>Fixed</state>
+    </row>
+    <row row="2">
+      <bug>3098</bug>
+      <state>Closed</state>
+    </row>
+    <row row="3">
+      <bug>tolong: The value is not supposed to contain a rest (=0.1999999999998181). [3093.2]</bug>
+      <state>Invalid</state>
+    </row>
+    <row row="4">
+      <bug>88472</bug>
+      <state>Fixed</state>
+    </row>
+  </sheet>
+</workbook>

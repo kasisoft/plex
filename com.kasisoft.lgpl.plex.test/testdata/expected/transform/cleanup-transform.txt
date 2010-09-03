@@ -1,0 +1,30 @@
+<workbook>
+  <sheet name="cleanup-transform" columns="2" rows="6">
+    <column name="bug" type="java.lang.String"/>
+    <column name="state" type="com.kasisoft.lgpl.plex.test.TransformTest$StateEnum"/>
+    <row row="0">
+      <bug/>
+      <state>Resolved</state>
+    </row>
+    <row row="1">
+      <bug>B</bug>
+      <state>Fixed</state>
+    </row>
+    <row row="2">
+      <bug/>
+      <state>Closed</state>
+    </row>
+    <row row="3">
+      <bug>D</bug>
+      <state>Invalid</state>
+    </row>
+    <row row="4">
+      <bug>E</bug>
+      <state>Resolved</state>
+    </row>
+    <row row="5">
+      <bug>NA</bug>
+      <state>Fixed</state>
+    </row>
+  </sheet>
+</workbook>
