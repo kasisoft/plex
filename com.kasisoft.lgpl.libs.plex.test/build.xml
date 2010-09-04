@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="com.kasisoft.lgpl.libs.plex.test" basedir=".">
+
+  <import file="${basedir}/../_ext/common.xml"/>
+  
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- PROPERTY DEFINITIONS                                                                    -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <property name="project.deployment"   value="com.kasisoft.lgpl.libs.plex.deployment"/>
+  
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- PATH DEFINITIONS                                                                        -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- TARGET DEFINITIONS                                                                      -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <target name="init">
+    <defaultexcludes add="**/_svn"/>
+    <defaultexcludes add="**/_svn/**"/>
+  </target>
+
+  <target name="clean" depends="init">
+    <delete-dir dir="${basedir}/testreport" recreate="true"/>
+  </target>
+  
+  <target name="test" depends="clean">
+    
+    <property name="file.cobertura" value="${basedir}/cobertura.dat"/>
+    
+    <temp-project-dir projectname="${ant.project.name}" property="tempdir"/>
+    <mkdir dir="${tempdir}/distribution"/>
+    <mkdir dir="${tempdir}/sources"/>
+    
+    <a4e-distribution projectname="com.kasisoft.lgpl.libs.plex"/>
+    <a4e-distribution projectname="${ant.project.name}"/>
+
+    <cobertura-instrumentation projectname="com.kasisoft.lgpl.libs.plex" datafile="${file.cobertura}"/>
+
+    <a4e-testng 
+      projectname="${ant.project.name}"
+      reportdir="${basedir}/testreport"
+      jvmopts="-Dnet.sourceforge.cobertura.datafile=${file.cobertura} -Xms256m -Xmx512m"
+      classpathext="path.cobertura"
+    />
+
+    <a4e-for-each-source-dir projectname="com.kasisoft.lgpl.libs.plex" property="dir">
+      <do>
+        <copy todir="${tempdir}/sources">
+          <fileset dir="${dir}" includes="**/*.java"/>
+        </copy>
+      </do>
+    </a4e-for-each-source-dir>
+    
+    <cobertura-reporting 
+      sourcesdir="${tempdir}/sources" 
+      datafile="${file.cobertura}" 
+      htmldir="${basedir}/testoutput/html"
+      xmldir="${basedir}/testoutput/xml"
+    />
+    
+    <!-- <delete-dir dir="${tempdir}"/> -->
+    <var unset="true" name="tempdir"/>
+    
+  </target>
+
+</project>
