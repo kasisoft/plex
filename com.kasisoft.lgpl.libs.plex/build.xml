@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="com.kasisoft.lgpl.plex" default="default" basedir=".">
+<project name="com.kasisoft.lgpl.libs.plex" default="default" basedir=".">
 
-  <dirname file="${ant.file.com.kasisoft.lgpl.plex}" property="dir.plex"/>
+  <dirname file="${ant.file.com.kasisoft.lgpl.libs.plex}" property="dir.plex"/>
   
   <import file="${dir.plex}/../_ext/common.xml" />
 
