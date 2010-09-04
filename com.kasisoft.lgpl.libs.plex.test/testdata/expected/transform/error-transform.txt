@@ -1,7 +1,7 @@
 <workbook>
   <sheet name="error-transform" columns="2" rows="5">
     <column name="bug" type="java.lang.Long"/>
-    <column name="state" type="com.kasisoft.lgpl.plex.test.TransformTest$StateEnum"/>
+    <column name="state" type="com.kasisoft.lgpl.libs.plex.test.TransformTest$StateEnum"/>
     <row row="0">
       <bug>tolong: The value is not supposed to contain a rest (=0.39999999999417923). [72887.4]</bug>
       <state>Resolved</state>
