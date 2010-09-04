@@ -8,8 +8,8 @@
  */
 package com.kasisoft.lgpl.plex.test;
 
-import com.kasisoft.lgpl.plex.api.*;
-import com.kasisoft.lgpl.plex.*;
+import com.kasisoft.lgpl.libs.plex.*;
+import com.kasisoft.lgpl.libs.plex.api.*;
 
 import org.testng.annotations.*;
 

@@ -11,8 +11,8 @@ package com.kasisoft.lgpl.plex.test;
 import com.kasisoft.lgpl.libs.common.constants.*;
 import com.kasisoft.lgpl.libs.common.io.*;
 
-import com.kasisoft.lgpl.plex.instance.*;
-import com.kasisoft.lgpl.plex.*;
+import com.kasisoft.lgpl.libs.plex.*;
+import com.kasisoft.lgpl.libs.plex.instance.*;
 
 import org.testng.*;
 
