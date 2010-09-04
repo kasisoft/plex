@@ -6,7 +6,7 @@
  * Company.....: Kasisoft
  * License.....: LGPL
  */
-package com.kasisoft.lgpl.plex.test;
+package com.kasisoft.lgpl.libs.plex.test;
 
 import org.testng.annotations.*;
 
