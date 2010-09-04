@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="com.kasisoft.lgpl.libs.plex.deployment" basedir=".">
+
+  <import file="${basedir}/../_ext/common.xml"/>
+  
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- PROPERTY DEFINITIONS                                                                    -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  <property file="${basedir}/deployment.properties"/>
+  
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <!-- TARGET DEFINITIONS                                                                      -->
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  
+  <target name="clean" depends="init">
+    <delete>
+      <fileset dir="${basedir}">
+        <include name="plex.zip"/>
+        <include name="plex-*.zip"/>
+      </fileset>
+    </delete>
+  </target>
+
+  <target name="deploy" depends="clean">
+
+    <var name="projectname" value="com.kasisoft.lgpl.libs.plex"/>
+
+    <temp-project-dir projectname="${ant.project.name}" property="tempdir"/>
+
+    <a4e-distribution projectname="${projectname}"/>
+    
+    <mkdir dir="${tempdir}/user/libs/com.kasisoft.lgpl.libs.common"/>
+    <mkdir dir="${tempdir}/user/libs/poi"/>
+    <mkdir dir="${tempdir}/user/libs/dom4j"/>
+    <mkdir dir="${tempdir}/user/libs/xmlbeans"/>
+    
+    <copy file="${dir.workspace}/${projectname}/${projectname}.jar" tofile="${tempdir}/user/plex.jar"/>
+
+    <copy todir="${tempdir}/user/libs/com.kasisoft.lgpl.libs.common">
+      <fileset dir="${HOME_KASISOFTCOMMON}" includes="**/*"/>
+    </copy>
+    <copy todir="${tempdir}/user/libs/poi">
+      <fileset dir="${HOME_POI}" includes="**/*"/>
+    </copy>
+    <copy todir="${tempdir}/user/libs/dom4j">
+      <fileset dir="${HOME_DOM4J}" includes="**/*"/>
+    </copy>
+    <copy todir="${tempdir}/user/libs/xmlbeans">
+      <fileset dir="${HOME_XMLBEANS}" includes="**/*"/>
+    </copy>
+
+    <a4e-collect-sources projectname="${projectname}" destfile="${tempdir}/user/sources.zip"/>
+    
+    <!-- copy the license information. -->
+    <copy file="${dir.ext}/licenses/lgpl.txt"    tofile="${tempdir}/user/license.txt"/>
+
+    <!--
+    <get src="http://www.kasisoft.com:8080/html2pdf/html2pdf?id=64&amp;filename=plex.de.pdf" dest="${tempdir}/user/plex.de.pdf"/>
+    <get src="http://www.kasisoft.com:8080/html2pdf/html2pdf?id=63&amp;filename=plex.en.pdf" dest="${tempdir}/user/plex.en.pdf"/>
+    -->
+
+    <a4e-api-doc projectname="${projectname}" destfile="${tempdir}/user/api.zip"/>
+    <echo file="${tempdir}/user/version.txt">${build.version}</echo>
+
+    <set-default property="env.SVN_REVISION" value="local"/>
+    <var name="revision" value="${env.SVN_REVISION}"/>
+    
+    <zip destfile="${basedir}/plex-${revision}.zip">
+      <fileset dir="${tempdir}/user" includes="**/*"/>
+    </zip>
+
+    <delete-dir dir="${tempdir}"/>
+    
+    <var unset="true" name="tempdir"/>
+    
+  </target>
+  
+</project>
