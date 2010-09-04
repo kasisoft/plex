@@ -2,8 +2,8 @@
 <plex>
 
   <general>
-    <interface api="transform" id="cleanup"   classname="com.kasisoft.lgpl.plex.impl.CleanupTransform"             />
-    <interface api="transform" id="enum"      classname="com.kasisoft.lgpl.plex.test.TransformTest$EnumTransform"  />
+    <interface api="transform" id="cleanup"   classname="com.kasisoft.lgpl.libs.plex.impl.CleanupTransform"             />
+    <interface api="transform" id="enum"      classname="com.kasisoft.lgpl.libs.plex.test.TransformTest$EnumTransform"  />
   </general>
 
   <sheet name="enum-transform" firstrow="1">

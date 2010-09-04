@@ -2,7 +2,7 @@
 <plex>
 
   <general>
-    <interface api="transform" id="cleanup"          classname="com.kasisoft.lgpl.plex.impl.CleanupTransform"     />
+    <interface api="transform" id="cleanup"          classname="com.kasisoft.lgpl.libs.plex.impl.CleanupTransform"     />
   </general>
 
   <sheet name="textual-high-columns" firstrow="1">

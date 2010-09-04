@@ -2,8 +2,8 @@
 <plex>
 
   <general>
-    <interface api="transform"  id="cleanup"          classname="com.kasisoft.lgpl.plex.impl.CleanupTransform"      />
-    <interface api="column"     id="simpleresolver"   classname="com.kasisoft.lgpl.plex.impl.SimpleColumnResolver"  />
+    <interface api="transform"  id="cleanup"          classname="com.kasisoft.lgpl.libs.plex.impl.CleanupTransform"      />
+    <interface api="column"     id="simpleresolver"   classname="com.kasisoft.lgpl.libs.plex.impl.SimpleColumnResolver"  />
   </general>
 
   <sheet name="detect-column-with-offset" firstrow="0">
