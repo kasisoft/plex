@@ -76,7 +76,6 @@ public abstract class AbstractTest {
       String     expected  = new String( IoFunctions.loadChars( expectedfile, null, Encoding.UTF8 ) );
       Assert.assertEquals( current, expected );
     } catch( PLEXException ex ) {
-      ex.printStackTrace();
       Assert.fail( ex.getMessage() );
     }
 
