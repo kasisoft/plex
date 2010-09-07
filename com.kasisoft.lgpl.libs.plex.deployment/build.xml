@@ -36,7 +36,7 @@
     <mkdir dir="${tempdir}/user/libs/xmlbeans"/>
     
     <copy file="${dir.workspace}/${projectname}/${projectname}.jar" tofile="${tempdir}/user/plex.jar"/>
-    <copy file="${dir.workspace}/${projectname}/plex.xsd"           tofile="${tempdir}/user/plex.xsd"/>
+    <copy file="${dir.workspace}/${projectname}/resources/plex.xsd" tofile="${tempdir}/user/plex.xsd"/>
 
     <copy todir="${tempdir}/user/libs/com.kasisoft.lgpl.libs.common">
       <fileset dir="${HOME_KASISOFTCOMMON}" includes="**/*"/>
