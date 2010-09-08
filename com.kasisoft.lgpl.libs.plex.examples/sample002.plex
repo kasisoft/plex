@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plex>
+
+  <general>
+    <interface api="row" id="rowresolver" classname="com.kasisoft.lgpl.libs.plex.impl.SimpleRowResolver"/> 
+  </general>
+
+  <sheet namepattern="bobo-.+">
+    <firstrowdetect refid="rowresolver">
+      <arg>1</arg>
+    </firstrowdetect>
+    <column title="name"      column="A"/>
+    <column title="callname"  column="B"/>
+    <column title="birthyear" column="C"/>
+  </sheet>
+  
+</plex>
