@@ -34,6 +34,7 @@
     <mkdir dir="${tempdir}/user/libs/poi"/>
     <mkdir dir="${tempdir}/user/libs/dom4j"/>
     <mkdir dir="${tempdir}/user/libs/xmlbeans"/>
+    <mkdir dir="${tempdir}/user/examples"/>
     
     <copy file="${dir.workspace}/${projectname}/${projectname}.jar" tofile="${tempdir}/user/plex.jar"/>
     <copy file="${dir.workspace}/${projectname}/resources/plex.xsd" tofile="${tempdir}/user/plex.xsd"/>
@@ -50,7 +51,15 @@
     <copy todir="${tempdir}/user/libs/xmlbeans">
       <fileset dir="${HOME_XMLBEANS}" includes="**/*"/>
     </copy>
+    <copy todir="${tempdir}/examples">
+      <fileset dir="${projectname}.examples/sources" includes="**/*"/>
+      <fileset dir="${projectname}.examples">
+        <include name="*.xls"/>
+        <include name="*.plex"/>
+      </fileset>
+    </copy>
 
+    
     <a4e-collect-sources projectname="${projectname}" destfile="${tempdir}/user/sources.zip"/>
     
     <!-- copy the license information. -->
