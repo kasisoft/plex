@@ -51,9 +51,9 @@
     <copy todir="${tempdir}/user/libs/xmlbeans">
       <fileset dir="${HOME_XMLBEANS}" includes="**/*"/>
     </copy>
-    <copy todir="${tempdir}/examples">
-      <fileset dir="${projectname}.examples/sources" includes="**/*"/>
-      <fileset dir="${projectname}.examples">
+    <copy todir="${tempdir}/user/examples">
+      <fileset dir="${dir.workspace}/${projectname}.examples/sources" includes="**/*"/>
+      <fileset dir="${dir.workspace}/${projectname}.examples">
         <include name="*.xls"/>
         <include name="*.plex"/>
       </fileset>
