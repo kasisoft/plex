@@ -65,10 +65,8 @@
     <!-- copy the license information. -->
     <copy file="${dir.ext}/licenses/lgpl.txt"    tofile="${tempdir}/user/license.txt"/>
 
-    <!--
-    <get src="http://www.kasisoft.com:8080/html2pdf/html2pdf?id=64&amp;filename=plex.de.pdf" dest="${tempdir}/user/plex.de.pdf"/>
-    <get src="http://www.kasisoft.com:8080/html2pdf/html2pdf?id=63&amp;filename=plex.en.pdf" dest="${tempdir}/user/plex.en.pdf"/>
-    -->
+    <get src="http://www.kasisoft.com:8080/html2pdf/html2pdf?id=73&amp;filename=plex.de.pdf" dest="${tempdir}/user/plex.de.pdf"/>
+    <get src="http://www.kasisoft.com:8080/html2pdf/html2pdf?id=74&amp;filename=plex.en.pdf" dest="${tempdir}/user/plex.en.pdf"/>
 
     <a4e-api-doc projectname="${projectname}" destfile="${tempdir}/user/api.zip"/>
     <echo file="${tempdir}/user/version.txt">${build.version}</echo>
