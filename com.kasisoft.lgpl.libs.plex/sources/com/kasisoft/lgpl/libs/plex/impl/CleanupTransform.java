@@ -31,6 +31,11 @@ public class CleanupTransform implements ValueTransform {
     ignorecase = enable;
   }
   
+  /**
+   * Sets the values that are considered to be an empty (non existing) value.
+   * 
+   * @param newempties   The new values representing non existing values.
+   */
   public void setEmpties( List<String> newempties ) {
     empties = newempties;
   }
