@@ -11,7 +11,7 @@ package com.kasisoft.lgpl.libs.plex;
 import java.io.*;
 
 /**
- * This API may be used to monitor the import process.
+ * This API may be used to monitor the import process. 
  */
 public interface ImportMonitor {
 
