@@ -133,6 +133,38 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
   }
   
   /**
+   * Returns the data of a single row.
+   * 
+   * @param row   The row which data is desired.
+   * 
+   * @return   The data of the row. Not <code>null</code>.
+   */
+  public Object[] getRow( int row ) {
+    Object[] result = new Object[ getColumnCount() ];
+    for( int col = 0; col < result.length; col++ ) {
+      result[ col ] = getValueAt( row, col );
+    }
+    return result;
+  }
+  
+  /**
+   * Returns <code>true</code> if the supplied row contains an error.
+   * 
+   * @param row   The row which has to be tested.
+   * 
+   * @return   <code>true</code> <=> The row contains an error.
+   */
+  public boolean containsError( int row ) {
+    for( int col = 0; col < getColumnCount(); col++ ) {
+      Object cellvalue = getValueAt( row, col );
+      if( cellvalue instanceof ErrorValue ) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  /**
    * Returns the sheetname used for this model.
    * 
    * @return   The sheetname used for this model. Neither <code>null</code> nor null. 
