@@ -8,11 +8,10 @@
  */
 package com.kasisoft.lgpl.libs.plex;
 
-import com.kasisoft.lgpl.tools.diagnostic.*;
-
 import com.kasisoft.lgpl.libs.plex.api.*;
 import com.kasisoft.lgpl.libs.plex.instance.*;
 import com.kasisoft.lgpl.libs.plex.model.*;
+import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import org.apache.poi.ss.usermodel.*;
 
@@ -61,24 +60,32 @@ class ImportDriver {
    * Runs the import process for the supplied workbook.
    * 
    * @param workbook   The workbook which has to be imported. Not <code>null</code>.
+   * @param monitor    The monitor which is used to keep track of the progress. Not <code>null</code>.
    * 
-   * @return   The imported data.
+   * @return   The imported data. Not <code>null</code>.
    * 
    * @throws PLEXException   The import failed for some reason.
    */
-  public PlainExcel importData( @KNotNull(name="workbook") Workbook workbook ) throws PLEXException  {
-    PlainExcel  result  = new PlainExcel();
-    int         count   = workbook.getNumberOfSheets();
+  public PlainExcel importData( @KNotNull(name="workbook") Workbook workbook, @KNotNull(name="monitor") ImportMonitor monitor ) throws PLEXException  {
+    PlainExcel  result    = new PlainExcel();
+    int         count     = workbook.getNumberOfSheets();
+    int         imported  = 0;
     for( int i = 0; i < count; i++ ) {
       Sheet   sheet = workbook.getSheetAt(i);
       String  name  = sheet.getSheetName();
+      monitor.processingSheet( name, i + 1, count );
       if( (name != null) && (name.trim().length() > 0) ) {
         PLEXSheetDescription description = identifySheet( name );
         if( description != null ) {
-          importSheet( result, sheet, description );
+          monitor.importingSheet( name, i + 1, count );
+          importSheet( result, sheet, description, monitor );
+          monitor.sheetImported( name, i + 1, count );
+          imported++;
         }
       }
+      monitor.sheetProcessed( name, i + 1, count );
     }
+    monitor.resumeImport( imported, count );
     return result;
   }
 
@@ -121,8 +128,9 @@ class ImportDriver {
    * @param receiver      The data instance to collect the imported data. Not <code>null</code>.
    * @param sheet         The sheet which has to be imported. Not <code>null</code>.
    * @param description   The description used to drive the import process. 
+   * @param monitor       The monitor which is used to keep track of the progress. Not <code>null</code>.
    */
-  private void importSheet( PlainExcel receiver, Sheet sheet, PLEXSheetDescription description ) throws PLEXException {
+  private void importSheet( PlainExcel receiver, Sheet sheet, PLEXSheetDescription description, ImportMonitor monitor ) throws PLEXException {
     
     PlainSheet    tablemodel  = new PlainSheet( sheet.getSheetName() );
     receiver.addTable( tablemodel );
@@ -137,8 +145,13 @@ class ImportDriver {
       tablemodel.addColumn( column.title );
     }
     
+    int rownum   = 0;
     int firstrow = getFirstRow( sheet, description );
+    int rowcount = sheet.getLastRowNum() - firstrow;
     for( int row = firstrow; row <= sheet.getLastRowNum(); row++ ) {
+      
+      rownum++;
+      monitor.importingRow( sheet.getSheetName(), rownum, rowcount );
       
       Row      rowobj  = sheet.getRow( row );
       if( rowobj == null ) {

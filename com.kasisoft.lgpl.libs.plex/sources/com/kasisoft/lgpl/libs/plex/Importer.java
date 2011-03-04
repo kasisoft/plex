@@ -78,7 +78,8 @@ public class Importer {
   private static final String MSG_SYNTAX_ROWRESOLVER          = 
     "The arguments {%s} for the 'RowResolver' with the id '%s' aren't valid !";
 
-  private ImportDriver   driver;
+  private ImportDriver    driver;
+  private ImportMonitor   monitor;
   
   /**
    * Initializes this importer using a specific declarator.
@@ -118,7 +119,21 @@ public class Importer {
     } catch( JAXBException  ex ) {
       throw new PLEXException( PLEXFailure.DeclarationError, ex, MSG_INVALID_DECLARATION );
     }
+   
+    monitor = new NullImportMonitor();
     
+  }
+  
+  /**
+   * Changes the current monitor to be used in order to keep track of the progress.
+   * 
+   * @param newmonitor   The new monitor to be used. Maybe <code>null</code>.
+   */
+  public void setImportMonitor( ImportMonitor newmonitor ) {
+    monitor = newmonitor;
+    if( monitor == null ) {
+      monitor = new NullImportMonitor();
+    }
   }
   
   /**
@@ -135,8 +150,10 @@ public class Importer {
     Workbook    workbook = null;
     InputStream instream = null;
     try {
+      monitor.openingWorkbook( excel );
       instream  = new FileInputStream( excel );
       workbook  = WorkbookFactory.create( instream );
+      monitor.openedWorkbook( workbook.getNumberOfSheets() );
     } catch( IOException            ex ) {
       throw new PLEXException( PLEXFailure.IO, ex, excel );
     } catch( InvalidFormatException ex ) {
@@ -144,7 +161,7 @@ public class Importer {
     } finally {
       IoFunctions.close( instream );
     }
-    return driver.importData( workbook );
+    return driver.importData( workbook, monitor );
   }
 
   /**
