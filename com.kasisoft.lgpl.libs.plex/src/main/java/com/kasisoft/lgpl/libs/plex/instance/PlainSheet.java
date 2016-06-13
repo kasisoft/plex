@@ -8,8 +8,6 @@
  */
 package com.kasisoft.lgpl.libs.plex.instance;
 
-import com.kasisoft.lgpl.tools.diagnostic.*;
-
 import javax.swing.table.*;
 
 import java.util.*;
@@ -29,7 +27,7 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
    * 
    * @param name   The name of the corresponding sheet. Neither <code>null</code> nor empty.
    */
-  public PlainSheet( @KNotEmpty(name="name") String name ) {
+  public PlainSheet( String name ) {
     super();
     metadata  = new Hashtable<String,String>();
     titles    = new ArrayList<String>();
@@ -58,7 +56,7 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
    * @param column   The name of the column which value has to be returned. 
    *                 Neither <code>null</code> nor empty.
    */
-  public <T> T getValueAt( int row, @KNotEmpty(name="column") String column ) {
+  public <T> T getValueAt( int row, String column ) {
     int idx = titles.indexOf( column );
     if( idx != -1 ) {
       return (T) super.getValueAt( row, idx );
@@ -93,7 +91,7 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
    * @param key     The key used to access the metadata information. Neither <code>null</code> nor empty.
    * @param value   The value of the metadata information. Neither <code>null</code> nor empty.
    */
-  public void setMetadata( @KNotEmpty(name="key") String key, @KNotEmpty(name="value") String value ) {
+  public void setMetadata( String key, String value ) {
     metadata.put( key, value );
   }
 

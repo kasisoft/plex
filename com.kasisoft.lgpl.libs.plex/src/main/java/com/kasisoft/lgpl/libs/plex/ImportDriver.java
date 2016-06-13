@@ -11,7 +11,6 @@ package com.kasisoft.lgpl.libs.plex;
 import com.kasisoft.lgpl.libs.plex.api.*;
 import com.kasisoft.lgpl.libs.plex.instance.*;
 import com.kasisoft.lgpl.libs.plex.model.*;
-import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import org.apache.poi.ss.usermodel.*;
 
@@ -37,10 +36,7 @@ class ImportDriver {
    * 
    * @throws PLEXException   The declaration seems to be invalid.
    */
-  public ImportDriver( 
-    @KNotNull(name="desc")     PLEXModel    desc, 
-    @KNotNull(name="apiman")   ApiManager   manager
-  ) throws PLEXException {
+  public ImportDriver( PLEXModel desc, ApiManager manager ) throws PLEXException {
     
     descriptor    = desc;
     apimanager    = manager;
@@ -66,7 +62,7 @@ class ImportDriver {
    * 
    * @throws PLEXException   The import failed for some reason.
    */
-  public PlainExcel importData( @KNotNull(name="workbook") Workbook workbook, @KNotNull(name="monitor") ImportMonitor monitor ) throws PLEXException  {
+  public PlainExcel importData( Workbook workbook, ImportMonitor monitor ) throws PLEXException  {
     PlainExcel  result    = new PlainExcel();
     int         count     = workbook.getNumberOfSheets();
     int         imported  = 0;

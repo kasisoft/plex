@@ -9,8 +9,6 @@
  */
 package com.kasisoft.lgpl.libs.plex.impl.proxy;
 
-import com.kasisoft.lgpl.tools.diagnostic.*;
-
 import com.kasisoft.lgpl.libs.plex.*;
 import com.kasisoft.lgpl.libs.plex.api.*;
 
@@ -31,7 +29,7 @@ public class RowResolverProxy implements RowResolver {
    * 
    * @param impl   The original implementation providing the functionality.
    */
-  public RowResolverProxy( @KNotNull(name="impl") RowResolver impl ) {
+  public RowResolverProxy( RowResolver impl ) {
     delegate  = impl;
   }
   

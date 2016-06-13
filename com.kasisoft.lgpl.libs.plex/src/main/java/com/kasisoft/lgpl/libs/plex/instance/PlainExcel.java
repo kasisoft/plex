@@ -8,8 +8,6 @@
  */
 package com.kasisoft.lgpl.libs.plex.instance;
 
-import com.kasisoft.lgpl.tools.diagnostic.*;
-
 import java.util.*;
 
 /**
@@ -52,7 +50,7 @@ public class PlainExcel {
    * 
    * @param model   The model which has to be registered. Not <code>null</code>.
    */
-  public void addTable( @KNotNull(name="model") PlainSheet model ) {
+  public void addTable( PlainSheet model ) {
     sheets.put( model.getSheetName(), model );
   }
   
@@ -63,7 +61,7 @@ public class PlainExcel {
    * 
    * @return   The annotated table model or <code>null</code> in case there's no such model.
    */
-  public PlainSheet getTable( @KNotEmpty(name="name") String name ) {
+  public PlainSheet getTable( String name ) {
     return sheets.get( name );
   }
   

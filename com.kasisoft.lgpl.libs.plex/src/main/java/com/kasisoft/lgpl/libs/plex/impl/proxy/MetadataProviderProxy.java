@@ -9,8 +9,6 @@
  */
 package com.kasisoft.lgpl.libs.plex.impl.proxy;
 
-import com.kasisoft.lgpl.tools.diagnostic.*;
-
 import com.kasisoft.lgpl.libs.plex.*;
 import com.kasisoft.lgpl.libs.plex.api.*;
 
@@ -31,7 +29,7 @@ public class MetadataProviderProxy implements MetadataProvider {
    * 
    * @param impl   The original implementation providing the functionality.
    */
-  public MetadataProviderProxy( @KNotNull(name="impl") MetadataProvider impl ) {
+  public MetadataProviderProxy( MetadataProvider impl ) {
     delegate  = impl;
   }
   

@@ -13,9 +13,6 @@ import com.kasisoft.lgpl.libs.plex.impl.proxy.*;
 import com.kasisoft.lgpl.libs.plex.instance.*;
 
 
-
-import com.kasisoft.lgpl.tools.diagnostic.*;
-
 import org.apache.poi.ss.usermodel.*;
 
 import java.util.*;
@@ -131,7 +128,7 @@ public class ApiManager {
    * 
    * @return   <code>true</code> <=> An api with the supplied id is available.
    */
-  public boolean isColumnResolver( @KNotEmpty(name="id") String id ) {
+  public boolean isColumnResolver( String id ) {
     return columnresolvers.containsKey( id );
   }
 
@@ -142,7 +139,7 @@ public class ApiManager {
    * 
    * @return   <code>true</code> <=> An api with the supplied id is available.
    */
-  public boolean isMetdataProvider( @KNotEmpty(name="id") String id ) {
+  public boolean isMetdataProvider( String id ) {
     return metadataproviders.containsKey( id );
   }
 
@@ -153,7 +150,7 @@ public class ApiManager {
    * 
    * @return   <code>true</code> <=> An api with the supplied id is available.
    */
-  public boolean isRowResolver( @KNotEmpty(name="id") String id ) {
+  public boolean isRowResolver( String id ) {
     return rowresolvers.containsKey( id );
   }
 
@@ -164,11 +161,11 @@ public class ApiManager {
    * 
    * @return   <code>true</code> <=> An api with the supplied id is available.
    */
-  public boolean isValueTransform( @KNotEmpty(name="id") String id ) {
+  public boolean isValueTransform( String id ) {
     return valuetransformers.containsKey( id );
   }
 
-  public boolean canHandleArgs( @KNotEmpty(name="id") String id, List<String> args ) {
+  public boolean canHandleArgs( String id, List<String> args ) {
     ApiDefinition apidef = apidefinitions.get( id );
     if( apidef == null ) {
       return false;

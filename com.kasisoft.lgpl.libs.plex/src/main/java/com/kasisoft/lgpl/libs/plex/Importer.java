@@ -16,7 +16,6 @@ import com.kasisoft.lgpl.libs.common.io.*;
 import com.kasisoft.lgpl.libs.plex.api.*;
 import com.kasisoft.lgpl.libs.plex.instance.*;
 import com.kasisoft.lgpl.libs.plex.model.*;
-import com.kasisoft.lgpl.tools.diagnostic.*;
 
 import org.apache.poi.openxml4j.exceptions.*;
 import org.apache.poi.ss.usermodel.*;
@@ -313,10 +312,7 @@ public class Importer {
    * 
    * @throws PLEXException   A declaration inconsistency has been discovered.
    */
-  private void checkConsistency( 
-    @KNotNull(name="apiman")   ApiManager   apiman, 
-    @KNotNull(name="model")    PLEXModel    model 
-  ) throws PLEXException {
+  private void checkConsistency( ApiManager apiman, PLEXModel model ) throws PLEXException {
     checkConsistency( apiman, model.getGeneral() );
     for( PLEXSheetDescription sheet : model.getSheet() ) {
       checkConsistency( apiman, sheet );

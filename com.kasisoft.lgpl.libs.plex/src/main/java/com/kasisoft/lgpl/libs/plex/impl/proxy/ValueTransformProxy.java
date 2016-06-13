@@ -9,8 +9,6 @@
  */
 package com.kasisoft.lgpl.libs.plex.impl.proxy;
 
-import com.kasisoft.lgpl.tools.diagnostic.*;
-
 import com.kasisoft.lgpl.libs.plex.*;
 import com.kasisoft.lgpl.libs.plex.api.*;
 
@@ -29,7 +27,7 @@ public class ValueTransformProxy implements ValueTransform {
    * 
    * @param impl   The original implementation providing the functionality.
    */
-  public ValueTransformProxy( @KNotNull(name="impl") ValueTransform impl ) {
+  public ValueTransformProxy( ValueTransform impl ) {
     delegate  = impl;
   }
   
