@@ -29,7 +29,7 @@ public class SimpleTest extends AbstractTest {
   
   @BeforeClass
   @Override
-  public void prepare() {
+  public void prepare() throws Exception {
     super.prepare();
   }
   

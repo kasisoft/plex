@@ -23,8 +23,9 @@ public abstract class AbstractTest {
   private File      outputdir;
   private File      expecteddir;
   
-  public void prepare() {
-    File testdata = new File( "testdata" );
+  public void prepare() throws Exception {
+    URL  url      = getClass().getClassLoader().getResource( "testdata" );
+    File testdata = new File( url.toURI() );
     try {
       testdata      = testdata.getCanonicalFile();
     } catch( IOException ex ) {
