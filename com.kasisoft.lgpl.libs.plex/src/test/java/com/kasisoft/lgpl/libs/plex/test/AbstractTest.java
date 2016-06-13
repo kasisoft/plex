@@ -8,8 +8,9 @@
  */
 package com.kasisoft.lgpl.libs.plex.test;
 
-import com.kasisoft.lgpl.libs.common.constants.*;
-import com.kasisoft.lgpl.libs.common.io.*;
+import com.kasisoft.libs.common.constants.*;
+
+import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.lgpl.libs.plex.*;
 import com.kasisoft.lgpl.libs.plex.instance.*;
@@ -72,7 +73,7 @@ public abstract class AbstractTest {
       PlainExcel plex     = importer.runImport( excelfile );
       Assert.assertNotNull( plex );
       String     current  = plex.toString();
-      IoFunctions.writeText( outputfile, current, Encoding.UTF8 );
+      IoFunctions.forOutputStreamDo( outputfile, $ -> IoFunctions.writeText( $, current, Encoding.UTF8 ) );
       String     expected  = new String( IoFunctions.loadChars( expectedfile, null, Encoding.UTF8 ) );
       Assert.assertEquals( current, expected );
     } catch( PLEXException ex ) {
@@ -83,7 +84,7 @@ public abstract class AbstractTest {
       PlainExcel plex     = importer.runImport( modernexcelfile );
       Assert.assertNotNull( plex );
       String     current  = plex.toString();
-      IoFunctions.writeText( modernoutputfile, current, Encoding.UTF8 );
+      IoFunctions.forOutputStreamDo( modernoutputfile, $ -> IoFunctions.writeText( $, current, Encoding.UTF8 ) );
       String     expected  = new String( IoFunctions.loadChars( expectedfile, null, Encoding.UTF8 ) );
       Assert.assertEquals( current, expected );
     } catch( PLEXException ex ) {

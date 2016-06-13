@@ -9,15 +9,14 @@
  */
 package com.kasisoft.lgpl.libs.plex;
 
-import com.kasisoft.lgpl.libs.common.util.*;
+import com.kasisoft.libs.common.util.*;
 
-import com.kasisoft.lgpl.libs.common.io.*;
+import com.kasisoft.libs.common.io.*;
 
 import com.kasisoft.lgpl.libs.plex.api.*;
 import com.kasisoft.lgpl.libs.plex.instance.*;
 import com.kasisoft.lgpl.libs.plex.model.*;
 
-import org.apache.poi.openxml4j.exceptions.*;
 import org.apache.poi.ss.usermodel.*;
 import org.xml.sax.*;
 
@@ -158,7 +157,7 @@ public class Importer {
     } catch( InvalidFormatException ex ) {
       throw new PLEXException( PLEXFailure.InvalidExcel, ex, excel );
     } finally {
-      IoFunctions.close( instream );
+      MiscFunctions.close( instream );
     }
     return driver.importData( workbook, monitor );
   }

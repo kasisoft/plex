@@ -8,7 +8,7 @@
  */
 package com.kasisoft.lgpl.libs.plex.instance;
 
-import com.kasisoft.lgpl.libs.common.util.*;
+import com.kasisoft.libs.common.util.*;
 
 import java.util.*;
 
