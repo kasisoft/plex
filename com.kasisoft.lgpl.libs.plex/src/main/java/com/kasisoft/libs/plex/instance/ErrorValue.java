@@ -1,14 +1,19 @@
 package com.kasisoft.libs.plex.instance;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 /**
  * Just a wrapper which contains a value which has been identified as erraneous.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ErrorValue {
 
-  private String   textual;
-  private String   cause;
+  String   textual;
+  String   cause;
   
   public ErrorValue( String value, String fmt, Object ... args ) {
     textual = value;

@@ -6,6 +6,10 @@ import com.kasisoft.libs.plex.*;
 import com.kasisoft.libs.plex.impl.proxy.*;
 import com.kasisoft.libs.plex.instance.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.*;
 
 /**
@@ -13,13 +17,14 @@ import java.util.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ApiManager {
 
-  private Map<String,ColumnResolver>     columnresolvers;
-  private Map<String,ValueTransform>     valuetransformers;
-  private Map<String,RowResolver>        rowresolvers;
-  private Map<String,MetadataProvider>   metadataproviders;
-  private Map<String,ApiDefinition>      apidefinitions;
+  Map<String, ColumnResolver>     columnresolvers;
+  Map<String, ValueTransform>     valuetransformers;
+  Map<String, RowResolver>        rowresolvers;
+  Map<String, MetadataProvider>   metadataproviders;
+  Map<String, ApiDefinition>      apidefinitions;
   
   /**
    * Initialises this management class using the supplied api definitions.
@@ -27,15 +32,15 @@ public class ApiManager {
    * @param apidefs      A list of interface implementations provided by the ai declaration.
    *                     Not <code>null</code>.
    */
-  public ApiManager( Map<String,ApiDefinition> apidefs ) {
+  public ApiManager( Map<String, ApiDefinition> apidefs ) {
     
-    columnresolvers   = new Hashtable<String,ColumnResolver>();
-    valuetransformers = new Hashtable<String,ValueTransform>();
-    rowresolvers      = new Hashtable<String,RowResolver>();
-    metadataproviders = new Hashtable<String,MetadataProvider>();
-    apidefinitions    = new Hashtable<String,ApiDefinition>();
+    columnresolvers   = new Hashtable<>();
+    valuetransformers = new Hashtable<>();
+    rowresolvers      = new Hashtable<>();
+    metadataproviders = new Hashtable<>();
+    apidefinitions    = new Hashtable<>();
 
-    for( Map.Entry<String,ApiDefinition> apidef : apidefs.entrySet() ) {
+    for( Map.Entry<String, ApiDefinition> apidef : apidefs.entrySet() ) {
       if( apidef.getValue() instanceof ColumnResolver ) {
         columnresolvers.put( apidef.getKey(), new ColumnResolverProxy( (ColumnResolver) apidef.getValue() ) );
       }
@@ -62,7 +67,7 @@ public class ApiManager {
    * 
    * @param id   The id used to identify the resolver.
    */
-  public Map<String,String> getMetadata( String id, List<String> args, Sheet sheet ) throws PLEXException {
+  public Map<String, String> getMetadata( String id, List<String> args, Sheet sheet ) throws PLEXException {
     MetadataProvider apifunction = metadataproviders.get( id );
     return apifunction.getMetadata( id, sheet, toArray( args ) );
   }

@@ -2,6 +2,10 @@ package com.kasisoft.libs.plex.impl;
 
 import com.kasisoft.libs.plex.api.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.*;
 
 /**
@@ -10,10 +14,11 @@ import java.util.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CleanupTransform implements ValueTransform {
 
-  private boolean        ignorecase = false;
-  private List<String>   empties    = null;
+  boolean        ignorecase = false;
+  List<String>   empties    = null;
   
   /**
    * Enables/disables the case sensitivity for the test.

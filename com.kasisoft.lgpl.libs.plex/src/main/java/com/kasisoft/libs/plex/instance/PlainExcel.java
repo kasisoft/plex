@@ -1,5 +1,9 @@
 package com.kasisoft.libs.plex.instance;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.*;
 
 /**
@@ -7,15 +11,16 @@ import java.util.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PlainExcel {
 
-  private Map<String,PlainSheet>   sheets;
+  Map<String, PlainSheet>   sheets;
   
   /**
    * Initialises this collecting instance for imported excel data.
    */
   public PlainExcel() {
-    sheets = new Hashtable<String,PlainSheet>();
+    sheets = new Hashtable<>();
   }
   
   /**
@@ -27,7 +32,7 @@ public class PlainExcel {
    * @return   The list of tables owning such a pair. Not <code>null</code>.
    */
   public PlainSheet[] getTables( String key, String value ) {
-    List<PlainSheet> list = new ArrayList<PlainSheet>();
+    List<PlainSheet> list = new ArrayList<>();
     for( PlainSheet sheet : sheets.values() ) {
       String metavalue = sheet.getMetadata( key );
       if( value.equals( metavalue ) ) {

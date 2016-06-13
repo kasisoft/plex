@@ -2,6 +2,10 @@ package com.kasisoft.libs.plex.instance;
 
 import com.kasisoft.libs.common.util.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.*;
 
 /**
@@ -9,13 +13,14 @@ import java.util.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class SimpleSerializer {
 
-  private static final String INDENTION = "  ";
+  static final String INDENTION = "  ";
   
-  private StringFBuffer   buffer;
-  private StringBuffer    indention;
-  private Stack<String>   tags;
+  StringFBuffer   buffer;
+  StringBuffer    indention;
+  Stack<String>   tags;
   
   /**
    * Initializes this serializer.

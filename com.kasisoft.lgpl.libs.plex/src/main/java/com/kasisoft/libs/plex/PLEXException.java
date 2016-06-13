@@ -1,55 +1,34 @@
 package com.kasisoft.libs.plex;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 /**
  * This exception is used to indicate an import error.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PLEXException extends Exception {
 
-  private PLEXFailure   failurecode;
-  
   /**
    * Initialises this exception with the supplied cause.
    * 
-   * @param code   The failuecode providing a more specific error cause. Not <code>null</code>.
-   * @param ex     The exception that caused this one. Not <code>null</code>.
+   * @param msg   The error message. Not blank.
+   * @param ex    The exception that caused this one. Not <code>null</code>.
    */
-  public PLEXException( PLEXFailure code, Exception ex ) {
-    super( ex );
-    failurecode = code;
+  public PLEXException( String msg, Exception ex ) {
+    super( msg, ex );
   }
 
   /**
    * Initialises this exception with the supplied cause.
    * 
-   * @param code   The failuecode providing a more specific error cause. Not <code>null</code>.
-   * @param args   The arguments used to format the message.
+   * @param msg   The error message. Not blank.
    */
-  public PLEXException( PLEXFailure code, Object ... args ) {
-    super( args != null ? code.toString( args ) : code.toString() );
-    failurecode = code;
+  public PLEXException( String msg ) {
+    super( msg );
   }
 
-  /**
-   * Initialises this exception with the supplied cause.
-   * 
-   * @param code   The failuecode providing a more specific error cause. Not <code>null</code>.
-   * @param ex     The exception that caused this one. Not <code>null</code>.
-   * @param args   The arguments used to format the message.
-   */
-  public PLEXException( PLEXFailure code, Exception ex, Object ... args ) {
-    super( args != null ? code.toString( args ) : code.toString(), ex );
-    failurecode = code;
-  }
-
-  /**
-   * Returns the failure code associated with this exception.
-   * 
-   * @return   The failure code associated with this exception. Not <code>null</code>.
-   */
-  public PLEXFailure getFailureCode() {
-    return failurecode;
-  }
-  
 } /* ENDCLASS */

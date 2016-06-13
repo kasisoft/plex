@@ -7,6 +7,10 @@ import com.kasisoft.libs.common.io.*;
 import com.kasisoft.libs.plex.*;
 import com.kasisoft.libs.plex.instance.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import org.testng.*;
 
 import java.net.*;
@@ -17,11 +21,12 @@ import java.io.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class AbstractTest {
 
-  private File      inputdir;
-  private File      outputdir;
-  private File      expecteddir;
+  File      inputdir;
+  File      outputdir;
+  File      expecteddir;
   
   public void prepare() throws Exception {
     URL  url      = getClass().getClassLoader().getResource( "testdata" );

@@ -6,6 +6,10 @@ import com.kasisoft.libs.plex.api.*;
 import com.kasisoft.libs.plex.instance.*;
 import com.kasisoft.libs.plex.model.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.regex.*;
 
 import java.util.*;
@@ -15,11 +19,12 @@ import java.util.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 class ImportDriver {
 
-  private PLEXModel                           descriptor;
-  private Map<Pattern,PLEXSheetDescription>   importspecs;
-  private ApiManager                          apimanager;
+  PLEXModel                            descriptor;
+  Map<Pattern, PLEXSheetDescription>   importspecs;
+  ApiManager                           apimanager;
   
   /**
    * Initialises this driver for the import process.

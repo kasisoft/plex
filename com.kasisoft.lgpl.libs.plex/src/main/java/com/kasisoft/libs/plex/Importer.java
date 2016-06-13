@@ -1,11 +1,17 @@
 package com.kasisoft.libs.plex;
 
+import static com.kasisoft.libs.plex.internal.Messages.*;
+
 import com.kasisoft.libs.common.util.*;
 
 import com.kasisoft.libs.common.lang.*;
 import com.kasisoft.libs.plex.api.*;
 import com.kasisoft.libs.plex.instance.*;
 import com.kasisoft.libs.plex.model.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 import org.apache.poi.openxml4j.exceptions.*;
 
@@ -29,49 +35,11 @@ import java.lang.reflect.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Importer {
 
-  private static final String MSG_FAILED_CONFIGURATION        = 
-    "Failed to configure the api type '%s' !";
-  
-  private static final String MSG_INSTANTIATION_FAILURE = 
-    "Failed to instantiate class '%s' !";
-
-  private static final String MSG_INVALID_DECLARATION         = 
-    "The plex declaration is invalid.";
-  
-  private static final String MSG_INVALID_TYPE                = 
-    "The type '%s' doesn't implement '%s' !";
-  
-  private static final String MSG_MISSING_CLASSNAME           = 
-    "The class '%s' is not available on the classpath !";
-  
-  private static final String MSG_MISSING_COLUMNRESOLVER      = 
-    "A 'ColumnResolver' with the id '%s' doesn't exist !";
-
-  private static final String MSG_MISSING_COLUMN_INFORMATION  = 
-    "A first column must declare either the 'column' or 'columndetect' !";
-  
-  private static final String MSG_MISSING_FIRSTROW            = 
-    "A sheet must declare either the 'firstrow' or 'firstrowdetect' setting!";
-  
-  private static final String MSG_MISSING_ROWRESOLVER         = 
-    "A 'RowResolver' with the id '%s' doesn't exist !";
-  
-  private static final String MSG_MISSING_METADATAPROVIDER    = 
-    "A 'MetadataProvider' with the id '%s' doesn't exist !";
-  
-  private static final String MSG_SYNTAX_COLUMNRESOLVER       = 
-    "The arguments {%s} for the 'ColumnResolver' with the id '%s' aren't valid !";
-
-  private static final String MSG_SYNTAX_METADATAPROVIDER     = 
-    "The arguments {%s} for the 'MetadataProvider' with the id '%s' aren't valid !";
-  
-  private static final String MSG_SYNTAX_ROWRESOLVER          = 
-    "The arguments {%s} for the 'RowResolver' with the id '%s' aren't valid !";
-
-  private ImportDriver    driver;
-  private ImportMonitor   monitor;
+  ImportDriver    driver;
+  ImportMonitor   monitor;
   
   /**
    * Initializes this importer using a specific declarator.
@@ -89,7 +57,7 @@ public class Importer {
       URL           schemaurl = Importer.class.getResource( "/plex.xsd" );
       schema                  = factory.newSchema( schemaurl );
     } catch( SAXException   ex ) {
-      throw new PLEXException( PLEXFailure.MissingSchema, ex );
+      throw new PLEXException( missing_schema, ex );
     }
 
     try {
@@ -109,7 +77,7 @@ public class Importer {
       driver                      = new ImportDriver( plexmodel, manager );
     
     } catch( JAXBException  ex ) {
-      throw new PLEXException( PLEXFailure.DeclarationError, ex, MSG_INVALID_DECLARATION );
+      throw new PLEXException( declaration_error.format( invalid_declaration ), ex );
     }
    
     monitor = new NullImportMonitor();
@@ -147,9 +115,9 @@ public class Importer {
       workbook  = WorkbookFactory.create( instream );
       monitor.openedWorkbook( workbook.getNumberOfSheets() );
     } catch( IOException            ex ) {
-      throw new PLEXException( PLEXFailure.IO, ex, excel );
+      throw new PLEXException( io.format( excel ), ex );
     } catch( InvalidFormatException ex ) {
-      throw new PLEXException( PLEXFailure.InvalidExcel, ex, excel );
+      throw new PLEXException( invalid_excel.format( excel ), ex );
     } finally {
       MiscFunctions.close( instream );
     }
@@ -167,13 +135,13 @@ public class Importer {
    * @throws PLEXException   The plex declaration is invalid. 
    */
   private ApiManager createApiManager( PLEXModel model ) throws PLEXException {
-    Map<String,ApiDefinition> result = new Hashtable<String,ApiDefinition>();
+    Map<String, ApiDefinition> result = new Hashtable<>();
     if( model.getGeneral() != null ) {
       for( PLEXInterface plexinterface : model.getGeneral().getInterface() ) {
         String      classname = plexinterface.getClassname();
         Object      instance  = ReflectionFunctions.newInstance( classname );
         if( instance == null ) {
-          throw new PLEXException( PLEXFailure.DeclarationError, String.format( MSG_INSTANTIATION_FAILURE, classname ) );
+          throw new PLEXException( declaration_error.format( failed_instantiation.format( classname ) ) );
         }
         if( ! plexinterface.getInjectors().isEmpty() ) {
           configureInstance( instance, plexinterface.getInjectors() );
@@ -226,16 +194,10 @@ public class Importer {
         throw new NoSuchMethodException();
       }
       
-        method.invoke( instance, value );
+      method.invoke( instance, value );
       
-    } catch( NoSuchMethodException ex ) {
-      throw new PLEXException( PLEXFailure.DeclarationError, ex, String.format( MSG_FAILED_CONFIGURATION, instance.getClass().getName() ) );
-    } catch( IllegalArgumentException  ex ) {
-      throw new PLEXException( PLEXFailure.DeclarationError, ex, String.format( MSG_FAILED_CONFIGURATION, instance.getClass().getName() ) );
-    } catch( IllegalAccessException    ex ) {
-      throw new PLEXException( PLEXFailure.DeclarationError, ex, String.format( MSG_FAILED_CONFIGURATION, instance.getClass().getName() ) );
-    } catch( InvocationTargetException ex ) {
-      throw new PLEXException( PLEXFailure.DeclarationError, ex, String.format( MSG_FAILED_CONFIGURATION, instance.getClass().getName() ) );
+    } catch( Exception ex ) {
+      throw new PLEXException( declaration_error.format( failed_configuration.format( instance.getClass().getName() ) ), ex );
     }
     
   }
@@ -345,7 +307,7 @@ public class Importer {
       case TRANSFORM  : checkType ( ValueTransform    . class, clazz ); break;
       }
     } catch( ClassNotFoundException ex ) {
-      throw new PLEXException( PLEXFailure.DeclarationError, String.format( MSG_MISSING_CLASSNAME, classname ) );
+      throw new PLEXException( declaration_error.format( missing_classname.format( classname ) ) );
     }
   }
   
@@ -359,7 +321,7 @@ public class Importer {
    */
   private void checkType( Class<?> requiredapi, Class<?> currenttype ) throws PLEXException {
     if( ! requiredapi.isAssignableFrom( currenttype ) ) {
-      throw new PLEXException( PLEXFailure.DeclarationError, String.format( MSG_INVALID_TYPE, currenttype.getName(), requiredapi.getName() ) );
+      throw new PLEXException( declaration_error.format( invalid_type.format( currenttype.getName(), requiredapi.getName() ) ) );
     }
   }
   
@@ -373,15 +335,15 @@ public class Importer {
    */
   private void checkConsistency( ApiManager apiman, PLEXSheetDescription sheet ) throws PLEXException {
     if( (sheet.getFirstrow() == null) && (sheet.getFirstrowdetect() == null) ) {
-      throw new PLEXException( PLEXFailure.DeclarationError, MSG_MISSING_FIRSTROW );
+      throw new PLEXException( declaration_error.format( missing_first_row ) );
     }
     PLEXApiCall apicall = sheet.getFirstrowdetect();
     if( apicall != null ) {
       if( ! apiman.isRowResolver( apicall.getRefid() ) ) {
-        throw new PLEXException( PLEXFailure.DeclarationError, String.format( MSG_MISSING_ROWRESOLVER, apicall.getRefid() ) );
+        throw new PLEXException( declaration_error.format( missing_row_resolver.format( apicall.getRefid() ) ) );
       }
       if( ! apiman.canHandleArgs( apicall.getRefid(), apicall.getArg() ) ) {
-        throw new PLEXException( PLEXFailure.DeclarationError, String.format( MSG_SYNTAX_ROWRESOLVER, StringFunctions.toString( apicall.getArg().toArray() ), apicall.getRefid() ) );
+        throw new PLEXException( declaration_error.format( syntax_row_resolver.format( StringFunctions.toString( apicall.getArg().toArray() ), apicall.getRefid() ) ) );
       }
     }
     for( int i = 0; i < sheet.getColumn().size(); i++ ) {
@@ -404,10 +366,10 @@ public class Importer {
     PLEXApiCall apicall = metadata.getMetadetect();
     if( apicall != null ) {
       if( ! apiman.isMetdataProvider( apicall.getRefid() ) ) {
-        throw new PLEXException( PLEXFailure.DeclarationError, String.format( MSG_MISSING_METADATAPROVIDER, apicall.getRefid() ) );
+        throw new PLEXException( declaration_error.format( missing_metadata_provider.format( apicall.getRefid() ) ) );
       }
       if( ! apiman.canHandleArgs( apicall.getRefid(), apicall.getArg() ) ) {
-        throw new PLEXException( PLEXFailure.DeclarationError, String.format( MSG_SYNTAX_METADATAPROVIDER, StringFunctions.toString( apicall.getArg().toArray() ), apicall.getRefid() ) );
+        throw new PLEXException( declaration_error.format( syntax_metadata_provider.format( StringFunctions.toString( apicall.getArg().toArray() ), apicall.getRefid() ) ) );
       }
     }
   }
@@ -424,16 +386,16 @@ public class Importer {
   private void checkConsistency( ApiManager apiman, PLEXColumnDescription column, boolean first ) throws PLEXException {
     if( (column.getColumn() == null) && (column.getColumndetect() == null) ) {
       if( first ) {
-        throw new PLEXException( PLEXFailure.DeclarationError, MSG_MISSING_COLUMN_INFORMATION );
+        throw new PLEXException( declaration_error.format( missing_column_infos ) );
       }
     }
     PLEXApiCall apicall = column.getColumndetect();
     if( apicall != null ) {
       if( ! apiman.isColumnResolver( apicall.getRefid() ) ) {
-        throw new PLEXException( PLEXFailure.DeclarationError, String.format( MSG_MISSING_COLUMNRESOLVER, apicall.getRefid() ) );
+        throw new PLEXException( declaration_error.format( missing_column_resolver.format( apicall.getRefid() ) ) );
       }
       if( ! apiman.canHandleArgs( apicall.getRefid(), apicall.getArg() ) ) {
-        throw new PLEXException( PLEXFailure.DeclarationError, String.format( MSG_SYNTAX_COLUMNRESOLVER, StringFunctions.toString( apicall.getArg().toArray() ), apicall.getRefid() ) );
+        throw new PLEXException( declaration_error.format( syntax_column_resolver.format( StringFunctions.toString( apicall.getArg().toArray() ), apicall.getRefid() ) ) );
       }
     }
   }

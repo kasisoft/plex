@@ -1,9 +1,15 @@
 package com.kasisoft.libs.plex.impl.proxy;
 
+import static com.kasisoft.libs.plex.internal.Messages.*;
+
 import org.apache.poi.ss.usermodel.*;
 
 import com.kasisoft.libs.plex.*;
 import com.kasisoft.libs.plex.api.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 import java.util.*;
 
@@ -13,9 +19,10 @@ import java.util.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ColumnResolverProxy implements ColumnResolver {
 
-  private ColumnResolver   delegate;
+  ColumnResolver   delegate;
   
   /**
    * Initializes this proxy with the supplied implementation.
@@ -31,7 +38,7 @@ public class ColumnResolverProxy implements ColumnResolver {
     try {
       return delegate.detectColumn( id, sheet, args );
     } catch( RuntimeException ex ) {
-      throw new PLEXException( PLEXFailure.ErrorInApiFunction, ex, ex.getMessage() );
+      throw new PLEXException( error_in_api_function.format( ex.getMessage() ), ex );
     }
   }
 

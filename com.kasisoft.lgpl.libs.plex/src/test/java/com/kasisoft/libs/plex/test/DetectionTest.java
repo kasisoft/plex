@@ -9,7 +9,6 @@ import org.testng.annotations.*;
  */
 @Test(groups="all")
 public class DetectionTest extends AbstractTest {
-
   
   @DataProvider(name="createDetectionData")
   public Object[][] createDetectionData() {

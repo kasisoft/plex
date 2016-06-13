@@ -2,6 +2,10 @@ package com.kasisoft.libs.plex.impl;
 
 import com.kasisoft.libs.plex.api.*;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import java.util.*;
 
 /**
@@ -9,9 +13,10 @@ import java.util.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class BooleanTransform implements ValueTransform {
 
-  private Set<String>   truevalues;
+  Set<String>   truevalues;
   
   /**
    * Initializes this transform instance.

@@ -24,6 +24,6 @@ public interface MetadataProvider extends ApiDefinition {
    * 
    * @throws PLEXException   The execution failed for some reason.
    */
-  Map<String,String> getMetadata( String id, Sheet sheet, String ... args ) throws PLEXException;
+  Map<String, String> getMetadata( String id, Sheet sheet, String ... args ) throws PLEXException;
   
 } /* ENDINTERFACE */

@@ -1,7 +1,13 @@
 package com.kasisoft.libs.plex.impl.proxy;
 
+import static com.kasisoft.libs.plex.internal.Messages.*;
+
 import com.kasisoft.libs.plex.*;
 import com.kasisoft.libs.plex.api.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 import java.util.*;
 
@@ -11,9 +17,10 @@ import java.util.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ValueTransformProxy implements ValueTransform {
 
-  private ValueTransform   delegate;
+  ValueTransform   delegate;
   
   /**
    * Initializes this proxy with the supplied implementation.
@@ -29,7 +36,7 @@ public class ValueTransformProxy implements ValueTransform {
     try {
       return delegate.transformValue( id, value, args );
     } catch( RuntimeException ex ) {
-      throw new PLEXException( PLEXFailure.ErrorInApiFunction, ex, ex.getMessage() );
+      throw new PLEXException( error_in_api_function.format( ex.getMessage() ), ex );
     }
   }
 

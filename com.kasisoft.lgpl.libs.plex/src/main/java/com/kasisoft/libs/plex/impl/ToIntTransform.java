@@ -1,7 +1,13 @@
 package com.kasisoft.libs.plex.impl;
 
+import static com.kasisoft.libs.plex.internal.Messages.*;
+
 import com.kasisoft.libs.plex.api.*;
 import com.kasisoft.libs.plex.instance.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 import java.util.*;
 
@@ -10,16 +16,11 @@ import java.util.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ToIntTransform implements ValueTransform {
   
-  private static final String MSG_INVALID_NUMBER  = 
-    "%s: The value isn't a proper number.";
-  
-  private static final String MSG_STRICT_ERROR    = 
-    "%s: The value is not supposed to contain a rest (=%s).";
-  
-  private boolean   createlong  = false;
-  private boolean   strict      = false;
+  boolean   createlong  = false;
+  boolean   strict      = false;
 
   /**
    * Enable the creation of Long types rather than Integer types.
@@ -60,7 +61,7 @@ public class ToIntTransform implements ValueTransform {
         if( strict ) {
           double rest = doubleval - (long) doubleval;
           if( rest != 0 ) {
-            return new ErrorValue( String.valueOf( value ), MSG_STRICT_ERROR, id, String.valueOf( rest ) );
+            return new ErrorValue( String.valueOf( value ), strict_error.format( id, rest ) );
           }
         }
         
@@ -71,7 +72,7 @@ public class ToIntTransform implements ValueTransform {
         }
       
       } catch( NumberFormatException ex ) {
-        return new ErrorValue( String.valueOf( value ), MSG_INVALID_NUMBER, id );
+        return new ErrorValue( String.valueOf( value ), invalid_number.format( id ) );
       }
       
     }

@@ -1,5 +1,9 @@
 package com.kasisoft.libs.plex.instance;
 
+import lombok.experimental.*;
+
+import lombok.*;
+
 import javax.swing.table.*;
 
 import java.util.*;
@@ -9,12 +13,13 @@ import java.util.*;
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PlainSheet extends DefaultTableModel implements Comparable<PlainSheet> {
 
-  private String               sheetname;
-  private Class<?>[]           classes;
-  private Map<String,String>   metadata;
-  private List<String>         titles;
+  String                sheetname;
+  Class<?>[]            classes;
+  Map<String, String>   metadata;
+  List<String>          titles;
   
   /**
    * Initialises this model using the supplied sheet name.
@@ -23,8 +28,8 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
    */
   public PlainSheet( String name ) {
     super();
-    metadata  = new Hashtable<String,String>();
-    titles    = new ArrayList<String>();
+    metadata  = new Hashtable<>();
+    titles    = new ArrayList<>();
     sheetname = name;
     classes   = null;
   }
