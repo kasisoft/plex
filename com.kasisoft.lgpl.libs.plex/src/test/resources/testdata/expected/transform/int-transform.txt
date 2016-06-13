@@ -1,7 +1,7 @@
 <workbook>
   <sheet name="int-transform" columns="2" rows="5">
     <column name="bug" type="java.lang.Long"/>
-    <column name="state" type="com.kasisoft.lgpl.libs.plex.test.TransformTest$StateEnum"/>
+    <column name="state" type="com.kasisoft.libs.plex.test.TransformTest$StateEnum"/>
     <row row="0">
       <bug>72887</bug>
       <state>Resolved</state>

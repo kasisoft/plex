@@ -1,7 +1,7 @@
 <workbook>
   <sheet name="cleanup-transform-2" columns="2" rows="6">
     <column name="bug" type="java.lang.String"/>
-    <column name="state" type="com.kasisoft.lgpl.libs.plex.test.TransformTest$StateEnum"/>
+    <column name="state" type="com.kasisoft.libs.plex.test.TransformTest$StateEnum"/>
     <row row="0">
       <bug/>
       <state>Resolved</state>

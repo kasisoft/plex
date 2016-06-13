@@ -2,8 +2,8 @@
 <plex>
 
   <general>
-    <interface api="transform" id="cleanup"         classname="com.kasisoft.lgpl.libs.plex.impl.CleanupTransform"    />
-    <interface api="row"       id="simpleresolver"  classname="com.kasisoft.lgpl.libs.plex.impl.SimpleRowResolver"   /> 
+    <interface api="transform" id="cleanup"         classname="com.kasisoft.libs.plex.impl.CleanupTransform"    />
+    <interface api="row"       id="simpleresolver"  classname="com.kasisoft.libs.plex.impl.SimpleRowResolver"   /> 
   </general>
 
   <sheet name="detect-row">

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="com.kasisoft.lgpl.libs.plex.deployment" basedir=".">
+<project name="com.kasisoft.libs.plex.deployment" basedir=".">
 
   <import file="${basedir}/../_ext/common.xml"/>
   
@@ -24,7 +24,7 @@
 
   <target name="deploy" depends="clean">
 
-    <var name="projectname" value="com.kasisoft.lgpl.libs.plex"/>
+    <var name="projectname" value="com.kasisoft.libs.plex"/>
 
     <temp-project-dir projectname="${ant.project.name}" property="tempdir"/>
 

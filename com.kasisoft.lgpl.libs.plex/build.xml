@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="com.kasisoft.lgpl.libs.plex" default="default" basedir=".">
+<project name="com.kasisoft.libs.plex" default="default" basedir=".">
 
   <dirname file="${ant.file.com.kasisoft.lgpl.libs.plex}" property="dir.plex"/>
   

@@ -2,8 +2,8 @@
 <plex>
 
   <general>
-    <interface api="transform" id="enum"      classname="com.kasisoft.lgpl.libs.plex.test.TransformTest$EnumTransform"  />
-    <interface api="transform" id="cleanup"   classname="com.kasisoft.lgpl.libs.plex.impl.CleanupTransform">
+    <interface api="transform" id="enum"      classname="com.kasisoft.libs.plex.test.TransformTest$EnumTransform"  />
+    <interface api="transform" id="cleanup"   classname="com.kasisoft.libs.plex.impl.CleanupTransform">
       <list name="empties">
         <item>N/A</item>
         <item>na</item>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="com.kasisoft.lgpl.libs.plex.test" basedir=".">
+<project name="com.kasisoft.libs.plex.test" basedir=".">
 
   <import file="${basedir}/../_ext/common.xml"/>
   
@@ -7,7 +7,7 @@
   <!-- PROPERTY DEFINITIONS                                                                    -->
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
 
-  <property name="project.deployment"   value="com.kasisoft.lgpl.libs.plex.deployment"/>
+  <property name="project.deployment"   value="com.kasisoft.libs.plex.deployment"/>
   
   <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
   <!-- PATH DEFINITIONS                                                                        -->
@@ -34,10 +34,10 @@
     <mkdir dir="${tempdir}/distribution"/>
     <mkdir dir="${tempdir}/sources"/>
     
-    <a4e-distribution projectname="com.kasisoft.lgpl.libs.plex"/>
+    <a4e-distribution projectname="com.kasisoft.libs.plex"/>
     <a4e-distribution projectname="${ant.project.name}"/>
 
-    <cobertura-instrumentation projectname="com.kasisoft.lgpl.libs.plex" datafile="${file.cobertura}"/>
+    <cobertura-instrumentation projectname="com.kasisoft.libs.plex" datafile="${file.cobertura}"/>
 
     <a4e-testng 
       projectname="${ant.project.name}"
@@ -46,7 +46,7 @@
       classpathext="path.cobertura"
     />
 
-    <a4e-for-each-source-dir projectname="com.kasisoft.lgpl.libs.plex" property="dir">
+    <a4e-for-each-source-dir projectname="com.kasisoft.libs.plex" property="dir">
       <do>
         <copy todir="${tempdir}/sources">
           <fileset dir="${dir}" includes="**/*.java"/>

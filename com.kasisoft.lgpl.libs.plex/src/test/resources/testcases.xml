@@ -1,5 +1,5 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="com.kasisoft.lgpl.libs.plex.test by groups" parallel="false">
+<suite name="com.kasisoft.libs.plex.test by groups" parallel="false">
   <test verbose="2" name="GRP-all" annotations="JDK">
     <groups>
       <run>
@@ -7,9 +7,9 @@
       </run>
     </groups>
     <classes>
-      <class name="com.kasisoft.lgpl.libs.plex.test.DetectionTest"/>
-      <class name="com.kasisoft.lgpl.libs.plex.test.SimpleTest"/>
-      <class name="com.kasisoft.lgpl.libs.plex.test.TransformTest"/>
+      <class name="com.kasisoft.libs.plex.test.DetectionTest"/>
+      <class name="com.kasisoft.libs.plex.test.SimpleTest"/>
+      <class name="com.kasisoft.libs.plex.test.TransformTest"/>
     </classes>
   </test>
 </suite>
