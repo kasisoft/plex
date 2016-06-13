@@ -1,11 +1,3 @@
-/**
- * Name........: ColumnResolver
- * Description.: Resolver used to identify column numbers.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex.api;
 
 import com.kasisoft.lgpl.libs.plex.*;
@@ -14,6 +6,8 @@ import org.apache.poi.ss.usermodel.*;
 
 /**
  * Resolver used to identify column numbers.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public interface ColumnResolver extends ApiDefinition {
 

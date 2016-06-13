@@ -1,11 +1,3 @@
-/**
- * Name........: TransformTest
- * Description.: Collection of transformation tests.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex.test;
 
 import com.kasisoft.lgpl.libs.plex.*;
@@ -17,11 +9,12 @@ import java.util.*;
 
 /**
  * Collection of transformation tests.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 @Test(groups="all")
 public class TransformTest extends AbstractTest {
 
-  
   @DataProvider(name="createTransformData")
   public Object[][] createTransformData() {
     return new Object[][] {
@@ -34,24 +27,25 @@ public class TransformTest extends AbstractTest {
   }
   
   @Test(dataProvider="createTransformData")
+  @Override
   public void runTest( String groupname, String testcase ) {
     super.runTest( groupname, testcase );
   }
   
   @BeforeClass
+  @Override
   public void prepare() {
     super.prepare();
   }
   
   public static final class EnumTransform implements ValueTransform {
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public boolean canHandleArguments( String id, List<String> args ) {
       return false;
     }
 
+    @Override
     public Object transformValue( String id, Object value, String... args ) throws PLEXException {
       if( value instanceof String ) {
         return StateEnum.byLiteral( (String) value );

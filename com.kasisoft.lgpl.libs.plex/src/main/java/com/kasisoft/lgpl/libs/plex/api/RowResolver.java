@@ -1,11 +1,3 @@
-/**
- * Name........: RowResolver
- * Description.: Resolver used to identify row indices.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex.api;
 
 import com.kasisoft.lgpl.libs.plex.*;
@@ -14,6 +6,8 @@ import org.apache.poi.ss.usermodel.*;
 
 /**
  * Resolver used to identify row indices.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public interface RowResolver extends ApiDefinition {
 

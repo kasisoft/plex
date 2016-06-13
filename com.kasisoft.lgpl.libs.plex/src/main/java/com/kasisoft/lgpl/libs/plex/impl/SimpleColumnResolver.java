@@ -1,12 +1,3 @@
-/**
- * Name........: SimpleColumnResolver
- * Description.: This ColumnResolver implementation simply checks for the occurrence of the first
- *               column which contains content.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex.impl;
 
 import com.kasisoft.lgpl.libs.plex.*;
@@ -19,15 +10,15 @@ import java.util.*;
 /**
  * This ColumnResolver implementation simply checks for the occurrence of the first column which 
  * contains content.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class SimpleColumnResolver implements ColumnResolver {
 
   private static final String MSG_MISSING_COLUMN = 
     "A column for sheet '%s' could not be detected !";
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public int detectColumn( String id, Sheet sheet, String... args ) throws PLEXException {
     int result = detectColumn( sheet );
     if( result == -1 ) {
@@ -51,9 +42,7 @@ public class SimpleColumnResolver implements ColumnResolver {
     return -1;
   }
   
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public boolean canHandleArguments( String id, List<String> args ) {
     if( args.size() > 0 ) {
       try {

@@ -1,15 +1,9 @@
-/**
- * Name........: ErrorValue
- * Description.: Just a wrapper which contains a value which has been identified as erraneous.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex.instance;
 
 /**
  * Just a wrapper which contains a value which has been identified as erraneous.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ErrorValue {
 
@@ -39,9 +33,7 @@ public class ErrorValue {
     return cause;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public String toString() {
     return String.format( "%s [%s]", cause, textual );
   }

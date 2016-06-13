@@ -1,12 +1,3 @@
-/**
- * Name........: ValueTransformProxy
- * Description.: A simple wrapper for the API ValueTransform which makes sure that internal errors
- *               won't be passed besided the expected PLEXException .
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex.impl.proxy;
 
 import com.kasisoft.lgpl.libs.plex.*;
@@ -17,6 +8,8 @@ import java.util.*;
 /**
  * A simple wrapper for the API ValueTransform which makes sure that internal errors won't be 
  * passed besided the expected PLEXException .
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ValueTransformProxy implements ValueTransform {
 
@@ -31,9 +24,7 @@ public class ValueTransformProxy implements ValueTransform {
     delegate  = impl;
   }
   
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public Object transformValue( String id, Object value, String... args ) throws PLEXException {
     try {
       return delegate.transformValue( id, value, args );
@@ -42,9 +33,7 @@ public class ValueTransformProxy implements ValueTransform {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public boolean canHandleArguments( String id, List<String> args ) {
     try {
       return delegate.canHandleArguments( id, args );

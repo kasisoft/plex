@@ -1,11 +1,3 @@
-/**
- * Name........: SimpleSerializer
- * Description.: Basic implementation of a simple serializer allowing to emit structured information.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex.instance;
 
 import com.kasisoft.libs.common.util.*;
@@ -14,6 +6,8 @@ import java.util.*;
 
 /**
  * Basic implementation of a simple serializer allowing to emit structured information.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class SimpleSerializer {
 
@@ -104,9 +98,7 @@ public class SimpleSerializer {
     }
   }
   
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public String toString() {
     return buffer.toString();
   }

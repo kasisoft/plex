@@ -1,17 +1,11 @@
-/**
- * Name........: ImportMonitor
- * Description.: This API may be used to monitor the import process.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex;
 
 import java.io.*;
 
 /**
  * This API may be used to monitor the import process. 
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public interface ImportMonitor {
 

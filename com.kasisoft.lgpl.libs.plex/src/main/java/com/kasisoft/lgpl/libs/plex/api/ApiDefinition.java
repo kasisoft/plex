@@ -1,17 +1,11 @@
-/**
- * Name........: ApiDefinition
- * Description.: Common interface for all api definitions.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex.api;
 
 import java.util.*;
 
 /**
  * Common interface for all api definitions.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public interface ApiDefinition {
   

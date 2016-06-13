@@ -1,11 +1,3 @@
-/**
- * Name........: MetadataProvider
- * Description.: Each implementor is capable to provide metadata information for a specific sheet.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex.api;
 
 import com.kasisoft.lgpl.libs.plex.*;
@@ -16,6 +8,8 @@ import java.util.*;
 
 /**
  * Each implementor is capable to provide metadata information for a specific sheet.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public interface MetadataProvider extends ApiDefinition {
 

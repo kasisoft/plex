@@ -1,11 +1,3 @@
-/**
- * Name........: ImportDriver
- * Description.: Main logic used to run the import process. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex;
 
 import com.kasisoft.lgpl.libs.plex.api.*;
@@ -20,6 +12,8 @@ import java.util.*;
 
 /**
  * Main logic used to run the import process.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 class ImportDriver {
 

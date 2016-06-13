@@ -1,11 +1,3 @@
-/**
- * Name........: AbstractTest
- * Description.: Basic implementation for the tests. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex.test;
 
 import com.kasisoft.libs.common.constants.*;
@@ -22,6 +14,8 @@ import java.io.*;
 
 /**
  * Basic implementation for the tests.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public abstract class AbstractTest {
 

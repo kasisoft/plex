@@ -1,17 +1,11 @@
-/**
- * Name........: PlainExcel
- * Description.: Plain and especially simplified representation of an excel workbook.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex.instance;
 
 import java.util.*;
 
 /**
  * Plain and especially simplified representation of an excel workbook.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class PlainExcel {
 
@@ -98,9 +92,7 @@ public class PlainExcel {
     return serializer.toString();
   }
   
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public String toString() {
     return serialize( new SimpleSerializer() );
   }

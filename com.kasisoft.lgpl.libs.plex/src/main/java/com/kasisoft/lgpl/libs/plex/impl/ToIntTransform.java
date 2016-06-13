@@ -1,11 +1,3 @@
-/**
- * Name........: ToIntTransform
- * Description.: Creates an Integer value from a String or Number.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex.impl;
 
 import com.kasisoft.lgpl.libs.plex.api.*;
@@ -15,6 +7,8 @@ import java.util.*;
 
 /**
  * Creates an Integer value from a String or Number.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ToIntTransform implements ValueTransform {
   
@@ -45,9 +39,7 @@ public class ToIntTransform implements ValueTransform {
     strict = enable;
   }
   
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public Object transformValue( String id, Object value, String ... args ) {
     
     String str = null;
@@ -86,9 +78,7 @@ public class ToIntTransform implements ValueTransform {
     return value;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public boolean canHandleArguments( String id, List<String> args ) {
     return true;
   }

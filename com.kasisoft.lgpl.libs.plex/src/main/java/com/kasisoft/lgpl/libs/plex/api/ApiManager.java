@@ -1,11 +1,3 @@
-/**
- * Name........: ApiManager
- * Description.: Helper class used to manage the apis provided with a declaration file. 
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex.api;
 
 import com.kasisoft.lgpl.libs.plex.*;
@@ -19,6 +11,8 @@ import java.util.*;
 
 /**
  * Helper class used to manage the apis provided with a declaration file.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class ApiManager {
 

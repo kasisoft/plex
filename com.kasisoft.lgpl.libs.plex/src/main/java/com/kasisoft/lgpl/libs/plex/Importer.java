@@ -1,12 +1,3 @@
-/**
- * Name........: Importer
- * Description.: This class provides the importing capabilities controlled by a corresponding
- *               descriptor.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex;
 
 import com.kasisoft.libs.common.util.*;
@@ -35,6 +26,8 @@ import java.lang.reflect.*;
 
 /**
  * This class provides the importing capabilities controlled by a corresponding descriptor.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class Importer {
 

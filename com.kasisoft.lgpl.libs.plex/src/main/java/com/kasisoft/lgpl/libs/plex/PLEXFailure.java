@@ -1,15 +1,9 @@
-/**
- * Name........: PLEXFailure
- * Description.: Enumeration identifying a plex failure.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex;
 
 /**
  * Enumeration identifying a plex failure.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public enum PLEXFailure {
 

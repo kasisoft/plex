@@ -1,11 +1,3 @@
-/**
- * Name........: PlainSheet
- * Description.: Extension of a TableModel which provides additional information.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex.instance;
 
 import javax.swing.table.*;
@@ -14,6 +6,8 @@ import java.util.*;
 
 /**
  * Extension of a TableModel which provides additional information.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class PlainSheet extends DefaultTableModel implements Comparable<PlainSheet> {
 
@@ -43,9 +37,7 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
     super.addColumn( title );
   }
   
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public void addColumn( Object title ) {
     throw new RuntimeException();
   }
@@ -95,9 +87,7 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
     metadata.put( key, value );
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public Class<?> getColumnClass( int index ) {
     if( classes != null ) {
       return classes[ index ];
@@ -171,16 +161,12 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
     return sheetname;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public String toString() {
     return getSheetName();
   }
   
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public boolean equals( Object obj ) {
     if( obj instanceof PlainSheet ) {
       return getSheetName().equals( ((PlainSheet) obj).getSheetName() );
@@ -189,9 +175,7 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public int compareTo( PlainSheet other ) {
     if( other == null ) {
       return 1;
@@ -200,9 +184,7 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
     }
   }
   
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public int hashCode() {
     return getSheetName().hashCode();
   }

@@ -1,65 +1,43 @@
-/**
- * Name........: NullImportMonitor
- * Description.: Dummy implementation of an ImportMonitor which simply does nothing.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex;
 
 import java.io.*;
 
 /**
  * Dummy implementation of an ImportMonitor which simply does nothing.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class NullImportMonitor implements ImportMonitor {
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public void openingWorkbook( File file ) {
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public void openedWorkbook( int sheetcount ) {
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public void processingSheet( String name, int number, int sheetcount ) {
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public void sheetProcessed( String name, int number, int sheetcount ) {
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public void importingSheet( String name, int number, int sheetcount ) {
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public void sheetImported( String name, int number, int sheetcount ) {
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public void importingRow( String name, int row, int rowcount ) {
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public void resumeImport( int imported, int count ) {
   }
 

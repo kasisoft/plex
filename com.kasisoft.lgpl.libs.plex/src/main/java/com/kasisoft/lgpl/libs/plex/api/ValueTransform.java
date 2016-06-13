@@ -1,17 +1,11 @@
-/**
- * Name........: ValueTransform
- * Description.: Each implementor is capable to alter the content of a value.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex.api;
 
 import com.kasisoft.lgpl.libs.plex.*;
 
 /**
  * Each implementor is capable to alter the content of a value.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public interface ValueTransform extends ApiDefinition {
 

@@ -1,12 +1,3 @@
-/**
- * Name........: RowResolverProxy
- * Description.: A simple wrapper for the API RowResolver which makes sure that internal errors
- *               won't be passed besided the expected PLEXException .
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex.impl.proxy;
 
 import com.kasisoft.lgpl.libs.plex.*;
@@ -19,6 +10,8 @@ import java.util.*;
 /**
  * A simple wrapper for the API ColumnResolver which makes sure that internal errors won't be 
  * passed besided the expected PLEXException .
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class RowResolverProxy implements RowResolver {
 
@@ -33,9 +26,7 @@ public class RowResolverProxy implements RowResolver {
     delegate  = impl;
   }
   
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public int detectRow( String id, Sheet sheet, String... args ) throws PLEXException {
     try {
       return delegate.detectRow( id, sheet, args );
@@ -44,9 +35,7 @@ public class RowResolverProxy implements RowResolver {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public boolean canHandleArguments( String id, List<String> args ) {
     try {
       return delegate.canHandleArguments( id, args );

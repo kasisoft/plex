@@ -1,11 +1,3 @@
-/**
- * Name........: BooleanTransform
- * Description.: Transforms a value into a Boolean instance.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex.impl;
 
 import com.kasisoft.lgpl.libs.plex.api.*;
@@ -14,6 +6,8 @@ import java.util.*;
 
 /**
  * Transforms a value into a Boolean instance.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class BooleanTransform implements ValueTransform {
 
@@ -42,9 +36,7 @@ public class BooleanTransform implements ValueTransform {
     }
   }
   
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public Object transformValue( String id, Object value, String ... args ) {
     if( value instanceof String ) {
       String str = (String) value;
@@ -53,9 +45,7 @@ public class BooleanTransform implements ValueTransform {
     return value;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public boolean canHandleArguments( String id, List<String> args ) {
     return true;
   }

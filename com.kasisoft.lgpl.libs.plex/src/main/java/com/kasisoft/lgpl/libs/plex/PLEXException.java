@@ -1,15 +1,9 @@
-/**
- * Name........: PLEXException
- * Description.: This exception is used to indicate an import error.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex;
 
 /**
  * This exception is used to indicate an import error.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class PLEXException extends Exception {
 

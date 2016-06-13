@@ -1,12 +1,3 @@
-/**
- * Name........: CleanupTransform
- * Description.: Cleans up a string which means that it will be trimmed and useless values will be
- *               corrected.
- * Author......: Daniel Kasmeroglu
- * E-Mail......: daniel.kasmeroglu@kasisoft.net
- * Company.....: Kasisoft
- * License.....: LGPL
- */
 package com.kasisoft.lgpl.libs.plex.impl;
 
 import com.kasisoft.lgpl.libs.plex.api.*;
@@ -16,6 +7,8 @@ import java.util.*;
 /**
  * Cleans up a string which means that it will be trimmed and useless values will be corrected.
  * All non-String types will remain untouched.
+ * 
+ * @author daniel.kasmeroglu@kasisoft.net
  */
 public class CleanupTransform implements ValueTransform {
 
@@ -40,9 +33,7 @@ public class CleanupTransform implements ValueTransform {
     empties = newempties;
   }
   
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public Object transformValue( String id, Object value, String ... args ) {
     if( value instanceof String ) {
       String str = ((String) value).trim();
@@ -64,9 +55,7 @@ public class CleanupTransform implements ValueTransform {
     return value;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public boolean canHandleArguments( String id, List<String> args ) {
     return true;
   }
