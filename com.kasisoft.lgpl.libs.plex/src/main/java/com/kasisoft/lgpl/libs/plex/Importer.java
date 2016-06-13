@@ -11,11 +11,12 @@ package com.kasisoft.lgpl.libs.plex;
 
 import com.kasisoft.libs.common.util.*;
 
-import com.kasisoft.libs.common.io.*;
-
 import com.kasisoft.lgpl.libs.plex.api.*;
 import com.kasisoft.lgpl.libs.plex.instance.*;
 import com.kasisoft.lgpl.libs.plex.model.*;
+import com.kasisoft.libs.common.lang.*;
+
+import org.apache.poi.openxml4j.exceptions.*;
 
 import org.apache.poi.ss.usermodel.*;
 import org.xml.sax.*;
@@ -177,7 +178,7 @@ public class Importer {
     if( model.getGeneral() != null ) {
       for( PLEXInterface plexinterface : model.getGeneral().getInterface() ) {
         String      classname = plexinterface.getClassname();
-        Object      instance  = MiscFunctions.newInstance( classname );
+        Object      instance  = ReflectionFunctions.newInstance( classname );
         if( instance == null ) {
           throw new PLEXException( PLEXFailure.DeclarationError, String.format( MSG_INSTANTIATION_FAILURE, classname ) );
         }

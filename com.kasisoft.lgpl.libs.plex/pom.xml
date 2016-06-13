@@ -57,7 +57,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- versioning: dependencies -->
-    <version-apache-poi>3.6</version-apache-poi>
+    <version-apache-poi>3.11</version-apache-poi>
     <version-cobertura>2.1.1</version-cobertura>
     <version-hamcrest>1.3</version-hamcrest>
     <version-kasisoft-common>2.1</version-kasisoft-common>
@@ -95,6 +95,11 @@
     <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi</artifactId>
+      <version>${version-apache-poi}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
       <version>${version-apache-poi}</version>
     </dependency>
     <dependency>
