@@ -8,20 +8,24 @@ import java.io.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 public interface ImportMonitor {
+  
+  ImportMonitor DEFAULT = new ImportMonitor() {};
 
   /**
    * Will be called before the workbook is being opened.
    * 
    * @param file   The location of the workbook.
    */
-  void openingWorkbook( File file );
+  default void openingWorkbook( File file ) {
+  }
 
   /**
    * Will be called after the workbook has been successfully opened.
    * 
    * @param sheetcount   The number of sheets.
    */
-  void openedWorkbook( int sheetcount );
+  default void openedWorkbook( int sheetcount ) {
+  }
   
   /**
    * Will be called when the sheet is being processed.
@@ -30,7 +34,8 @@ public interface ImportMonitor {
    * @param number       The current number of the sheet (starting with 1).
    * @param sheetcount   The number of available sheets.
    */
-  void processingSheet( String name, int number, int sheetcount );
+  default void processingSheet( String name, int number, int sheetcount ) {
+  }
 
   /**
    * Will be called when the sheet has been processed.
@@ -39,7 +44,8 @@ public interface ImportMonitor {
    * @param number       The current number of the sheet (starting with 1).
    * @param sheetcount   The number of available sheets.
    */
-  void sheetProcessed( String name, int number, int sheetcount );
+  default void sheetProcessed( String name, int number, int sheetcount ) {
+  }
 
   /**
    * Will be called when the sheet is being imported.
@@ -48,7 +54,8 @@ public interface ImportMonitor {
    * @param number       The current number of the sheet (starting with 1).
    * @param sheetcount   The number of available sheets.
    */
-  void importingSheet( String name, int number, int sheetcount );
+  default void importingSheet( String name, int number, int sheetcount ) {
+  }
   
   /**
    * Will be called when the sheet has been imported.
@@ -57,7 +64,8 @@ public interface ImportMonitor {
    * @param number       The current number of the sheet (starting with 1).
    * @param sheetcount   The number of available sheets.
    */
-  void sheetImported( String name, int number, int sheetcount );
+  default void sheetImported( String name, int number, int sheetcount ) {
+  }
   
   /**
    * Will be invoked whenever a row is being imported.
@@ -66,7 +74,8 @@ public interface ImportMonitor {
    * @param row        The row that is being imported (starting with 1).
    * @param rowcount   The number of available rows.
    */
-  void importingRow( String name, int row, int rowcount );
+  default void importingRow( String name, int row, int rowcount ) {
+  }
   
   /**
    * Will be called when the import process has been finished.
@@ -74,6 +83,7 @@ public interface ImportMonitor {
    * @param imported   The number of imported sheets.
    * @param count      The number of total sheets.
    */
-  void resumeImport( int imported, int count );
+  default  void resumeImport( int imported, int count ) {
+  }
   
 } /* ENDINTERFACE */

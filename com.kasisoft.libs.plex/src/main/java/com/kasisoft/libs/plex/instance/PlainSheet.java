@@ -14,9 +14,12 @@ import java.util.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@EqualsAndHashCode(of = "sheetName", callSuper = false)
 public class PlainSheet extends DefaultTableModel implements Comparable<PlainSheet> {
 
-  String                sheetname;
+  @Getter
+  String                sheetName;
+  
   Class<?>[]            classes;
   Map<String, String>   metadata;
   List<String>          titles;
@@ -30,7 +33,7 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
     super();
     metadata  = new Hashtable<>();
     titles    = new ArrayList<>();
-    sheetname = name;
+    sheetName = name;
     classes   = null;
   }
   
@@ -157,29 +160,11 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
     return false;
   }
   
-  /**
-   * Returns the sheetname used for this model.
-   * 
-   * @return   The sheetname used for this model. Neither <code>null</code> nor null. 
-   */
-  public String getSheetName() {
-    return sheetname;
-  }
-
   @Override
   public String toString() {
     return getSheetName();
   }
   
-  @Override
-  public boolean equals( Object obj ) {
-    if( obj instanceof PlainSheet ) {
-      return getSheetName().equals( ((PlainSheet) obj).getSheetName() );
-    } else {
-      return false;
-    }
-  }
-
   @Override
   public int compareTo( PlainSheet other ) {
     if( other == null ) {
@@ -187,11 +172,6 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
     } else {
       return getSheetName().compareTo( other.getSheetName() );
     }
-  }
-  
-  @Override
-  public int hashCode() {
-    return getSheetName().hashCode();
   }
   
   /**

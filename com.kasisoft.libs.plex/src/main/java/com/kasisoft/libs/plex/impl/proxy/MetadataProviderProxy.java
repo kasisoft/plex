@@ -38,7 +38,7 @@ public class MetadataProviderProxy implements MetadataProvider {
     try {
       return delegate.getMetadata( id, sheet, args );
     } catch( RuntimeException ex ) {
-      throw new PLEXException( error_in_api_function.format( ex.getMessage() ), ex );
+      throw PLEXException.wrap( error_in_api_function.format( ex.getMessage() ), ex );
     }
   }
 

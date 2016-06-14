@@ -26,7 +26,7 @@ public class SimpleColumnResolver implements ColumnResolver {
   public int detectColumn( String id, Sheet sheet, String... args ) throws PLEXException {
     int result = detectColumn( sheet );
     if( result == -1 ) {
-      throw new PLEXException( error_in_api_function.format( missing_column.format( sheet.getSheetName() ) ) );
+      throw PLEXException.wrap( error_in_api_function.format( missing_column.format( sheet.getSheetName() ) ) );
     }
     int offset = 0;
     if( args.length > 0 ) {

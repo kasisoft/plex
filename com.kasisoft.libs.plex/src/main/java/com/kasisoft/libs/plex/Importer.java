@@ -2,6 +2,8 @@ package com.kasisoft.libs.plex;
 
 import static com.kasisoft.libs.plex.internal.Messages.*;
 
+import org.apache.poi.ss.usermodel.*;
+
 import com.kasisoft.libs.common.util.*;
 
 import com.kasisoft.libs.common.lang.*;
@@ -13,22 +15,19 @@ import lombok.experimental.*;
 
 import lombok.*;
 
-import org.apache.poi.openxml4j.exceptions.*;
-
-import org.apache.poi.ss.usermodel.*;
-import org.xml.sax.*;
-
-import javax.xml.*;
-import javax.xml.bind.*;
 import javax.xml.validation.*;
 
+import javax.xml.bind.*;
+
+import javax.xml.*;
+
 import java.util.*;
+
+import java.lang.reflect.*;
 
 import java.net.*;
 
 import java.io.*;
-
-import java.lang.reflect.*;
 
 /**
  * This class provides the importing capabilities controlled by a corresponding descriptor.
@@ -56,8 +55,8 @@ public class Importer {
       SchemaFactory factory   = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI );
       URL           schemaurl = Importer.class.getResource( "/plex.xsd" );
       schema                  = factory.newSchema( schemaurl );
-    } catch( SAXException   ex ) {
-      throw new PLEXException( missing_schema, ex );
+    } catch( Exception ex ) {
+      throw PLEXException.wrap( missing_schema, ex );
     }
 
     try {
@@ -76,11 +75,11 @@ public class Importer {
       
       driver                      = new ImportDriver( plexmodel, manager );
     
-    } catch( JAXBException  ex ) {
-      throw new PLEXException( declaration_error.format( invalid_declaration ), ex );
+    } catch( Exception  ex ) {
+      throw PLEXException.wrap( declaration_error.format( invalid_declaration ), ex );
     }
    
-    monitor = new NullImportMonitor();
+    monitor = ImportMonitor.DEFAULT;
     
   }
   
@@ -92,7 +91,7 @@ public class Importer {
   public void setImportMonitor( ImportMonitor newmonitor ) {
     monitor = newmonitor;
     if( monitor == null ) {
-      monitor = new NullImportMonitor();
+      monitor = ImportMonitor.DEFAULT;
     }
   }
   
@@ -114,10 +113,8 @@ public class Importer {
       instream  = new FileInputStream( excel );
       workbook  = WorkbookFactory.create( instream );
       monitor.openedWorkbook( workbook.getNumberOfSheets() );
-    } catch( IOException            ex ) {
-      throw new PLEXException( io.format( excel ), ex );
-    } catch( InvalidFormatException ex ) {
-      throw new PLEXException( invalid_excel.format( excel ), ex );
+    } catch( Exception ex ) {
+      throw PLEXException.wrap( io.format( excel ), ex );
     } finally {
       MiscFunctions.close( instream );
     }
@@ -141,7 +138,7 @@ public class Importer {
         String      classname = plexinterface.getClassname();
         Object      instance  = ReflectionFunctions.newInstance( classname );
         if( instance == null ) {
-          throw new PLEXException( declaration_error.format( failed_instantiation.format( classname ) ) );
+          throw PLEXException.wrap( declaration_error.format( failed_instantiation.format( classname ) ) );
         }
         if( ! plexinterface.getInjectors().isEmpty() ) {
           configureInstance( instance, plexinterface.getInjectors() );
@@ -197,7 +194,7 @@ public class Importer {
       method.invoke( instance, value );
       
     } catch( Exception ex ) {
-      throw new PLEXException( declaration_error.format( failed_configuration.format( instance.getClass().getName() ) ), ex );
+      throw PLEXException.wrap( declaration_error.format( failed_configuration.format( instance.getClass().getName() ) ), ex );
     }
     
   }
@@ -307,7 +304,7 @@ public class Importer {
       case TRANSFORM  : checkType ( ValueTransform    . class, clazz ); break;
       }
     } catch( ClassNotFoundException ex ) {
-      throw new PLEXException( declaration_error.format( missing_classname.format( classname ) ) );
+      throw PLEXException.wrap( declaration_error.format( missing_classname.format( classname ) ) );
     }
   }
   
@@ -321,7 +318,7 @@ public class Importer {
    */
   private void checkType( Class<?> requiredapi, Class<?> currenttype ) throws PLEXException {
     if( ! requiredapi.isAssignableFrom( currenttype ) ) {
-      throw new PLEXException( declaration_error.format( invalid_type.format( currenttype.getName(), requiredapi.getName() ) ) );
+      throw PLEXException.wrap( declaration_error.format( invalid_type.format( currenttype.getName(), requiredapi.getName() ) ) );
     }
   }
   
@@ -335,15 +332,15 @@ public class Importer {
    */
   private void checkConsistency( ApiManager apiman, PLEXSheetDescription sheet ) throws PLEXException {
     if( (sheet.getFirstrow() == null) && (sheet.getFirstrowdetect() == null) ) {
-      throw new PLEXException( declaration_error.format( missing_first_row ) );
+      throw PLEXException.wrap( declaration_error.format( missing_first_row ) );
     }
     PLEXApiCall apicall = sheet.getFirstrowdetect();
     if( apicall != null ) {
       if( ! apiman.isRowResolver( apicall.getRefid() ) ) {
-        throw new PLEXException( declaration_error.format( missing_row_resolver.format( apicall.getRefid() ) ) );
+        throw PLEXException.wrap( declaration_error.format( missing_row_resolver.format( apicall.getRefid() ) ) );
       }
       if( ! apiman.canHandleArgs( apicall.getRefid(), apicall.getArg() ) ) {
-        throw new PLEXException( declaration_error.format( syntax_row_resolver.format( StringFunctions.toString( apicall.getArg().toArray() ), apicall.getRefid() ) ) );
+        throw PLEXException.wrap( declaration_error.format( syntax_row_resolver.format( StringFunctions.toString( apicall.getArg().toArray() ), apicall.getRefid() ) ) );
       }
     }
     for( int i = 0; i < sheet.getColumn().size(); i++ ) {
@@ -366,10 +363,10 @@ public class Importer {
     PLEXApiCall apicall = metadata.getMetadetect();
     if( apicall != null ) {
       if( ! apiman.isMetdataProvider( apicall.getRefid() ) ) {
-        throw new PLEXException( declaration_error.format( missing_metadata_provider.format( apicall.getRefid() ) ) );
+        throw PLEXException.wrap( declaration_error.format( missing_metadata_provider.format( apicall.getRefid() ) ) );
       }
       if( ! apiman.canHandleArgs( apicall.getRefid(), apicall.getArg() ) ) {
-        throw new PLEXException( declaration_error.format( syntax_metadata_provider.format( StringFunctions.toString( apicall.getArg().toArray() ), apicall.getRefid() ) ) );
+        throw PLEXException.wrap( declaration_error.format( syntax_metadata_provider.format( StringFunctions.toString( apicall.getArg().toArray() ), apicall.getRefid() ) ) );
       }
     }
   }
@@ -386,16 +383,16 @@ public class Importer {
   private void checkConsistency( ApiManager apiman, PLEXColumnDescription column, boolean first ) throws PLEXException {
     if( (column.getColumn() == null) && (column.getColumndetect() == null) ) {
       if( first ) {
-        throw new PLEXException( declaration_error.format( missing_column_infos ) );
+        throw PLEXException.wrap( declaration_error.format( missing_column_infos ) );
       }
     }
     PLEXApiCall apicall = column.getColumndetect();
     if( apicall != null ) {
       if( ! apiman.isColumnResolver( apicall.getRefid() ) ) {
-        throw new PLEXException( declaration_error.format( missing_column_resolver.format( apicall.getRefid() ) ) );
+        throw PLEXException.wrap( declaration_error.format( missing_column_resolver.format( apicall.getRefid() ) ) );
       }
       if( ! apiman.canHandleArgs( apicall.getRefid(), apicall.getArg() ) ) {
-        throw new PLEXException( declaration_error.format( syntax_column_resolver.format( StringFunctions.toString( apicall.getArg().toArray() ), apicall.getRefid() ) ) );
+        throw PLEXException.wrap( declaration_error.format( syntax_column_resolver.format( StringFunctions.toString( apicall.getArg().toArray() ), apicall.getRefid() ) ) );
       }
     }
   }

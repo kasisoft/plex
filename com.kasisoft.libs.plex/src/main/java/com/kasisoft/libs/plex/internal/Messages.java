@@ -29,8 +29,8 @@ public class Messages {
   @I18N("The plex declaration is invalid.")
   static String             invalid_declaration; 
 
-  @I18N("The excel file '%s' is not valid !")
-  static I18NFormatter      invalid_excel;
+//  @I18N("The excel file '%s' is not valid !")
+//  static I18NFormatter      invalid_excel;
 
   @I18N("%s: The value isn't a proper number.")
   static I18NFormatter      invalid_number; 

@@ -10,34 +10,17 @@ import lombok.*;
  * @author daniel.kasmeroglu@kasisoft.net
  */
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Getter
 public class ErrorValue {
 
   String   textual;
   String   cause;
   
-  public ErrorValue( String value, String fmt, Object ... args ) {
+  public ErrorValue( String value, String message ) {
     textual = value;
-    cause   = String.format( fmt, args );
+    cause   = message;
   }
   
-  /**
-   * Returns the erraneous value.
-   * 
-   * @return   The erraneous value.
-   */
-  public String getValue() {
-    return textual;
-  }
-  
-  /**
-   * Delivers an error message.
-   * 
-   * @return   An error message. Neither <code>null</code> nor empty.
-   */
-  public String getCause() {
-    return cause;
-  }
-
   @Override
   public String toString() {
     return String.format( "%s [%s]", cause, textual );
