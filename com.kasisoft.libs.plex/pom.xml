@@ -60,7 +60,7 @@
     <version-apache-poi>3.11</version-apache-poi>
     <version-cobertura>2.1.1</version-cobertura>
     <version-hamcrest>1.3</version-hamcrest>
-    <version-kasisoft-common>2.1</version-kasisoft-common>
+    <version-kasisoft-common>2.2</version-kasisoft-common>
     <version-log4j>1.6.4</version-log4j>
     <version-lombok>1.14.8</version-lombok>
     <version-testng>6.9.4</version-testng>

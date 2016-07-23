@@ -1,6 +1,6 @@
 package com.kasisoft.libs.plex.instance;
 
-import com.kasisoft.libs.common.util.*;
+import com.kasisoft.libs.common.text.*;
 
 import lombok.experimental.*;
 
@@ -28,7 +28,7 @@ public class SimpleSerializer {
   public SimpleSerializer() {
     buffer    = new StringFBuffer();
     indention = new StringBuffer();
-    tags      = new Stack<String>();
+    tags      = new Stack<>();
   }
   
   /**

@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.*;
 import com.kasisoft.libs.common.util.*;
 
 import com.kasisoft.libs.common.lang.*;
+import com.kasisoft.libs.common.text.*;
 import com.kasisoft.libs.plex.api.*;
 import com.kasisoft.libs.plex.instance.*;
 import com.kasisoft.libs.plex.model.*;
@@ -248,7 +249,7 @@ public class Importer {
       return Double.valueOf( ((PLEXDouble) injector).getValue() );
     } else /* if( injector instanceof PLEXStringList ) */ {
       PLEXStringList list   = (PLEXStringList) injector;
-      List<String>   result = new ArrayList<String>();
+      List<String>   result = new ArrayList<>();
       for( int i = 0; i < list.getItem().size(); i++ ) {
         result.add( list.getItem().get(i) );
       }

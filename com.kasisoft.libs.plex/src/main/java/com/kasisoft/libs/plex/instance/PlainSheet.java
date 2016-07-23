@@ -110,7 +110,7 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
   public void purify() {
     classes                  = new Class<?>[ getColumnCount() ];
     Arrays.fill( classes, Object.class );
-    Set<Class<?>> classtypes = new HashSet<Class<?>>();
+    Set<Class<?>> classtypes = new HashSet<>();
     for( int col = 0; col < getColumnCount(); col++ ) {
       for( int row = 0; row < getRowCount(); row++ ) {
         Object cellvalue = getValueAt( row, col );

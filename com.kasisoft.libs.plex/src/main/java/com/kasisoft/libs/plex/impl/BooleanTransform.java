@@ -22,7 +22,7 @@ public class BooleanTransform implements ValueTransform {
    * Initializes this transform instance.
    */
   public BooleanTransform() {
-    truevalues  = new HashSet<String>();
+    truevalues  = new HashSet<>();
     truevalues.add( "x"     );
     truevalues.add( "yes"   );
     truevalues.add( "1"     );

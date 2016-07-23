@@ -39,7 +39,7 @@ class ImportDriver {
     
     descriptor    = desc;
     apimanager    = manager;
-    importspecs   = new Hashtable<Pattern,PLEXSheetDescription>();
+    importspecs   = new Hashtable<>();
     for( PLEXSheetDescription description : descriptor.getSheet() ) {
       if( description.getNamepattern() != null ) {
         importspecs.put( Pattern.compile( description.getNamepattern() ), description );
@@ -225,7 +225,7 @@ class ImportDriver {
    */
   private Column[] calculateColumns( Sheet sheet, PLEXSheetDescription description ) throws PLEXException {
     
-    List<Column> columns = new ArrayList<Column>();
+    List<Column> columns = new ArrayList<>();
     
     // collect simple columns
     int          lastcol = -1;
