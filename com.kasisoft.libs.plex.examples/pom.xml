@@ -87,6 +87,11 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>com.kasisoft</groupId>
+      <artifactId>com.kasisoft.libs.plex</artifactId>
+      <version>0.2-SNAPSHOT</version>
+    </dependency>
+    <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-all</artifactId>
       <version>${version-hamcrest}</version>

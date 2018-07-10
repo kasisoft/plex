@@ -8,8 +8,8 @@
  */
 package example;
 
-import com.kasisoft.lgpl.libs.plex.instance.*;
-import com.kasisoft.lgpl.libs.plex.*;
+import com.kasisoft.libs.plex.*;
+import com.kasisoft.libs.plex.instance.*;
 
 import java.net.*;
 import java.io.*;

@@ -62,7 +62,7 @@
     <version-hamcrest>1.3</version-hamcrest>
     <version-kasisoft-common>2.2</version-kasisoft-common>
     <version-log4j>1.6.4</version-log4j>
-    <version-lombok>1.14.8</version-lombok>
+    <version-lombok>1.16.18</version-lombok>
     <version-testng>6.9.4</version-testng>
     
     <!-- versioning: plugins -->
