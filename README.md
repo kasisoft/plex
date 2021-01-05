@@ -1,4 +1,8 @@
+![FMX](https://github.com/kasisoft/plex/workflows/PLEX/badge.svg?branch=master&event=push)
+
 # Purpose
+
+This library provides convenient functionalities to extract data from excel files.
 
 
 # Infos
@@ -31,6 +35,43 @@ The build uses Maven
      </dependency>
 
 
+### Snapshots
+
+Snapshots can be used while accessing a dedicated maven repository. Your POM needs the following settings:
+
+     <dependency>
+         <groupId>com.kasisoft</groupId>
+         <artifactId>com.kasisoft.libs.plex</artifactId>
+         <version>0.3-SNAPSHOT</version>
+     </dependency>
+     
+     <repositories>
+         <repository>
+             <id>github-plex</id>
+             <url>https://maven.pkg.github.com/kasisoft/plex</url>
+             <releases>
+                 <enabled>false</enabled>
+             </releases>
+             <snapshots>
+                 <enabled>true</enabled>
+             </snapshots>
+         </repository>
+     </repositories>
+
+You need to provide credentials in your _~/.m2/settings.xml_:
+
+     <server>
+         <id>github-plex</id>
+         <username>username</username>
+         <password>token</password>
+     </server>
+
+You can create a token with your github account:
+
+* Open your Github settings
+* Select _Developer settings_
+* Select _Personal access tokens_
+* Create a new token with read:package access
 
 
 
@@ -38,7 +79,7 @@ The build uses Maven
 
 MIT License
 
-Copyright (c) 2020 Daniel Kasmeroglu (Kasisoft)
+Copyright (c) 2021 Daniel Kasmeroglu (Kasisoft)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
