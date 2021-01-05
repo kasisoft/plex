@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.kasisoft</groupId>
   <artifactId>com.kasisoft.libs.plex</artifactId>
-  <version>0.2</version>
+  <version>0.3-SNAPSHOT</version>
 
   <name>PLEX :: Excel library</name>
   <url>https://kasisoft.com/project/plex/</url>
