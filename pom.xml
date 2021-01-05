@@ -61,6 +61,7 @@
     
     <!-- versioning: plugins -->
     <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+    <jaxb-maven-plugin.version>0.8.5</jaxb-maven-plugin.version>
     <maven-bundle-plugin.version>5.1.1</maven-bundle-plugin.version>
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
@@ -199,6 +200,33 @@
     <pluginManagement>
       <plugins>
 
+        <plugin>
+          <groupId>org.openjax.jaxb</groupId>
+          <artifactId>jaxb-maven-plugin</artifactId>
+          <version>${jaxb-maven-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>xjc</id>
+              <goals>
+                <goal>xjc</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <bindings>
+              <binding>src/main/resources/plex.jxb</binding>
+            </bindings>
+            <schemas>
+              <schema>src/main/resources/plex.xsd</schema>
+            </schemas>
+            <noGeneratedHeaderComments>true</noGeneratedHeaderComments>
+            <noHeader>true</noHeader>
+            <packageName>com.kasisoft.libs.plex.model</packageName>
+            <destDir>src/main/java</destDir>
+          </configuration>
+          
+        </plugin>
+  
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
