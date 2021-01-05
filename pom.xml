@@ -60,6 +60,7 @@
     <testng.version>7.3.0</testng.version>
     
     <!-- versioning: plugins -->
+    <build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
     <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
     <jaxb-maven-plugin.version>0.8.5</jaxb-maven-plugin.version>
     <maven-bundle-plugin.version>5.1.1</maven-bundle-plugin.version>
@@ -222,11 +223,30 @@
             <noGeneratedHeaderComments>true</noGeneratedHeaderComments>
             <noHeader>true</noHeader>
             <packageName>com.kasisoft.libs.plex.model</packageName>
-            <destDir>src/main/java</destDir>
+            <destDir>src/main/generated</destDir>
           </configuration>
-          
         </plugin>
   
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>${build-helper-maven-plugin.version}</version>
+          <executions>
+            <execution>
+              <id>add-source</id>
+              <phase>generate-sources</phase>
+              <goals>
+                <goal>add-source</goal> 
+              </goals>
+              <configuration>
+                <sources>
+                  <source>src/main/generated</source>
+                </sources>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-gpg-plugin</artifactId>
@@ -346,16 +366,12 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven-surefire-plugin.version}</version>
           <configuration>
-            <forkCount>1</forkCount>
             <properties>
               <property>
                 <name>usedefaultlisteners</name>
                 <key>false</key>
               </property>
             </properties>
-            <systemPropertyVariables>
-              <java.io.tmpdir>${env.TMP}</java.io.tmpdir>
-            </systemPropertyVariables>
           </configuration>
         </plugin>
         
@@ -368,6 +384,11 @@
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
       </plugin> 
+      
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          </plugin>
       
       <plugin>
         <groupId>org.jacoco</groupId>
