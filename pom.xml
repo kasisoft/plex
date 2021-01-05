@@ -7,8 +7,8 @@
   <version>0.2-SNAPSHOT</version>
 
   <name>PLEX :: Excel library</name>
-  <url>https://kasisoft.github.io/plex/</url>
-  <description>Collection of general purpose functionalities.</description>
+  <url>https://kasisoft.com/project/plex/</url>
+  <description>Library helping to extract data from Excel files.</description>
   
   <licenses>
     <license>
@@ -23,7 +23,7 @@
   </organization>
   
   <scm>
-    <url>https://kasisoft.github.io/plex/</url>
+    <url>https://kasisoft.com/project/plex/</url>
     <connection>scm:git:https://github.com/kasisoft/plex.git</connection>
     <developerConnection>scm:git:https://github.com/kasisoft/plex.git</developerConnection>
   </scm>
