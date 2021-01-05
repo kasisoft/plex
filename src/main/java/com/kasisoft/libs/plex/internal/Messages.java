@@ -73,7 +73,7 @@ public class Messages {
   public static I18NFormatter      syntax_row_resolver;
   
   static {
-    I18NSupport.initialize( Messages.class );
+    I18NSupport.initialize(Messages.class);
   }
   
 } /* ENDCLASS */

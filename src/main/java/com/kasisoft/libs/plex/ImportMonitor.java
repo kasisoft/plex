@@ -16,7 +16,7 @@ public interface ImportMonitor {
    * 
    * @param file   The location of the workbook.
    */
-  default void openingWorkbook( File file ) {
+  default void openingWorkbook(File file) {
   }
 
   /**
@@ -24,7 +24,7 @@ public interface ImportMonitor {
    * 
    * @param sheetcount   The number of sheets.
    */
-  default void openedWorkbook( int sheetcount ) {
+  default void openedWorkbook(int sheetcount) {
   }
   
   /**
@@ -34,7 +34,7 @@ public interface ImportMonitor {
    * @param number       The current number of the sheet (starting with 1).
    * @param sheetcount   The number of available sheets.
    */
-  default void processingSheet( String name, int number, int sheetcount ) {
+  default void processingSheet(String name, int number, int sheetcount) {
   }
 
   /**
@@ -44,7 +44,7 @@ public interface ImportMonitor {
    * @param number       The current number of the sheet (starting with 1).
    * @param sheetcount   The number of available sheets.
    */
-  default void sheetProcessed( String name, int number, int sheetcount ) {
+  default void sheetProcessed(String name, int number, int sheetcount) {
   }
 
   /**
@@ -54,7 +54,7 @@ public interface ImportMonitor {
    * @param number       The current number of the sheet (starting with 1).
    * @param sheetcount   The number of available sheets.
    */
-  default void importingSheet( String name, int number, int sheetcount ) {
+  default void importingSheet(String name, int number, int sheetcount) {
   }
   
   /**
@@ -64,7 +64,7 @@ public interface ImportMonitor {
    * @param number       The current number of the sheet (starting with 1).
    * @param sheetcount   The number of available sheets.
    */
-  default void sheetImported( String name, int number, int sheetcount ) {
+  default void sheetImported(String name, int number, int sheetcount) {
   }
   
   /**
@@ -74,7 +74,7 @@ public interface ImportMonitor {
    * @param row        The row that is being imported (starting with 1).
    * @param rowcount   The number of available rows.
    */
-  default void importingRow( String name, int row, int rowcount ) {
+  default void importingRow(String name, int row, int rowcount) {
   }
   
   /**
@@ -83,7 +83,7 @@ public interface ImportMonitor {
    * @param imported   The number of imported sheets.
    * @param count      The number of total sheets.
    */
-  default  void resumeImport( int imported, int count ) {
+  default  void resumeImport(int imported, int count) {
   }
   
 } /* ENDINTERFACE */

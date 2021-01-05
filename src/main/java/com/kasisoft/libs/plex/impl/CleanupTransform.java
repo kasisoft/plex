@@ -2,11 +2,13 @@ package com.kasisoft.libs.plex.impl;
 
 import com.kasisoft.libs.plex.api.*;
 
+import javax.validation.constraints.*;
+
+import java.util.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
-
-import java.util.*;
 
 /**
  * Cleans up a string which means that it will be trimmed and useless values will be corrected.
@@ -25,7 +27,7 @@ public class CleanupTransform implements ValueTransform {
    * 
    * @param enable   <code>true</code> <=> Disable the case sensitivity.
    */
-  public void setIgnoreCase( boolean enable ) {
+  public void setIgnoreCase(boolean enable) {
     ignorecase = enable;
   }
   
@@ -34,23 +36,23 @@ public class CleanupTransform implements ValueTransform {
    * 
    * @param newempties   The new values representing non existing values.
    */
-  public void setEmpties( List<String> newempties ) {
+  public void setEmpties(List<String> newempties) {
     empties = newempties;
   }
   
   @Override
-  public Object transformValue( String id, Object value, String ... args ) {
-    if( value instanceof String ) {
+  public Object transformValue(@NotBlank String id, @NotNull Object value, String ... args) {
+    if (value instanceof String) {
       String str = ((String) value).trim();
-      if( str.length() == 0 ) {
+      if (str.length() == 0) {
         return null;
       }
-      if( empties != null ) {
-        for( String item : empties ) {
-          if( item.equals( str ) ) {
+      if (empties != null) {
+        for (String item : empties) {
+          if (item.equals(str)) {
             return null;
           }
-          if( ignorecase && item.equalsIgnoreCase( str ) ) {
+          if (ignorecase && item.equalsIgnoreCase(str)) {
             return null;
           }
         }
@@ -61,7 +63,7 @@ public class CleanupTransform implements ValueTransform {
   }
 
   @Override
-  public boolean canHandleArguments( String id, List<String> args ) {
+  public boolean canHandleArguments(@NotBlank String id, List<String> args) {
     return true;
   }
 

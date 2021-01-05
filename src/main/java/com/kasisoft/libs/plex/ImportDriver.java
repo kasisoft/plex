@@ -1,18 +1,20 @@
 package com.kasisoft.libs.plex;
 
-import org.apache.poi.ss.usermodel.*;
-
 import com.kasisoft.libs.plex.api.*;
 import com.kasisoft.libs.plex.instance.*;
 import com.kasisoft.libs.plex.model.*;
 
+import org.apache.poi.ss.usermodel.*;
+
+import javax.validation.constraints.*;
+
+import java.util.regex.Pattern;
+
+import java.util.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
-
-import java.util.regex.*;
-
-import java.util.*;
 
 /**
  * Main logic used to run the import process.
@@ -35,17 +37,17 @@ class ImportDriver {
    * 
    * @throws PLEXException   The declaration seems to be invalid.
    */
-  public ImportDriver( PLEXModel desc, ApiManager manager ) throws PLEXException {
+  public ImportDriver(@NotNull PLEXModel desc, @NotNull ApiManager manager) throws PLEXException {
     
     descriptor    = desc;
     apimanager    = manager;
     importspecs   = new Hashtable<>();
-    for( PLEXSheetDescription description : descriptor.getSheet() ) {
-      if( description.getNamepattern() != null ) {
-        importspecs.put( Pattern.compile( description.getNamepattern() ), description );
+    for (PLEXSheetDescription description : descriptor.getSheet()) {
+      if (description.getNamepattern() != null) {
+        importspecs.put(Pattern.compile(description.getNamepattern()), description);
       }
-      if( description.getName() != null ) {
-        importspecs.put( Pattern.compile( Pattern.quote( description.getName() ) ), description );
+      if (description.getName() != null) {
+        importspecs.put(Pattern.compile(Pattern.quote(description.getName())), description);
       }
     }
     
@@ -61,26 +63,26 @@ class ImportDriver {
    * 
    * @throws PLEXException   The import failed for some reason.
    */
-  public PlainExcel importData( Workbook workbook, ImportMonitor monitor ) throws PLEXException  {
+  public PlainExcel importData(@NotNull Workbook workbook, @NotNull ImportMonitor monitor) throws PLEXException {
     PlainExcel  result    = new PlainExcel();
     int         count     = workbook.getNumberOfSheets();
     int         imported  = 0;
-    for( int i = 0; i < count; i++ ) {
+    for (int i = 0; i < count; i++) {
       Sheet   sheet = workbook.getSheetAt(i);
       String  name  = sheet.getSheetName();
       monitor.processingSheet( name, i + 1, count );
-      if( (name != null) && (name.trim().length() > 0) ) {
+      if ( (name != null) && (name.trim().length() > 0)) {
         PLEXSheetDescription description = identifySheet( name );
-        if( description != null ) {
-          monitor.importingSheet( name, i + 1, count );
-          importSheet( result, sheet, description, monitor );
-          monitor.sheetImported( name, i + 1, count );
+        if (description != null) {
+          monitor.importingSheet(name, i + 1, count);
+          importSheet(result, sheet, description, monitor);
+          monitor.sheetImported(name, i + 1, count);
           imported++;
         }
       }
-      monitor.sheetProcessed( name, i + 1, count );
+      monitor.sheetProcessed(name, i + 1, count);
     }
-    monitor.resumeImport( imported, count );
+    monitor.resumeImport(imported, count);
     return result;
   }
 
@@ -91,26 +93,26 @@ class ImportDriver {
    * 
    * @return   The description or <code>null</code> if there wasn't one.
    */
-  private PLEXSheetDescription identifySheet( String sheetname ) {
-    for( Map.Entry<Pattern,PLEXSheetDescription> importspec : importspecs.entrySet() ) {
-      if( importspec.getKey().matcher( sheetname ).matches() ) {
+  private PLEXSheetDescription identifySheet(@NotBlank String sheetname) {
+    for (Map.Entry<Pattern,PLEXSheetDescription> importspec : importspecs.entrySet()) {
+      if (importspec.getKey().matcher(sheetname).matches()) {
         return importspec.getValue();
       }
     }
     return null;
   }
   
-  private void importMetadata( PlainSheet tablemodel, PLEXMetadata metadata, Sheet sheet ) throws PLEXException{
-    if( metadata != null ) {
-      for( PLEXProperty property : metadata.getProperty() ) {
-        tablemodel.setMetadata( property.getKey(), property.getValue() );
+  private void importMetadata(PlainSheet tablemodel, PLEXMetadata metadata, Sheet sheet) throws PLEXException{
+    if (metadata != null) {
+      for (PLEXProperty property : metadata.getProperty()) {
+        tablemodel.setMetadata(property.getKey(), property.getValue());
       }
       PLEXApiCall apicall = metadata.getMetadetect();
-      if( apicall != null ) {
-        Map<String,String> properties = apimanager.getMetadata( apicall.getRefid(), apicall.getArg(), sheet );
-        if( properties != null ) {
-          for( Map.Entry<String,String> entry : properties.entrySet() ) {
-            tablemodel.setMetadata( entry.getKey(), entry.getValue() );
+      if (apicall != null) {
+        Map<String, String> properties = apimanager.getMetadata(apicall.getRefid(), apicall.getArg(), sheet);
+        if (properties != null) {
+          for (Map.Entry<String,String> entry : properties.entrySet()) {
+            tablemodel.setMetadata(entry.getKey(), entry.getValue());
           }
         }
       }
@@ -122,68 +124,68 @@ class ImportDriver {
    * 
    * @param receiver      The data instance to collect the imported data. Not <code>null</code>.
    * @param sheet         The sheet which has to be imported. Not <code>null</code>.
-   * @param description   The description used to drive the import process. 
+   * @param description   The description used to drive the import process. Not <code>null</code>.
    * @param monitor       The monitor which is used to keep track of the progress. Not <code>null</code>.
    */
-  private void importSheet( PlainExcel receiver, Sheet sheet, PLEXSheetDescription description, ImportMonitor monitor ) throws PLEXException {
+  private void importSheet(@NotNull PlainExcel receiver, @NotNull Sheet sheet, @NotNull PLEXSheetDescription description, @NotNull ImportMonitor monitor) throws PLEXException {
     
-    PlainSheet    tablemodel  = new PlainSheet( sheet.getSheetName() );
-    receiver.addTable( tablemodel );
+    PlainSheet tablemodel = new PlainSheet(sheet.getSheetName());
+    receiver.addTable(tablemodel);
     
-    importMetadata( tablemodel, description.getMetadata(), sheet );
+    importMetadata(tablemodel, description.getMetadata(), sheet);
     
     // get the columns sorted according to the input order
-    Column[]      columns     = calculateColumns( sheet, description );
+    Column[] columns = calculateColumns(sheet, description);
     
     // create titles for the table
-    for( Column column : columns ) {
-      tablemodel.addColumn( column.title );
+    for (Column column : columns) {
+      tablemodel.addColumn(column.title);
     }
     
     int rownum   = 0;
-    int firstrow = getFirstRow( sheet, description );
+    int firstrow = getFirstRow(sheet, description);
     int rowcount = sheet.getLastRowNum() - firstrow;
-    for( int row = firstrow; row <= sheet.getLastRowNum(); row++ ) {
+    for (int row = firstrow; row <= sheet.getLastRowNum(); row++) {
       
       rownum++;
-      monitor.importingRow( sheet.getSheetName(), rownum, rowcount );
+      monitor.importingRow(sheet.getSheetName(), rownum, rowcount);
       
-      Row      rowobj  = sheet.getRow( row );
-      if( rowobj == null ) {
+      Row rowobj  = sheet.getRow(row);
+      if (rowobj == null) {
         // there might be rows by the count but if there's no content, there's no data
         continue;
       }
       
       // setup the row data for this recorc
-      Object[] rowdata = new Object[ columns.length ];
-      Arrays.fill( rowdata, null );
+      Object[] rowdata = new Object[columns.length];
+      Arrays.fill(rowdata, null);
       
       boolean  gotdata = false;
-      for( int col = 0; col < columns.length; col++ ) {
+      for (int col = 0; col < columns.length; col++) {
         
-        Column column       = columns[ col ];
-        Object cellcontent  = getCellContent( rowobj, column.column );
-        if( cellcontent != null ) {
+        Column column       = columns[col];
+        Object cellcontent  = getCellContent(rowobj, column.column);
+        if (cellcontent != null) {
           // there was some usable content
-          rowdata[ col ]  = cellcontent;
-          gotdata         = true;
+          rowdata[col] = cellcontent;
+          gotdata      = true;
         }
         
         // apply transformers if there were some (note: a transformer can change a null
         // value into a non-null value)
-        if( column.transformer != null ) {
-          for( int i = 0; i < column.transformer.size(); i++ ) {
+        if (column.transformer != null) {
+          for (int i = 0; i < column.transformer.size(); i++) {
             PLEXApiCall apicall = column.transformer.get(i);
-            rowdata[ col ]      = apimanager.transformValue( apicall.getRefid(), apicall.getArg(), rowdata[ col ] );
+            rowdata[col]        = apimanager.transformValue(apicall.getRefid(), apicall.getArg(), rowdata[ col ]);
           }
-          if( rowdata[ col ] != null ) {
+          if (rowdata[col] != null) {
             gotdata = true;
           }
         }
       }
-      if( gotdata ) {
+      if (gotdata) {
         // only add rows which do provide some content
-        tablemodel.addRow( rowdata );
+        tablemodel.addRow(rowdata);
       }
     }
 
@@ -200,15 +202,15 @@ class ImportDriver {
    * 
    * @return   The cell content or <code>null</code> if the cell didn't contain anything.
    */
-  private Object getCellContent( Row row, int col ) {
-    Cell cell = row.getCell( col );
-    if( cell != null ) {
-      switch( cell.getCellType() ) {
+  private Object getCellContent(Row row, int col) {
+    Cell cell = row.getCell(col);
+    if (cell != null) {
+      switch (cell.getCellType()) {
       case Cell.CELL_TYPE_BLANK   : break;
       case Cell.CELL_TYPE_ERROR   : break;
       case Cell.CELL_TYPE_FORMULA : break; 
-      case Cell.CELL_TYPE_BOOLEAN : return Boolean.valueOf( cell.getBooleanCellValue() );
-      case Cell.CELL_TYPE_NUMERIC : return Double.valueOf( cell.getNumericCellValue() );
+      case Cell.CELL_TYPE_BOOLEAN : return Boolean.valueOf(cell.getBooleanCellValue());
+      case Cell.CELL_TYPE_NUMERIC : return Double.valueOf(cell.getNumericCellValue());
       case Cell.CELL_TYPE_STRING  : return cell.getStringCellValue();
       }
     }
@@ -223,18 +225,18 @@ class ImportDriver {
    * 
    * @return   A list of column descriptions. Not <code>null</code>.
    */
-  private Column[] calculateColumns( Sheet sheet, PLEXSheetDescription description ) throws PLEXException {
+  private Column[] calculateColumns(@NotNull Sheet sheet, @NotNull PLEXSheetDescription description) throws PLEXException {
     
     List<Column> columns = new ArrayList<>();
     
     // collect simple columns
-    int          lastcol = -1;
-    for( int i = 0; i < description.getColumn().size(); i++ ) {
+    int lastcol = -1;
+    for (int i = 0; i < description.getColumn().size(); i++) {
       PLEXColumnDescription columndesc  = description.getColumn().get(i);
-      Column column                     = new Column();
-      if( (columndesc.getColumn() != null) || (columndesc.getColumndetect() != null) ) {
+      Column                column      = new Column();
+      if ((columndesc.getColumn() != null) || (columndesc.getColumndetect() != null)) {
         // there is a column specification
-        column.column                   = getColumn( sheet, columndesc );
+        column.column                   = getColumn(sheet, columndesc);
       } else {
         // just use the last column index + 1
         column.column                   = lastcol + 1;
@@ -242,12 +244,12 @@ class ImportDriver {
       lastcol                           = column.column;
       column.title                      = columndesc.getTitle();
       column.transformer                = columndesc.getTransformer();
-      columns.add( column );
+      columns.add(column);
     }
     
-    Column[] result = new Column[ columns.size() ];
-    columns.toArray( result );
-    Arrays.sort( result );
+    Column[] result = new Column[columns.size()];
+    columns.toArray(result);
+    Arrays.sort(result);
     return result;
     
   }
@@ -260,16 +262,16 @@ class ImportDriver {
    * 
    * @return   The column index which could be identified.
    */
-  private int getColumn( Sheet sheet, PLEXColumnDescription column ) throws PLEXException {
-    if( column.getColumn() != null ) {
+  private int getColumn(@NotNull Sheet sheet, @NotNull PLEXColumnDescription column) throws PLEXException {
+    if (column.getColumn() != null) {
       try {
-        return Integer.parseInt( column.getColumn() );
-      } catch( NumberFormatException ex ) {
-        return toIndex( column.getColumn() );
+        return Integer.parseInt(column.getColumn());
+      } catch (NumberFormatException ex) {
+        return toIndex(column.getColumn());
       }
-    } else /* if( column.getColumndetect() != null ) */ {
+    } else /* if (column.getColumndetect() != null) */ {
       PLEXApiCall apicall = column.getColumndetect();
-      return apimanager.detectColumn( apicall.getRefid(), apicall.getArg(), sheet );
+      return apimanager.detectColumn(apicall.getRefid(), apicall.getArg(), sheet);
     }
   }
 
@@ -282,9 +284,9 @@ class ImportDriver {
    * 
    * @throws PLEXException   The column could not be parsed.
    */
-  private int toIndex( String column ) throws PLEXException {
+  private int toIndex(String column) throws PLEXException {
     column = column.toLowerCase();
-    if ( column.length() == 1 ) {
+    if (column.length() == 1) {
       return column.charAt(0) - 'a';
     } else {
       int c1 = column.charAt(0) - 'a' + 1;
@@ -297,16 +299,16 @@ class ImportDriver {
    * Returns the first row within a sheet or an api call.
    * 
    * @param sheet         The sheet currently being used. Not <code>null</code>.
-   * @param description   The sheet which first row has to be calculated. 
+   * @param description   The sheet which first row has to be calculated. Not <code>null</code>.
    * 
    * @return   The column index which could be identified.
    */
-  private int getFirstRow( Sheet sheet, PLEXSheetDescription description ) throws PLEXException {
-    if( description.getFirstrow() != null ) {
+  private int getFirstRow(@NotNull Sheet sheet, @NotNull PLEXSheetDescription description) throws PLEXException {
+    if (description.getFirstrow() != null) {
       return description.getFirstrow().intValue();
-    } else /* if( description.getFirstrowdetect() != null ) */ {
+    } else /* if (description.getFirstrowdetect() != null) */ {
       PLEXApiCall apicall = description.getFirstrowdetect();
-      return apimanager.detectRow( apicall.getRefid(), apicall.getArg(), sheet );
+      return apimanager.detectRow(apicall.getRefid(), apicall.getArg(), sheet);
     }
   }
 
@@ -315,15 +317,13 @@ class ImportDriver {
    */
   private static final class Column implements Comparable<Column> {
 
-    public int                 column;
-    public String              title;
-    public List<PLEXApiCall>   transformer;
+    int                 column;
+    String              title;
+    List<PLEXApiCall>   transformer;
     
-    /**
-     * {@inheritDoc}
-     */
-    public int compareTo( Column other ) {
-      return Integer.valueOf( column ).compareTo( Integer.valueOf( other.column ) );
+    @Override
+    public int compareTo(@NotNull Column other) {
+      return Integer.valueOf(column).compareTo(Integer.valueOf(other.column));
     }
     
   } /* ENDCLASS */

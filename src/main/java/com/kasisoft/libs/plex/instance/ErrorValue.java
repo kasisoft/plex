@@ -16,14 +16,14 @@ public class ErrorValue {
   String   textual;
   String   cause;
   
-  public ErrorValue( String value, String message ) {
+  public ErrorValue(String value, String message) {
     textual = value;
     cause   = message;
   }
   
   @Override
   public String toString() {
-    return String.format( "%s [%s]", cause, textual );
+    return String.format("%s [%s]", cause, textual);
   }
   
 } /* ENDCLASS */

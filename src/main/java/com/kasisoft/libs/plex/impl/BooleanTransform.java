@@ -2,11 +2,13 @@ package com.kasisoft.libs.plex.impl;
 
 import com.kasisoft.libs.plex.api.*;
 
+import javax.validation.constraints.*;
+
+import java.util.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
-
-import java.util.*;
 
 /**
  * Transforms a value into a Boolean instance.
@@ -23,10 +25,10 @@ public class BooleanTransform implements ValueTransform {
    */
   public BooleanTransform() {
     truevalues  = new HashSet<>();
-    truevalues.add( "x"     );
-    truevalues.add( "yes"   );
-    truevalues.add( "1"     );
-    truevalues.add( "true"  );
+    truevalues.add("x"   );
+    truevalues.add("yes" );
+    truevalues.add("1"   );
+    truevalues.add("true");
   }
   
   /**
@@ -34,24 +36,24 @@ public class BooleanTransform implements ValueTransform {
    * 
    * @param newtrues   The new values representing <code>true</code> values.
    */
-  public void setTrue( List<String> newtrues ) {
+  public void setTrue(List<String> newtrues) {
     truevalues.clear();
-    for( String newtrue : newtrues ) {
-      truevalues.add( newtrue );
+    for (String newtrue : newtrues) {
+      truevalues.add(newtrue);
     }
   }
   
   @Override
-  public Object transformValue( String id, Object value, String ... args ) {
-    if( value instanceof String ) {
+  public Object transformValue(@NotBlank String id, @NotNull Object value, String ... args) {
+    if (value instanceof String) {
       String str = (String) value;
-      return Boolean.valueOf( truevalues.contains( str.toLowerCase() ) );
+      return Boolean.valueOf(truevalues.contains(str.toLowerCase()));
     }
     return value;
   }
 
   @Override
-  public boolean canHandleArguments( String id, List<String> args ) {
+  public boolean canHandleArguments(@NotBlank String id, List<String> args) {
     return true;
   }
 

@@ -5,11 +5,13 @@ import static com.kasisoft.libs.plex.internal.Messages.*;
 import com.kasisoft.libs.plex.api.*;
 import com.kasisoft.libs.plex.instance.*;
 
+import javax.validation.constraints.*;
+
+import java.util.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
-
-import java.util.*;
 
 /**
  * Creates an Integer value from a String or Number.
@@ -27,7 +29,7 @@ public class ToIntTransform implements ValueTransform {
    * 
    * @param enable   <code>true</code> <=> Create Long types.
    */
-  public void setLongType( boolean enable ) {
+  public void setLongType(boolean enable) {
     createlong = enable;
   }
 
@@ -36,43 +38,42 @@ public class ToIntTransform implements ValueTransform {
    * 
    * @param enable   <code>true</code> <=> Only support strict numbers.
    */
-  public void setStrict( boolean enable ) {
+  public void setStrict(boolean enable) {
     strict = enable;
   }
   
   @Override
-  public Object transformValue( String id, Object value, String ... args ) {
+  public Object transformValue(@NotBlank String id, @NotNull Object value, String ... args) {
     
     String str = null;
-    
-    if( value instanceof String ) {
+    if (value instanceof String) {
       str = (String) value;
-    } else if( value instanceof Number ) {
-      str = String.valueOf( value );
+    } else if (value instanceof Number) {
+      str = String.valueOf(value);
     }
     
-    if( str != null ) {
+    if (str != null) {
       
       // it's a supported input type, so try the conversion
       try {
         
-        double doubleval = Double.parseDouble( str.replace( ',', '.' ) );  // just make sure locales don't confuse us
+        double doubleval = Double.parseDouble(str.replace( ',', '.' ));  // just make sure locales don't confuse us
         
-        if( strict ) {
+        if (strict) {
           double rest = doubleval - (long) doubleval;
-          if( rest != 0 ) {
-            return new ErrorValue( String.valueOf( value ), strict_error.format( id, rest ) );
+          if (rest != 0) {
+            return new ErrorValue(String.valueOf(value), strict_error.format(id, rest));
           }
         }
         
-        if( createlong ) {
-          return Long.valueOf( (long) doubleval );
+        if (createlong) {
+          return Long.valueOf((long) doubleval);
         } else {
-          return Integer.valueOf( (int) doubleval );
+          return Integer.valueOf((int) doubleval);
         }
       
-      } catch( NumberFormatException ex ) {
-        return new ErrorValue( String.valueOf( value ), invalid_number.format( id ) );
+      } catch (NumberFormatException ex) {
+        return new ErrorValue(String.valueOf(value), invalid_number.format(id));
       }
       
     }
@@ -80,7 +81,7 @@ public class ToIntTransform implements ValueTransform {
   }
 
   @Override
-  public boolean canHandleArguments( String id, List<String> args ) {
+  public boolean canHandleArguments(@NotBlank String id, @NotNull List<String> args) {
     return true;
   }
 

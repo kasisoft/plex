@@ -18,18 +18,18 @@ public class TransformTest extends AbstractTest {
   @DataProvider(name="createTransformData")
   public Object[][] createTransformData() {
     return new Object[][] {
-      { "transform"   , "enum-transform"      },
-      { "transform"   , "int-transform"       },
-      { "transform"   , "error-transform"     },
-      { "transform"   , "cleanup-transform"   },
-      { "transform"   , "cleanup-transform-2" },
+      {"transform", "enum-transform"     },
+      {"transform", "int-transform"      },
+      {"transform", "error-transform"    },
+      {"transform", "cleanup-transform"  },
+      {"transform", "cleanup-transform-2"},
     };
   }
   
   @Test(dataProvider="createTransformData")
   @Override
-  public void runTest( String groupname, String testcase ) {
-    super.runTest( groupname, testcase );
+  public void runTest(String groupname, String testcase) {
+    super.runTest(groupname, testcase);
   }
   
   @BeforeClass
@@ -41,14 +41,14 @@ public class TransformTest extends AbstractTest {
   public static final class EnumTransform implements ValueTransform {
 
     @Override
-    public boolean canHandleArguments( String id, List<String> args ) {
+    public boolean canHandleArguments(String id, List<String> args) {
       return false;
     }
 
     @Override
-    public Object transformValue( String id, Object value, String... args ) throws PLEXException {
-      if( value instanceof String ) {
-        return StateEnum.byLiteral( (String) value );
+    public Object transformValue(String id, Object value, String... args) throws PLEXException {
+      if (value instanceof String) {
+        return StateEnum.byLiteral((String) value);
       }
       return value;
     }
@@ -57,20 +57,20 @@ public class TransformTest extends AbstractTest {
 
   public static enum StateEnum {
     
-    Resolved  ( "resolved"  ),
-    Fixed     ( "fixed"     ),
-    Closed    ( "closed"    ),
-    Invalid   ( "invalid"   );
+    Resolved  ("resolved"),
+    Fixed     ("fixed"   ),
+    Closed    ("closed"  ),
+    Invalid   ("invalid" );
 
     private String   literal;
     
-    StateEnum( String lit ) {
+    StateEnum(String lit) {
       literal = lit;
     }
 
-    public static final StateEnum byLiteral( String literal ) {
-      for( StateEnum value : StateEnum.values() ) {
-        if( value.literal.equalsIgnoreCase( literal ) ) {
+    public static final StateEnum byLiteral(String literal) {
+      for (StateEnum value : StateEnum.values()) {
+        if (value.literal.equalsIgnoreCase(literal)) {
           return value;
         }
       }

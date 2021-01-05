@@ -2,33 +2,30 @@ package com.kasisoft.libs.plex;
 
 import static com.kasisoft.libs.plex.internal.Messages.*;
 
-import org.apache.poi.ss.usermodel.*;
-
-import com.kasisoft.libs.common.util.*;
-
 import com.kasisoft.libs.common.lang.*;
 import com.kasisoft.libs.common.text.*;
 import com.kasisoft.libs.plex.api.*;
 import com.kasisoft.libs.plex.instance.*;
 import com.kasisoft.libs.plex.model.*;
 
-import lombok.experimental.*;
+import org.apache.poi.ss.usermodel.*;
 
-import lombok.*;
-
+import javax.validation.constraints.*;
+import javax.xml.*;
+import javax.xml.bind.*;
 import javax.xml.validation.*;
 
-import javax.xml.bind.*;
-
-import javax.xml.*;
-
 import java.util.*;
-
-import java.lang.reflect.*;
 
 import java.net.*;
 
 import java.io.*;
+
+import java.lang.reflect.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * This class provides the importing capabilities controlled by a corresponding descriptor.
@@ -48,36 +45,36 @@ public class Importer {
    * 
    * @throws PLEXException   The import process failed for some reason.
    */
-  public Importer( URL declaration ) throws PLEXException {
+  public Importer(@NotNull URL declaration) throws PLEXException {
 
     // load the schema used for the plex declaration
     Schema schema = null;
     try {
-      SchemaFactory factory   = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI );
-      URL           schemaurl = Importer.class.getResource( "/plex.xsd" );
-      schema                  = factory.newSchema( schemaurl );
-    } catch( Exception ex ) {
-      throw PLEXException.wrap( missing_schema, ex );
+      SchemaFactory factory   = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+      URL           schemaurl = Importer.class.getResource("/plex.xsd");
+      schema                  = factory.newSchema(schemaurl);
+    } catch (Exception ex) {
+      throw PLEXException.wrap(missing_schema, ex);
     }
 
     try {
       
       // load the plex declaration
-      JAXBContext   context       = JAXBContext.newInstance( ObjectFactory.class );
+      JAXBContext   context       = JAXBContext.newInstance(ObjectFactory.class);
       Unmarshaller  unmarshaller  = context.createUnmarshaller();
-      unmarshaller.setSchema( schema );
+      unmarshaller.setSchema(schema);
       
-      PLEXModel     plexmodel     = (PLEXModel) unmarshaller.unmarshal( declaration );
+      PLEXModel     plexmodel     = (PLEXModel) unmarshaller.unmarshal(declaration);
   
       // initialize the import driver
-      ApiManager    manager       = createApiManager( plexmodel );
+      ApiManager    manager       = createApiManager(plexmodel);
 
-      checkConsistency( manager, plexmodel );
+      checkConsistency(manager, plexmodel);
       
-      driver                      = new ImportDriver( plexmodel, manager );
+      driver                      = new ImportDriver(plexmodel, manager);
     
-    } catch( Exception  ex ) {
-      throw PLEXException.wrap( declaration_error.format( invalid_declaration ), ex );
+    } catch (Exception  ex) {
+      throw PLEXException.wrap(declaration_error.format(invalid_declaration), ex);
     }
    
     monitor = ImportMonitor.DEFAULT;
@@ -89,9 +86,9 @@ public class Importer {
    * 
    * @param newmonitor   The new monitor to be used. Maybe <code>null</code>.
    */
-  public void setImportMonitor( ImportMonitor newmonitor ) {
+  public void setImportMonitor(ImportMonitor newmonitor) {
     monitor = newmonitor;
-    if( monitor == null ) {
+    if (monitor == null) {
       monitor = ImportMonitor.DEFAULT;
     }
   }
@@ -106,20 +103,16 @@ public class Importer {
    * 
    * @throws PLEXException   The import process failed for some reason.
    */
-  public PlainExcel runImport( File excel ) throws PLEXException {
-    Workbook    workbook = null;
-    InputStream instream = null;
-    try {
-      monitor.openingWorkbook( excel );
-      instream  = new FileInputStream( excel );
-      workbook  = WorkbookFactory.create( instream );
-      monitor.openedWorkbook( workbook.getNumberOfSheets() );
-    } catch( Exception ex ) {
-      throw PLEXException.wrap( io.format( excel ), ex );
-    } finally {
-      MiscFunctions.close( instream );
+  public PlainExcel runImport(@NotNull File excel) throws PLEXException {
+    try (InputStream instream = new FileInputStream(excel)) {
+      monitor.openingWorkbook(excel);
+      try (Workbook workbook = WorkbookFactory.create(instream)) {
+        monitor.openedWorkbook(workbook.getNumberOfSheets());
+        return driver.importData(workbook, monitor);
+      }
+    } catch (Exception ex) {
+      throw PLEXException.wrap(io.format(excel), ex);
     }
-    return driver.importData( workbook, monitor );
   }
 
   /**
@@ -132,22 +125,22 @@ public class Importer {
    * 
    * @throws PLEXException   The plex declaration is invalid. 
    */
-  private ApiManager createApiManager( PLEXModel model ) throws PLEXException {
+  private ApiManager createApiManager(@NotNull PLEXModel model) throws PLEXException {
     Map<String, ApiDefinition> result = new Hashtable<>();
-    if( model.getGeneral() != null ) {
-      for( PLEXInterface plexinterface : model.getGeneral().getInterface() ) {
-        String      classname = plexinterface.getClassname();
-        Object      instance  = ReflectionFunctions.newInstance( classname );
-        if( instance == null ) {
-          throw PLEXException.wrap( declaration_error.format( failed_instantiation.format( classname ) ) );
+    if (model.getGeneral() != null) {
+      for (PLEXInterface plexinterface : model.getGeneral().getInterface()) {
+        String classname = plexinterface.getClassname();
+        Object instance  = ReflectionFunctions.newInstance(classname);
+        if (instance == null) {
+          throw PLEXException.wrap(declaration_error.format(failed_instantiation.format(classname)));
         }
-        if( ! plexinterface.getInjectors().isEmpty() ) {
-          configureInstance( instance, plexinterface.getInjectors() );
+        if (!plexinterface.getInjectors().isEmpty()) {
+          configureInstance(instance, plexinterface.getInjectors());
         }
-        result.put( plexinterface.getId(), (ApiDefinition) instance );
+        result.put(plexinterface.getId(), (ApiDefinition) instance);
       }
     }
-    return new ApiManager( result );
+    return new ApiManager(result);
   }
   
   /**
@@ -158,10 +151,8 @@ public class Importer {
    * 
    * @throws PLEXException   The injection failed for some reason.
    */
-  private void configureInstance( Object instance, List<PLEXInjector> injectors ) throws PLEXException {
-    for( PLEXInjector injector : injectors ) {
-      configureInstance( instance, injector );
-    }
+  private void configureInstance(@NotNull Object instance, @NotNull List<PLEXInjector> injectors) throws PLEXException {
+    injectors.forEach($ -> configureInstance(instance, $));
   }
   
   /**
@@ -175,35 +166,35 @@ public class Importer {
    * 
    * @throws PLEXException   The injection failed for some reason.
    */
-  private void configureInstance( Object instance, PLEXInjector injector ) throws PLEXException {
+  private void configureInstance(@NotNull Object instance, @NotNull PLEXInjector injector) throws PLEXException {
     
-    Object value  = getValue  ( injector );
-    String setter = getSetter ( injector );
+    Object value  = getValue (injector);
+    String setter = getSetter(injector);
     
     try {
       
-      Method    method    = lookupMethod( instance.getClass(), setter );
-      if( method == null ) {
+      Method method = lookupMethod(instance.getClass(), setter);
+      if (method == null) {
         throw new NoSuchMethodException();
       }
       
       Class<?>[] paramtypes = method.getParameterTypes();
-      if( (paramtypes == null) || (paramtypes.length != 1) ) {
+      if ((paramtypes == null) || (paramtypes.length != 1)) {
         throw new NoSuchMethodException();
       }
       
-      method.invoke( instance, value );
+      method.invoke(instance, value);
       
-    } catch( Exception ex ) {
-      throw PLEXException.wrap( declaration_error.format( failed_configuration.format( instance.getClass().getName() ) ), ex );
+    } catch (Exception ex) {
+      throw PLEXException.wrap(declaration_error.format(failed_configuration.format(instance.getClass().getName())), ex);
     }
     
   }
   
-  private Method lookupMethod( Class<?> clazz, String setter ) {
+  private Method lookupMethod(Class<?> clazz, String setter) {
     Method[] methods = clazz.getMethods();
-    for( Method method : methods ) {
-      if( setter.equals( method.getName() ) ) {
+    for (Method method : methods) {
+      if (setter.equals(method.getName())) {
         return method;
       }
     }
@@ -218,14 +209,14 @@ public class Importer {
    *                   
    * @return   The setter name for the injection process. Neither <code>null</code> nor empty.
    */
-  private String getSetter( PLEXInjector injector ) {
+  private String getSetter(@NotNull PLEXInjector injector) {
     String name = injector.getName();
-    if( name.length() == 1 ) {
-      return String.format( "set%s", name.toUpperCase() );
+    if (name.length() == 1) {
+      return String.format("set%s", name.toUpperCase());
     } else {
       return 
         String.format( "set%s%s", 
-          String.valueOf( Character.toUpperCase( injector.getName().charAt(0) ) ), 
+          String.valueOf(Character.toUpperCase(injector.getName().charAt(0))), 
           injector.getName().substring(1) 
         );
     }
@@ -238,20 +229,16 @@ public class Importer {
    * 
    * @return   The value associated with the supplied injector. Not <code>null</code>.
    */
-  private Object getValue( PLEXInjector injector ) {
-    if( injector instanceof PLEXBoolean ) {
-      return Boolean.valueOf( ((PLEXBoolean) injector).isValue() );
-    } else if( injector instanceof PLEXInteger ) {
-      return Integer.valueOf( ((PLEXInteger) injector).getValue() );
-    } else if( injector instanceof PLEXString ) {
-      return ((PLEXString) injector).getValue();
-    } else if( injector instanceof PLEXDouble ) {
-      return Double.valueOf( ((PLEXDouble) injector).getValue() );
+  private Object getValue(@NotNull PLEXInjector injector) {
+           if (injector instanceof PLEXBoolean) { return Boolean.valueOf(((PLEXBoolean) injector).isValue());
+    } else if (injector instanceof PLEXInteger) { return Integer.valueOf(((PLEXInteger) injector).getValue());
+    } else if (injector instanceof PLEXString)  { return ((PLEXString) injector).getValue();
+    } else if (injector instanceof PLEXDouble)  { return Double.valueOf(((PLEXDouble) injector).getValue());
     } else /* if( injector instanceof PLEXStringList ) */ {
       PLEXStringList list   = (PLEXStringList) injector;
       List<String>   result = new ArrayList<>();
-      for( int i = 0; i < list.getItem().size(); i++ ) {
-        result.add( list.getItem().get(i) );
+      for (int i = 0; i < list.getItem().size(); i++) {
+        result.add(list.getItem().get(i));
       }
       return result;
     }
@@ -265,11 +252,9 @@ public class Importer {
    * 
    * @throws PLEXException   A declaration inconsistency has been discovered.
    */
-  private void checkConsistency( ApiManager apiman, PLEXModel model ) throws PLEXException {
-    checkConsistency( apiman, model.getGeneral() );
-    for( PLEXSheetDescription sheet : model.getSheet() ) {
-      checkConsistency( apiman, sheet );
-    }
+  private void checkConsistency(@NotNull ApiManager apiman, @NotNull PLEXModel model) throws PLEXException {
+    checkConsistency(apiman, model.getGeneral());
+    model.getSheet().forEach($ -> checkConsistency(apiman, $));
   }
   
   /**
@@ -280,10 +265,8 @@ public class Importer {
    * 
    * @throws PLEXException   A declaration inconsistency has been discovered.
    */
-  private void checkConsistency( ApiManager apiman, PLEXGeneral general ) throws PLEXException {
-    for( PLEXInterface apitype : general.getInterface() ) {
-      checkConsistency( apiman, apitype );
-    }
+  private void checkConsistency(@NotNull ApiManager apiman, @NotNull PLEXGeneral general) throws PLEXException {
+    general.getInterface().forEach($ -> checkConsistency(apiman, $));
   }
   
   /**
@@ -294,18 +277,18 @@ public class Importer {
    * 
    * @throws PLEXException   A declaration inconsistency has been discovered.
    */
-  private void checkConsistency( ApiManager apiman, PLEXInterface apidecl ) throws PLEXException {
+  private void checkConsistency(@NotNull ApiManager apiman, @NotNull PLEXInterface apidecl) throws PLEXException {
     String classname = apidecl.getClassname();
     try {
-      Class<?> clazz = Class.forName( classname );
-      switch( apidecl.getApi() ) {
-      case COLUMN     : checkType ( ColumnResolver    . class, clazz ); break;
-      case METADATA   : checkType ( MetadataProvider  . class, clazz ); break;
-      case ROW        : checkType ( RowResolver       . class, clazz ); break;
-      case TRANSFORM  : checkType ( ValueTransform    . class, clazz ); break;
+      Class<?> clazz = Class.forName(classname);
+      switch (apidecl.getApi()) {
+      case COLUMN     : checkType (ColumnResolver   . class, clazz); break;
+      case METADATA   : checkType (MetadataProvider . class, clazz); break;
+      case ROW        : checkType (RowResolver      . class, clazz); break;
+      case TRANSFORM  : checkType (ValueTransform   . class, clazz); break;
       }
-    } catch( ClassNotFoundException ex ) {
-      throw PLEXException.wrap( declaration_error.format( missing_classname.format( classname ) ) );
+    } catch (ClassNotFoundException ex) {
+      throw PLEXException.wrap(declaration_error.format(missing_classname.format(classname)));
     }
   }
   
@@ -317,9 +300,9 @@ public class Importer {
    * 
    * @throws PLEXException   The type is considered to be invalid.
    */
-  private void checkType( Class<?> requiredapi, Class<?> currenttype ) throws PLEXException {
-    if( ! requiredapi.isAssignableFrom( currenttype ) ) {
-      throw PLEXException.wrap( declaration_error.format( invalid_type.format( currenttype.getName(), requiredapi.getName() ) ) );
+  private void checkType(@NotNull Class<?> requiredapi, @NotNull Class<?> currenttype) throws PLEXException {
+    if (!requiredapi.isAssignableFrom(currenttype)) {
+      throw PLEXException.wrap(declaration_error.format(invalid_type.format(currenttype.getName(), requiredapi.getName())));
     }
   }
   
@@ -331,24 +314,24 @@ public class Importer {
    * 
    * @throws PLEXException   A declaration inconsistency has been discovered.
    */
-  private void checkConsistency( ApiManager apiman, PLEXSheetDescription sheet ) throws PLEXException {
-    if( (sheet.getFirstrow() == null) && (sheet.getFirstrowdetect() == null) ) {
-      throw PLEXException.wrap( declaration_error.format( missing_first_row ) );
+  private void checkConsistency(@NotNull ApiManager apiman, @NotNull PLEXSheetDescription sheet) throws PLEXException {
+    if ((sheet.getFirstrow() == null) && (sheet.getFirstrowdetect() == null)) {
+      throw PLEXException.wrap(declaration_error.format(missing_first_row));
     }
     PLEXApiCall apicall = sheet.getFirstrowdetect();
-    if( apicall != null ) {
-      if( ! apiman.isRowResolver( apicall.getRefid() ) ) {
-        throw PLEXException.wrap( declaration_error.format( missing_row_resolver.format( apicall.getRefid() ) ) );
+    if (apicall != null) {
+      if (!apiman.isRowResolver(apicall.getRefid())) {
+        throw PLEXException.wrap(declaration_error.format( missing_row_resolver.format(apicall.getRefid())));
       }
-      if( ! apiman.canHandleArgs( apicall.getRefid(), apicall.getArg() ) ) {
-        throw PLEXException.wrap( declaration_error.format( syntax_row_resolver.format( StringFunctions.toString( apicall.getArg().toArray() ), apicall.getRefid() ) ) );
+      if (!apiman.canHandleArgs(apicall.getRefid(), apicall.getArg())) {
+        throw PLEXException.wrap(declaration_error.format(syntax_row_resolver.format(StringFunctions.toString(apicall.getArg().toArray()), apicall.getRefid())));
       }
     }
-    for( int i = 0; i < sheet.getColumn().size(); i++ ) {
-      checkConsistency( apiman, sheet.getColumn().get(i), i == 0 );
+    for (int i = 0; i < sheet.getColumn().size(); i++) {
+      checkConsistency(apiman, sheet.getColumn().get(i), i == 0);
     }
-    if( sheet.getMetadata() != null ) {
-      checkConsistency( apiman, sheet.getMetadata() );
+    if (sheet.getMetadata() != null) {
+      checkConsistency(apiman, sheet.getMetadata());
     }
   }
   
@@ -360,14 +343,14 @@ public class Importer {
    * 
    * @throws PLEXException   A declaration inconsistency has been discovered.
    */
-  private void checkConsistency( ApiManager apiman, PLEXMetadata metadata ) throws PLEXException {
+  private void checkConsistency(@NotNull ApiManager apiman, @NotNull PLEXMetadata metadata) throws PLEXException {
     PLEXApiCall apicall = metadata.getMetadetect();
-    if( apicall != null ) {
-      if( ! apiman.isMetdataProvider( apicall.getRefid() ) ) {
-        throw PLEXException.wrap( declaration_error.format( missing_metadata_provider.format( apicall.getRefid() ) ) );
+    if (apicall != null) {
+      if (!apiman.isMetdataProvider(apicall.getRefid())) {
+        throw PLEXException.wrap(declaration_error.format(missing_metadata_provider.format(apicall.getRefid())));
       }
-      if( ! apiman.canHandleArgs( apicall.getRefid(), apicall.getArg() ) ) {
-        throw PLEXException.wrap( declaration_error.format( syntax_metadata_provider.format( StringFunctions.toString( apicall.getArg().toArray() ), apicall.getRefid() ) ) );
+      if (!apiman.canHandleArgs(apicall.getRefid(), apicall.getArg())) {
+        throw PLEXException.wrap(declaration_error.format( syntax_metadata_provider.format(StringFunctions.toString(apicall.getArg().toArray()), apicall.getRefid())));
       }
     }
   }
@@ -381,19 +364,19 @@ public class Importer {
    * 
    * @throws PLEXException   A declaration inconsistency has been discovered.
    */
-  private void checkConsistency( ApiManager apiman, PLEXColumnDescription column, boolean first ) throws PLEXException {
-    if( (column.getColumn() == null) && (column.getColumndetect() == null) ) {
-      if( first ) {
-        throw PLEXException.wrap( declaration_error.format( missing_column_infos ) );
+  private void checkConsistency(@NotNull ApiManager apiman, @NotNull PLEXColumnDescription column, boolean first) throws PLEXException {
+    if ((column.getColumn() == null) && (column.getColumndetect() == null)) {
+      if (first) {
+        throw PLEXException.wrap(declaration_error.format(missing_column_infos));
       }
     }
     PLEXApiCall apicall = column.getColumndetect();
-    if( apicall != null ) {
-      if( ! apiman.isColumnResolver( apicall.getRefid() ) ) {
-        throw PLEXException.wrap( declaration_error.format( missing_column_resolver.format( apicall.getRefid() ) ) );
+    if (apicall != null) {
+      if (!apiman.isColumnResolver(apicall.getRefid())) {
+        throw PLEXException.wrap(declaration_error.format(missing_column_resolver.format(apicall.getRefid())));
       }
-      if( ! apiman.canHandleArgs( apicall.getRefid(), apicall.getArg() ) ) {
-        throw PLEXException.wrap( declaration_error.format( syntax_column_resolver.format( StringFunctions.toString( apicall.getArg().toArray() ), apicall.getRefid() ) ) );
+      if (!apiman.canHandleArgs(apicall.getRefid(), apicall.getArg())) {
+        throw PLEXException.wrap(declaration_error.format(syntax_column_resolver.format(StringFunctions.toString(apicall.getArg().toArray()), apicall.getRefid())));
       }
     }
   }

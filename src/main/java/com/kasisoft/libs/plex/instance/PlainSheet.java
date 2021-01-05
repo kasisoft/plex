@@ -17,6 +17,8 @@ import java.util.*;
 @EqualsAndHashCode(of = "sheetName", callSuper = false)
 public class PlainSheet extends DefaultTableModel implements Comparable<PlainSheet> {
 
+  private static final long serialVersionUID = 9032042124476020208L;
+
   @Getter
   String                sheetName;
   
@@ -29,8 +31,7 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
    * 
    * @param name   The name of the corresponding sheet. Neither <code>null</code> nor empty.
    */
-  public PlainSheet( String name ) {
-    super();
+  public PlainSheet(String name) {
     metadata  = new Hashtable<>();
     titles    = new ArrayList<>();
     sheetName = name;
@@ -46,7 +47,7 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
   }
   
   @Override
-  public void addColumn( Object title ) {
+  public void addColumn(Object title) {
     throw new RuntimeException();
   }
   
@@ -56,10 +57,10 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
    * @param column   The name of the column which value has to be returned. 
    *                 Neither <code>null</code> nor empty.
    */
-  public <T> T getValueAt( int row, String column ) {
-    int idx = titles.indexOf( column );
-    if( idx != -1 ) {
-      return (T) super.getValueAt( row, idx );
+  public <T> T getValueAt(int row, String column) {
+    int idx = titles.indexOf(column);
+    if (idx != -1) {
+      return (T) super.getValueAt(row, idx);
     } else {
       return null;
     }
@@ -71,7 +72,7 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
    * @return   A list of metadata keys. Not <code>null</code>.
    */
   public String[] getMetadataKeys() {
-    return metadata.keySet().toArray( new String[ metadata.size() ] );
+    return metadata.keySet().toArray(new String[metadata.size()]);
   }
   
   /**
@@ -81,8 +82,8 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
    * 
    * @return   The metadata information or <code>null</code> if none has been set.
    */
-  public String getMetadata( String key ) {
-    return metadata.get( key );
+  public String getMetadata(String key) {
+    return metadata.get(key);
   }
 
   /**
@@ -91,16 +92,16 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
    * @param key     The key used to access the metadata information. Neither <code>null</code> nor empty.
    * @param value   The value of the metadata information. Neither <code>null</code> nor empty.
    */
-  public void setMetadata( String key, String value ) {
-    metadata.put( key, value );
+  public void setMetadata(String key, String value) {
+    metadata.put(key, value);
   }
 
   @Override
-  public Class<?> getColumnClass( int index ) {
-    if( classes != null ) {
-      return classes[ index ];
+  public Class<?> getColumnClass(int index) {
+    if (classes != null) {
+      return classes[index];
     } else {
-      return super.getColumnClass( index );
+      return super.getColumnClass(index);
     }
   }
 
@@ -108,19 +109,19 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
    * Calculates the datatypes for each column based on the content.
    */
   public void purify() {
-    classes                  = new Class<?>[ getColumnCount() ];
-    Arrays.fill( classes, Object.class );
+    classes = new Class<?>[getColumnCount()];
+    Arrays.fill(classes, Object.class);
     Set<Class<?>> classtypes = new HashSet<>();
-    for( int col = 0; col < getColumnCount(); col++ ) {
-      for( int row = 0; row < getRowCount(); row++ ) {
-        Object cellvalue = getValueAt( row, col );
-        if( (cellvalue != null) && (! (cellvalue instanceof ErrorValue)) ) {
-          classtypes.add( cellvalue.getClass() );
+    for (int col = 0; col < getColumnCount(); col++) {
+      for (int row = 0; row < getRowCount(); row++) {
+        Object cellvalue = getValueAt(row, col);
+        if ((cellvalue != null) && (! (cellvalue instanceof ErrorValue))) {
+          classtypes.add(cellvalue.getClass());
         }
       }
-      if( classtypes.size() == 1 ) {
+      if (classtypes.size() == 1) {
         // there was only one type so use that one
-        classes[ col ] = classtypes.iterator().next();
+        classes[col] = classtypes.iterator().next();
       } else {
         /** @todo [15-Aug-2010:KASI]   We could calculate the type depending on the type hierarchies. */
       }
@@ -135,10 +136,10 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
    * 
    * @return   The data of the row. Not <code>null</code>.
    */
-  public Object[] getRow( int row ) {
-    Object[] result = new Object[ getColumnCount() ];
-    for( int col = 0; col < result.length; col++ ) {
-      result[ col ] = getValueAt( row, col );
+  public Object[] getRow(int row) {
+    Object[] result = new Object[getColumnCount()];
+    for (int col = 0; col < result.length; col++) {
+      result[col] = getValueAt(row, col);
     }
     return result;
   }
@@ -150,10 +151,10 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
    * 
    * @return   <code>true</code> <=> The row contains an error.
    */
-  public boolean containsError( int row ) {
-    for( int col = 0; col < getColumnCount(); col++ ) {
-      Object cellvalue = getValueAt( row, col );
-      if( cellvalue instanceof ErrorValue ) {
+  public boolean containsError(int row) {
+    for (int col = 0; col < getColumnCount(); col++) {
+      Object cellvalue = getValueAt(row, col);
+      if (cellvalue instanceof ErrorValue) {
         return true;
       }
     }
@@ -166,11 +167,11 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
   }
   
   @Override
-  public int compareTo( PlainSheet other ) {
-    if( other == null ) {
+  public int compareTo(PlainSheet other) {
+    if (other == null) {
       return 1;
     } else {
-      return getSheetName().compareTo( other.getSheetName() );
+      return getSheetName().compareTo(other.getSheetName());
     }
   }
   
@@ -182,24 +183,24 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
    * 
    * @return   The textual representation.
    */
-  public String serialize( SimpleSerializer serializer ) {
-    if( serializer == null ) {
+  public String serialize(SimpleSerializer serializer) {
+    if (serializer == null) {
       serializer = new SimpleSerializer();
     }
     int columns = getColumnCount();
     int rows    = getRowCount();
-    serializer.open( "sheet", "name", getSheetName(), "columns", String.valueOf( columns ), "rows", String.valueOf( rows ) );
-    for( int col = 0; col < columns; col++ ) {
-      serializer.write( "column", null, "name", getColumnName( col ), "type", getColumnClass( col ).getName() );
+    serializer.open("sheet", "name", getSheetName(), "columns", String.valueOf( columns ), "rows", String.valueOf(rows));
+    for (int col = 0; col < columns; col++) {
+      serializer.write("column", null, "name", getColumnName(col), "type", getColumnClass(col).getName());
     }
-    for( int row = 0; row < rows; row++ ) {
-      serializer.open( "row", "row", String.valueOf( row ) );
-      for( int col = 0; col < columns; col++ ) {
-        Object value = getValueAt( row, col );
-        if( value == null ) {
-          serializer.write( getColumnName( col ), null );
+    for (int row = 0; row < rows; row++) {
+      serializer.open("row", "row", String.valueOf(row));
+      for (int col = 0; col < columns; col++) {
+        Object value = getValueAt(row, col);
+        if (value == null) {
+          serializer.write(getColumnName(col), null);
         } else {
-          serializer.write( getColumnName( col ), String.valueOf( value ) );
+          serializer.write(getColumnName(col), String.valueOf(value));
         }
       }
       serializer.close();

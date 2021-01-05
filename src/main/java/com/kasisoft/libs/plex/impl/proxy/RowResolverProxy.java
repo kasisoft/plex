@@ -2,16 +2,18 @@ package com.kasisoft.libs.plex.impl.proxy;
 
 import static com.kasisoft.libs.plex.internal.Messages.*;
 
-import org.apache.poi.ss.usermodel.*;
-
 import com.kasisoft.libs.plex.*;
 import com.kasisoft.libs.plex.api.*;
+
+import org.apache.poi.ss.usermodel.*;
+
+import javax.validation.constraints.*;
+
+import java.util.*;
 
 import lombok.experimental.*;
 
 import lombok.*;
-
-import java.util.*;
 
 /**
  * A simple wrapper for the API ColumnResolver which makes sure that internal errors won't be 
@@ -29,24 +31,24 @@ public class RowResolverProxy implements RowResolver {
    * 
    * @param impl   The original implementation providing the functionality.
    */
-  public RowResolverProxy( RowResolver impl ) {
+  public RowResolverProxy(@NotNull RowResolver impl) {
     delegate  = impl;
   }
   
   @Override
-  public int detectRow( String id, Sheet sheet, String... args ) throws PLEXException {
+  public int detectRow(@NotBlank String id, @NotNull Sheet sheet, String... args) throws PLEXException {
     try {
-      return delegate.detectRow( id, sheet, args );
-    } catch( RuntimeException ex ) {
-      throw PLEXException.wrap( error_in_api_function.format( ex.getMessage() ), ex );
+      return delegate.detectRow(id, sheet, args);
+    } catch (RuntimeException ex) {
+      throw PLEXException.wrap(error_in_api_function.format(ex.getMessage()), ex);
     }
   }
 
   @Override
-  public boolean canHandleArguments( String id, List<String> args ) {
+  public boolean canHandleArguments(@NotBlank String id, @NotNull List<String> args) {
     try {
-      return delegate.canHandleArguments( id, args );
-    } catch( RuntimeException ex ) {
+      return delegate.canHandleArguments(id, args);
+    } catch (RuntimeException ex) {
       return false;
     }
   }

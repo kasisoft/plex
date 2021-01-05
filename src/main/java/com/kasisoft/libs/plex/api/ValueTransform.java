@@ -2,6 +2,8 @@ package com.kasisoft.libs.plex.api;
 
 import com.kasisoft.libs.plex.*;
 
+import javax.validation.constraints.*;
+
 /**
  * Each implementor is capable to alter the content of a value.
  * 
@@ -21,6 +23,6 @@ public interface ValueTransform extends ApiDefinition {
    * 
    * @throws PLEXException   The execution failed for some reason.
    */
-  Object transformValue( String id, Object value, String ... args ) throws PLEXException;
+  Object transformValue(@NotBlank String id, @NotNull Object value, String ... args) throws PLEXException;
   
 } /* ENDINTERFACE */

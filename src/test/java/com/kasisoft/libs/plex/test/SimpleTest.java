@@ -13,18 +13,18 @@ public class SimpleTest extends AbstractTest {
   @DataProvider(name="createSimpleData")
   public Object[][] createSimpleData() {
     return new Object[][] {
-      { "simple"  , "none"                            },
-      { "simple"  , "numerical-columns"               },
-      { "simple"  , "textual-columns"                 },
-      { "simple"  , "textual-high-columns"            },
-      { "simple"  , "textual-columns-placed"          },
+      {"simple", "none"                  },
+      {"simple", "numerical-columns"     },
+      {"simple", "textual-columns"       },
+      {"simple", "textual-high-columns"  },
+      {"simple", "textual-columns-placed"},
     };
   }
   
   @Test(dataProvider="createSimpleData")
   @Override
-  public void runTest( String groupname, String testcase ) {
-    super.runTest( groupname, testcase );
+  public void runTest(String groupname, String testcase) {
+    super.runTest(groupname, testcase);
   }
   
   @BeforeClass

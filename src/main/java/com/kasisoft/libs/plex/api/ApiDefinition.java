@@ -1,5 +1,7 @@
 package com.kasisoft.libs.plex.api;
 
+import javax.validation.constraints.*;
+
 import java.util.*;
 
 /**
@@ -17,6 +19,6 @@ public interface ApiDefinition {
    * 
    * @return   <code>true</code> <=> The arguments can be handled by this api implementation.
    */
-  boolean canHandleArguments( String id, List<String> args ); 
+  boolean canHandleArguments(@NotBlank String id, List<String> args); 
   
 } /* ENDINTERFACE */

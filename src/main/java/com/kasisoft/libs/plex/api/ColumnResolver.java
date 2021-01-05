@@ -1,8 +1,10 @@
 package com.kasisoft.libs.plex.api;
 
+import com.kasisoft.libs.plex.*;
+
 import org.apache.poi.ss.usermodel.*;
 
-import com.kasisoft.libs.plex.*;
+import javax.validation.constraints.*;
 
 /**
  * Resolver used to identify column numbers.
@@ -22,6 +24,6 @@ public interface ColumnResolver extends ApiDefinition {
    * 
    * @throws PLEXException   The execution failed for some reason.
    */
-  int detectColumn( String id, Sheet sheet, String ... args ) throws PLEXException;
+  int detectColumn(@NotBlank String id, Sheet sheet, String ... args) throws PLEXException;
   
 } /* ENDINTERFACE */

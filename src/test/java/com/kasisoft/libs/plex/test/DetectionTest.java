@@ -13,17 +13,17 @@ public class DetectionTest extends AbstractTest {
   @DataProvider(name="createDetectionData")
   public Object[][] createDetectionData() {
     return new Object[][] {
-      { "detection" , "detect-row"                },
-      { "detection" , "detect-row-with-offset"    },
-      { "detection" , "detect-column"             },
-      { "detection" , "detect-column-with-offset" },
+      {"detection", "detect-row"               },
+      {"detection", "detect-row-with-offset"   },
+      {"detection", "detect-column"            },
+      {"detection", "detect-column-with-offset"},
     };
   }
   
   @Test(dataProvider="createDetectionData")
   @Override
-  public void runTest( String groupname, String testcase ) {
-    super.runTest( groupname, testcase );
+  public void runTest(String groupname, String testcase) {
+    super.runTest(groupname, testcase);
   }
   
   @BeforeClass

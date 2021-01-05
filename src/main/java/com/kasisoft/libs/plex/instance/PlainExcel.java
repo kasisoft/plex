@@ -31,16 +31,16 @@ public class PlainExcel {
    * 
    * @return   The list of tables owning such a pair. Not <code>null</code>.
    */
-  public PlainSheet[] getTables( String key, String value ) {
+  public PlainSheet[] getTables(String key, String value) {
     List<PlainSheet> list = new ArrayList<>();
-    for( PlainSheet sheet : sheets.values() ) {
-      String metavalue = sheet.getMetadata( key );
-      if( value.equals( metavalue ) ) {
-        list.add( sheet );
+    for (PlainSheet sheet : sheets.values()) {
+      String metavalue = sheet.getMetadata(key);
+      if (value.equals(metavalue)) {
+        list.add(sheet);
       }
     }
-    PlainSheet[] result = new PlainSheet[ list.size() ];
-    list.toArray( result );
+    PlainSheet[] result = new PlainSheet[list.size()];
+    list.toArray(result);
     return result;
   }
   
@@ -49,8 +49,8 @@ public class PlainExcel {
    * 
    * @param model   The model which has to be registered. Not <code>null</code>.
    */
-  public void addTable( PlainSheet model ) {
-    sheets.put( model.getSheetName(), model );
+  public void addTable(PlainSheet model) {
+    sheets.put(model.getSheetName(), model);
   }
   
   /**
@@ -60,8 +60,8 @@ public class PlainExcel {
    * 
    * @return   The annotated table model or <code>null</code> in case there's no such model.
    */
-  public PlainSheet getTable( String name ) {
-    return sheets.get( name );
+  public PlainSheet getTable(String name) {
+    return sheets.get(name);
   }
   
   /**
@@ -70,9 +70,9 @@ public class PlainExcel {
    * @return   A list of all table names. Not <code>null</code>.
    */
   public String[] getTableNames() {
-    String[] result = new String[ sheets.size() ];
-    sheets.keySet().toArray( result );
-    Arrays.sort( result );
+    String[] result = new String[sheets.size()];
+    sheets.keySet().toArray(result);
+    Arrays.sort(result);
     return result;
   }
   
@@ -84,14 +84,14 @@ public class PlainExcel {
    * 
    * @return   The textual representation.
    */
-  public String serialize( SimpleSerializer serializer ) {
-    if( serializer == null ) {
+  public String serialize(SimpleSerializer serializer) {
+    if (serializer == null) {
       serializer = new SimpleSerializer();
     }
     String[] names = getTableNames();
-    serializer.open( "workbook" );
-    for( String name : names ) {
-      getTable( name ).serialize( serializer );
+    serializer.open("workbook");
+    for (String name : names) {
+      getTable(name).serialize(serializer);
     }
     serializer.close();
     return serializer.toString();
@@ -99,7 +99,7 @@ public class PlainExcel {
   
   @Override
   public String toString() {
-    return serialize( new SimpleSerializer() );
+    return serialize(new SimpleSerializer());
   }
   
 } /* ENDCLASS */
