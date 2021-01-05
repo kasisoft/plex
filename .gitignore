@@ -1,7 +1,20 @@
-target/
-.settings/
-.classpath
-.project
-_exto/
-test-output/
+*/target/
+*/build/
 
+.settings/
+.project
+.classpath
+.gradle/
+.launch/
+rebel.xml
+*/test-output/
+test-output/
+release.sh
+/target/
+.factorypath
+
+bin/
+.idea/
+
+.attach_pid*
+create-release.txt
