@@ -1,12 +1,12 @@
 package com.kasisoft.libs.plex.instance;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 import javax.swing.table.*;
 
 import java.util.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Extension of a TableModel which provides additional information.

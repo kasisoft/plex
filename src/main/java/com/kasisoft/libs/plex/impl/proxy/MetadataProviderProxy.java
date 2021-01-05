@@ -36,7 +36,7 @@ public class MetadataProviderProxy implements MetadataProvider {
   }
   
   @Override
-  public Map<String, String> getMetadata(@NotBlank String id, @NotNull Sheet sheet, String... args) throws PLEXException {
+  public Map<String, String> getMetadata(@NotBlank String id, @NotNull Sheet sheet, String... args) {
     try {
       return delegate.getMetadata(id, sheet, args);
     } catch (RuntimeException ex) {

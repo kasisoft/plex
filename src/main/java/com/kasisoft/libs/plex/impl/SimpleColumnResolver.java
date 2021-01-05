@@ -25,7 +25,7 @@ import lombok.*;
 public class SimpleColumnResolver implements ColumnResolver {
 
   @Override
-  public int detectColumn(@NotBlank String id, @NotNull Sheet sheet, String... args) throws PLEXException {
+  public int detectColumn(@NotBlank String id, @NotNull Sheet sheet, String... args) {
     int result = detectColumn(sheet);
     if (result == -1) {
       throw PLEXException.wrap(error_in_api_function.format(missing_column.format(sheet.getSheetName())));

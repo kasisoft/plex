@@ -1,6 +1,5 @@
 package com.kasisoft.libs.plex.impl;
 
-import com.kasisoft.libs.plex.*;
 import com.kasisoft.libs.plex.api.*;
 
 import org.apache.poi.ss.usermodel.*;
@@ -18,7 +17,7 @@ import java.util.*;
 public class SimpleRowResolver implements RowResolver {
   
   @Override
-  public int detectRow(@NotBlank String id, @NotNull Sheet sheet, String... args) throws PLEXException {
+  public int detectRow(@NotBlank String id, @NotNull Sheet sheet, String... args) {
     int offset = 0;
     if (args.length > 0) {
       offset = Integer.parseInt(args[0]);

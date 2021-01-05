@@ -1,7 +1,5 @@
 package com.kasisoft.libs.plex.api;
 
-import com.kasisoft.libs.plex.*;
-
 import org.apache.poi.ss.usermodel.*;
 
 import javax.validation.constraints.*;
@@ -23,9 +21,7 @@ public interface MetadataProvider extends ApiDefinition {
    * @param args    The arguments provided by the declaration file. Maybe <code>null</code>.
    * 
    * @return   The map providing the metadata. Not <code>null</code>.
-   * 
-   * @throws PLEXException   The execution failed for some reason.
    */
-  Map<String, String> getMetadata(@NotBlank String id, @NotNull Sheet sheet, String ... args ) throws PLEXException;
+  Map<String, String> getMetadata(@NotBlank String id, @NotNull Sheet sheet, String ... args);
   
 } /* ENDINTERFACE */

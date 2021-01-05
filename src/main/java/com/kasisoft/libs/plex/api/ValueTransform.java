@@ -1,7 +1,5 @@
 package com.kasisoft.libs.plex.api;
 
-import com.kasisoft.libs.plex.*;
-
 import javax.validation.constraints.*;
 
 /**
@@ -20,9 +18,7 @@ public interface ValueTransform extends ApiDefinition {
    * @param args    The arguments provided by the declaration file. Maybe <code>null</code>.
    * 
    * @return   The transformed value.
-   * 
-   * @throws PLEXException   The execution failed for some reason.
    */
-  Object transformValue(@NotBlank String id, @NotNull Object value, String ... args) throws PLEXException;
+  Object transformValue(@NotBlank String id, @NotNull Object value, String ... args);
   
 } /* ENDINTERFACE */

@@ -36,7 +36,7 @@ public class ColumnResolverProxy implements ColumnResolver {
   }
   
   @Override
-  public int detectColumn(@NotBlank String id, @NotNull Sheet sheet, String... args) throws PLEXException {
+  public int detectColumn(@NotBlank String id, @NotNull Sheet sheet, String... args){
     try {
       return delegate.detectColumn(id, sheet, args);
     } catch (RuntimeException ex) {

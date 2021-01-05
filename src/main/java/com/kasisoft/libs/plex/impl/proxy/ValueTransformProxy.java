@@ -34,7 +34,7 @@ public class ValueTransformProxy implements ValueTransform {
   }
   
   @Override
-  public Object transformValue(@NotBlank String id, @NotNull Object value, String... args) throws PLEXException {
+  public Object transformValue(@NotBlank String id, @NotNull Object value, String... args) {
     try {
       return delegate.transformValue(id, value, args);
     } catch (RuntimeException ex) {

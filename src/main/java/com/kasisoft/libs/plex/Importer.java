@@ -42,10 +42,8 @@ public class Importer {
    * Initializes this importer using a specific declarator.
    * 
    * @param declaration   The declarator used for the import process. Not <code>null</code>.
-   * 
-   * @throws PLEXException   The import process failed for some reason.
    */
-  public Importer(@NotNull URL declaration) throws PLEXException {
+  public Importer(@NotNull URL declaration) {
 
     // load the schema used for the plex declaration
     Schema schema = null;
@@ -100,10 +98,8 @@ public class Importer {
    *                a regular file.
    *                
    * @return   A plain representation of a excel data. Not <code>null</code>.
-   * 
-   * @throws PLEXException   The import process failed for some reason.
    */
-  public PlainExcel runImport(@NotNull File excel) throws PLEXException {
+  public PlainExcel runImport(@NotNull File excel) {
     try (InputStream instream = new FileInputStream(excel)) {
       monitor.openingWorkbook(excel);
       try (Workbook workbook = WorkbookFactory.create(instream)) {
@@ -122,10 +118,8 @@ public class Importer {
    *                api definitions.
    * 
    * @return   A new instance of an api manager. Not <code>null</code>.
-   * 
-   * @throws PLEXException   The plex declaration is invalid. 
    */
-  private ApiManager createApiManager(@NotNull PLEXModel model) throws PLEXException {
+  private ApiManager createApiManager(@NotNull PLEXModel model) {
     Map<String, ApiDefinition> result = new Hashtable<>();
     if (model.getGeneral() != null) {
       for (PLEXInterface plexinterface : model.getGeneral().getInterface()) {
@@ -148,10 +142,8 @@ public class Importer {
    * 
    * @param instance    The instance which will be altered. Not <code>null</code>.
    * @param injectors   The list of injections that have to be performed. Not <code>null</code>.
-   * 
-   * @throws PLEXException   The injection failed for some reason.
    */
-  private void configureInstance(@NotNull Object instance, @NotNull List<PLEXInjector> injectors) throws PLEXException {
+  private void configureInstance(@NotNull Object instance, @NotNull List<PLEXInjector> injectors) {
     injectors.forEach($ -> configureInstance(instance, $));
   }
   
@@ -163,10 +155,8 @@ public class Importer {
    * 
    * @param instance   The instance which will be altered. Not <code>null</code>.
    * @param injector   The injection that has to be performed. Not <code>null</code>.
-   * 
-   * @throws PLEXException   The injection failed for some reason.
    */
-  private void configureInstance(@NotNull Object instance, @NotNull PLEXInjector injector) throws PLEXException {
+  private void configureInstance(@NotNull Object instance, @NotNull PLEXInjector injector) {
     
     Object value  = getValue (injector);
     String setter = getSetter(injector);
@@ -249,10 +239,8 @@ public class Importer {
    * 
    * @param apiman   The api manager used to access the functions. Not <code>null</code>.
    * @param model    The declaration which has to be checked for consistency errors. Not <code>null</code>.
-   * 
-   * @throws PLEXException   A declaration inconsistency has been discovered.
    */
-  private void checkConsistency(@NotNull ApiManager apiman, @NotNull PLEXModel model) throws PLEXException {
+  private void checkConsistency(@NotNull ApiManager apiman, @NotNull PLEXModel model) {
     checkConsistency(apiman, model.getGeneral());
     model.getSheet().forEach($ -> checkConsistency(apiman, $));
   }
@@ -262,10 +250,8 @@ public class Importer {
    * 
    * @param apiman    The api manager used to access the functions. Not <code>null</code>.
    * @param general   The declaration which has to be checked for consistency errors. Not <code>null</code>.
-   * 
-   * @throws PLEXException   A declaration inconsistency has been discovered.
    */
-  private void checkConsistency(@NotNull ApiManager apiman, @NotNull PLEXGeneral general) throws PLEXException {
+  private void checkConsistency(@NotNull ApiManager apiman, @NotNull PLEXGeneral general) {
     general.getInterface().forEach($ -> checkConsistency(apiman, $));
   }
   
@@ -274,10 +260,8 @@ public class Importer {
    * 
    * @param apiman    The api manager used to access the functions. Not <code>null</code>.
    * @param apidecl   The declaration which has to be checked for consistency errors. Not <code>null</code>.
-   * 
-   * @throws PLEXException   A declaration inconsistency has been discovered.
    */
-  private void checkConsistency(@NotNull ApiManager apiman, @NotNull PLEXInterface apidecl) throws PLEXException {
+  private void checkConsistency(@NotNull ApiManager apiman, @NotNull PLEXInterface apidecl) {
     String classname = apidecl.getClassname();
     try {
       Class<?> clazz = Class.forName(classname);
@@ -297,10 +281,8 @@ public class Importer {
    * 
    * @param requiredapi   The API that needs to be supported. Not <code>null</code>.
    * @param currenttype   The current type that needs to be tested. Not <code>null</code>.
-   * 
-   * @throws PLEXException   The type is considered to be invalid.
    */
-  private void checkType(@NotNull Class<?> requiredapi, @NotNull Class<?> currenttype) throws PLEXException {
+  private void checkType(@NotNull Class<?> requiredapi, @NotNull Class<?> currenttype) {
     if (!requiredapi.isAssignableFrom(currenttype)) {
       throw PLEXException.wrap(declaration_error.format(invalid_type.format(currenttype.getName(), requiredapi.getName())));
     }
@@ -311,10 +293,8 @@ public class Importer {
    * 
    * @param apiman   The api manager used to access the functions. Not <code>null</code>.
    * @param sheet    The declaration which has to be checked for consistency errors. Not <code>null</code>.
-   * 
-   * @throws PLEXException   A declaration inconsistency has been discovered.
    */
-  private void checkConsistency(@NotNull ApiManager apiman, @NotNull PLEXSheetDescription sheet) throws PLEXException {
+  private void checkConsistency(@NotNull ApiManager apiman, @NotNull PLEXSheetDescription sheet) {
     if ((sheet.getFirstrow() == null) && (sheet.getFirstrowdetect() == null)) {
       throw PLEXException.wrap(declaration_error.format(missing_first_row));
     }
@@ -340,10 +320,8 @@ public class Importer {
    * 
    * @param apiman     The api manager used to access the functions. Not <code>null</code>.
    * @param metadata   The declaration which has to be checked for consistency errors. Not <code>null</code>.
-   * 
-   * @throws PLEXException   A declaration inconsistency has been discovered.
    */
-  private void checkConsistency(@NotNull ApiManager apiman, @NotNull PLEXMetadata metadata) throws PLEXException {
+  private void checkConsistency(@NotNull ApiManager apiman, @NotNull PLEXMetadata metadata) {
     PLEXApiCall apicall = metadata.getMetadetect();
     if (apicall != null) {
       if (!apiman.isMetdataProvider(apicall.getRefid())) {
@@ -361,10 +339,8 @@ public class Importer {
    * @param apiman     The api manager used to access the functions. Not <code>null</code>.
    * @param metadata   The declaration which has to be checked for consistency errors. Not <code>null</code>.
    * @param first      <code>true</code> <=> The first column is about to be checked.
-   * 
-   * @throws PLEXException   A declaration inconsistency has been discovered.
    */
-  private void checkConsistency(@NotNull ApiManager apiman, @NotNull PLEXColumnDescription column, boolean first) throws PLEXException {
+  private void checkConsistency(@NotNull ApiManager apiman, @NotNull PLEXColumnDescription column, boolean first) {
     if ((column.getColumn() == null) && (column.getColumndetect() == null)) {
       if (first) {
         throw PLEXException.wrap(declaration_error.format(missing_column_infos));

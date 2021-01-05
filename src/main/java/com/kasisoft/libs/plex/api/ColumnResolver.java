@@ -1,7 +1,5 @@
 package com.kasisoft.libs.plex.api;
 
-import com.kasisoft.libs.plex.*;
-
 import org.apache.poi.ss.usermodel.*;
 
 import javax.validation.constraints.*;
@@ -21,9 +19,7 @@ public interface ColumnResolver extends ApiDefinition {
    * @param args    The arguments provided by the declaration file. Maybe <code>null</code>.
    * 
    * @return    The index of the column that could be detected.
-   * 
-   * @throws PLEXException   The execution failed for some reason.
    */
-  int detectColumn(@NotBlank String id, Sheet sheet, String ... args) throws PLEXException;
+  int detectColumn(@NotBlank String id, Sheet sheet, String ... args);
   
 } /* ENDINTERFACE */

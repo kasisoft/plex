@@ -36,7 +36,7 @@ public class RowResolverProxy implements RowResolver {
   }
   
   @Override
-  public int detectRow(@NotBlank String id, @NotNull Sheet sheet, String... args) throws PLEXException {
+  public int detectRow(@NotBlank String id, @NotNull Sheet sheet, String... args) {
     try {
       return delegate.detectRow(id, sheet, args);
     } catch (RuntimeException ex) {

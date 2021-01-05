@@ -34,10 +34,8 @@ class ImportDriver {
    * @param desc      The description model used for the import process. Not <code>null</code>.
    * @param manager   The managing class for the apis. Not <code>null</code>.
    * @param tracker   The tracker used to monitor the import process. Not <code>null</code>.
-   * 
-   * @throws PLEXException   The declaration seems to be invalid.
    */
-  public ImportDriver(@NotNull PLEXModel desc, @NotNull ApiManager manager) throws PLEXException {
+  public ImportDriver(@NotNull PLEXModel desc, @NotNull ApiManager manager) {
     
     descriptor    = desc;
     apimanager    = manager;
@@ -60,10 +58,8 @@ class ImportDriver {
    * @param monitor    The monitor which is used to keep track of the progress. Not <code>null</code>.
    * 
    * @return   The imported data. Not <code>null</code>.
-   * 
-   * @throws PLEXException   The import failed for some reason.
    */
-  public PlainExcel importData(@NotNull Workbook workbook, @NotNull ImportMonitor monitor) throws PLEXException {
+  public PlainExcel importData(@NotNull Workbook workbook, @NotNull ImportMonitor monitor) {
     PlainExcel  result    = new PlainExcel();
     int         count     = workbook.getNumberOfSheets();
     int         imported  = 0;
@@ -102,7 +98,7 @@ class ImportDriver {
     return null;
   }
   
-  private void importMetadata(PlainSheet tablemodel, PLEXMetadata metadata, Sheet sheet) throws PLEXException{
+  private void importMetadata(PlainSheet tablemodel, PLEXMetadata metadata, Sheet sheet) {
     if (metadata != null) {
       for (PLEXProperty property : metadata.getProperty()) {
         tablemodel.setMetadata(property.getKey(), property.getValue());
@@ -127,7 +123,7 @@ class ImportDriver {
    * @param description   The description used to drive the import process. Not <code>null</code>.
    * @param monitor       The monitor which is used to keep track of the progress. Not <code>null</code>.
    */
-  private void importSheet(@NotNull PlainExcel receiver, @NotNull Sheet sheet, @NotNull PLEXSheetDescription description, @NotNull ImportMonitor monitor) throws PLEXException {
+  private void importSheet(@NotNull PlainExcel receiver, @NotNull Sheet sheet, @NotNull PLEXSheetDescription description, @NotNull ImportMonitor monitor) {
     
     PlainSheet tablemodel = new PlainSheet(sheet.getSheetName());
     receiver.addTable(tablemodel);
@@ -225,7 +221,7 @@ class ImportDriver {
    * 
    * @return   A list of column descriptions. Not <code>null</code>.
    */
-  private Column[] calculateColumns(@NotNull Sheet sheet, @NotNull PLEXSheetDescription description) throws PLEXException {
+  private Column[] calculateColumns(@NotNull Sheet sheet, @NotNull PLEXSheetDescription description) {
     
     List<Column> columns = new ArrayList<>();
     
@@ -262,7 +258,7 @@ class ImportDriver {
    * 
    * @return   The column index which could be identified.
    */
-  private int getColumn(@NotNull Sheet sheet, @NotNull PLEXColumnDescription column) throws PLEXException {
+  private int getColumn(@NotNull Sheet sheet, @NotNull PLEXColumnDescription column) {
     if (column.getColumn() != null) {
       try {
         return Integer.parseInt(column.getColumn());
@@ -281,10 +277,8 @@ class ImportDriver {
    * @param column   The textual column. Neither <code>null</code> nor empty.
    * 
    * @return   The numerical index for the column.
-   * 
-   * @throws PLEXException   The column could not be parsed.
    */
-  private int toIndex(String column) throws PLEXException {
+  private int toIndex(String column) {
     column = column.toLowerCase();
     if (column.length() == 1) {
       return column.charAt(0) - 'a';
@@ -303,7 +297,7 @@ class ImportDriver {
    * 
    * @return   The column index which could be identified.
    */
-  private int getFirstRow(@NotNull Sheet sheet, @NotNull PLEXSheetDescription description) throws PLEXException {
+  private int getFirstRow(@NotNull Sheet sheet, @NotNull PLEXSheetDescription description) {
     if (description.getFirstrow() != null) {
       return description.getFirstrow().intValue();
     } else /* if (description.getFirstrowdetect() != null) */ {

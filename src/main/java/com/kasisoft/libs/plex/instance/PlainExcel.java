@@ -1,10 +1,10 @@
 package com.kasisoft.libs.plex.instance;
 
+import java.util.*;
+
 import lombok.experimental.*;
 
 import lombok.*;
-
-import java.util.*;
 
 /**
  * Plain and especially simplified representation of an excel workbook.

@@ -1,6 +1,5 @@
 package com.kasisoft.libs.plex.api;
 
-import com.kasisoft.libs.plex.*;
 import com.kasisoft.libs.plex.impl.proxy.*;
 import com.kasisoft.libs.plex.instance.*;
 
@@ -69,7 +68,7 @@ public class ApiManager {
    * 
    * @param id   The id used to identify the resolver.
    */
-  public Map<String, String> getMetadata( String id, List<String> args, Sheet sheet ) throws PLEXException {
+  public Map<String, String> getMetadata( String id, List<String> args, Sheet sheet ) {
     MetadataProvider apifunction = metadataproviders.get( id );
     return apifunction.getMetadata( id, sheet, toArray( args ) );
   }
@@ -79,7 +78,7 @@ public class ApiManager {
    * 
    * @param id   The id used to identify the resolver.
    */
-  public int detectColumn(String id, List<String> args, Sheet sheet) throws PLEXException {
+  public int detectColumn(String id, List<String> args, Sheet sheet) {
     ColumnResolver apifunction = columnresolvers.get(id);
     return apifunction.detectColumn(id, sheet, toArray(args));
   }
@@ -89,7 +88,7 @@ public class ApiManager {
    * 
    * @param id   The id used to identify the value transformer.
    */
-  public Object transformValue(String id, List<String> args, Object value) throws PLEXException {
+  public Object transformValue(String id, List<String> args, Object value) {
     if (value instanceof ErrorValue) {
       // errors will not be transformed again
       return value;
@@ -103,7 +102,7 @@ public class ApiManager {
    * 
    * @param id   The id used to identify the value transformer.
    */
-  public int detectRow(String id, List<String> args, Sheet sheet) throws PLEXException {
+  public int detectRow(String id, List<String> args, Sheet sheet) {
     RowResolver apifunction = rowresolvers.get(id);
     return apifunction.detectRow(id, sheet, toArray(args));
   }

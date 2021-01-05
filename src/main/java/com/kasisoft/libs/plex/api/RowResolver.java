@@ -1,7 +1,5 @@
 package com.kasisoft.libs.plex.api;
 
-import com.kasisoft.libs.plex.*;
-
 import org.apache.poi.ss.usermodel.*;
 
 import javax.validation.constraints.*;
@@ -21,9 +19,7 @@ public interface RowResolver extends ApiDefinition {
    * @param args    The arguments provided by the declaration file. Maybe <code>null</code>.
    * 
    * @return   The detected row index.
-   * 
-   * @throws PLEXException   The execution failed for some reason.
    */
-  int detectRow(@NotBlank String id, @NotNull Sheet sheet, String ... args) throws PLEXException;
+  int detectRow(@NotBlank String id, @NotNull Sheet sheet, String ... args);
   
 } /* ENDINTERFACE */

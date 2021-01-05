@@ -46,7 +46,7 @@ public class TransformTest extends AbstractTest {
     }
 
     @Override
-    public Object transformValue(String id, Object value, String... args) throws PLEXException {
+    public Object transformValue(String id, Object value, String... args) {
       if (value instanceof String) {
         return StateEnum.byLiteral((String) value);
       }
