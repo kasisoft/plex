@@ -54,7 +54,7 @@
     <hamcrest.version>1.3</hamcrest.version>
     <jaxb-api.version>2.1</jaxb-api.version>
     <jaxb-impl.version>2.1</jaxb-impl.version>
-    <kcl.version>2.2</kcl.version>
+    <kcl.version>2.9</kcl.version>
     <lombok.version>1.18.12</lombok.version>
     <poi.version>3.17</poi.version>
     <testng.version>7.3.0</testng.version>
