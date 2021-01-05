@@ -1,4 +1,4 @@
-![FMX](https://github.com/kasisoft/plex/workflows/PLEX/badge.svg?branch=master&event=push)
+![Plex](https://github.com/kasisoft/plex/workflows/PLEX/badge.svg?branch=master&event=push)
 
 # Purpose
 
