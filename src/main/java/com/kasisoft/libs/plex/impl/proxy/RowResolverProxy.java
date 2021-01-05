@@ -39,7 +39,7 @@ public class RowResolverProxy implements RowResolver {
   public int detectRow(@NotBlank String id, @NotNull Sheet sheet, String... args) {
     try {
       return delegate.detectRow(id, sheet, args);
-    } catch (RuntimeException ex) {
+    } catch (Exception ex) {
       throw PLEXException.wrap(error_in_api_function.format(ex.getMessage()), ex);
     }
   }
@@ -48,7 +48,7 @@ public class RowResolverProxy implements RowResolver {
   public boolean canHandleArguments(@NotBlank String id, @NotNull List<String> args) {
     try {
       return delegate.canHandleArguments(id, args);
-    } catch (RuntimeException ex) {
+    } catch (Exception ex) {
       return false;
     }
   }

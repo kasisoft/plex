@@ -7,14 +7,15 @@ import com.kasisoft.libs.common.io.*;
 import com.kasisoft.libs.plex.*;
 import com.kasisoft.libs.plex.instance.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 import org.testng.*;
 
 import java.net.*;
+
 import java.io.*;
+
+import lombok.experimental.*;
+
+import lombok.*;
 
 /**
  * Basic implementation for the tests.
@@ -33,7 +34,7 @@ public abstract class AbstractTest {
     File testdata = new File(url.toURI());
     try {
       testdata      = testdata.getCanonicalFile();
-    } catch (IOException ex) {
+    } catch (Exception ex) {
       Assert.fail( ex.getMessage() );
     }
     inputdir      = new File(testdata, "input"   );
@@ -60,10 +61,7 @@ public abstract class AbstractTest {
     Importer importer = null;
     try {
       importer = new Importer(declarationfile.toURI().toURL());
-    } catch (MalformedURLException ex) {
-      Assert.fail(ex.getMessage());
-      return;
-    } catch (PLEXException ex) {
+    } catch (Exception ex) {
       ex.printStackTrace();
       Assert.fail(ex.getMessage());
       return;
@@ -76,7 +74,7 @@ public abstract class AbstractTest {
       IoFunctions.forOutputStreamDo(outputfile, $ -> IoFunctions.writeText($, current, Encoding.UTF8));
       String     expected  = new String(IoFunctions.loadChars(expectedfile, null, Encoding.UTF8));
       Assert.assertEquals(current, expected);
-    } catch (PLEXException ex) {
+    } catch (Exception ex) {
       Assert.fail(ex.getMessage());
     }
 
@@ -87,7 +85,7 @@ public abstract class AbstractTest {
       IoFunctions.forOutputStreamDo(modernoutputfile, $ -> IoFunctions.writeText($, current, Encoding.UTF8));
       String     expected  = new String( IoFunctions.loadChars(expectedfile, null, Encoding.UTF8));
       Assert.assertEquals(current, expected);
-    } catch (PLEXException ex) {
+    } catch (Exception ex) {
       Assert.fail(ex.getMessage());
     }
 

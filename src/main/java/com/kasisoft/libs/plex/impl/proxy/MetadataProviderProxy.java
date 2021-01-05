@@ -39,7 +39,7 @@ public class MetadataProviderProxy implements MetadataProvider {
   public Map<String, String> getMetadata(@NotBlank String id, @NotNull Sheet sheet, String... args) {
     try {
       return delegate.getMetadata(id, sheet, args);
-    } catch (RuntimeException ex) {
+    } catch (Exception ex) {
       throw PLEXException.wrap(error_in_api_function.format(ex.getMessage()), ex);
     }
   }
@@ -48,7 +48,7 @@ public class MetadataProviderProxy implements MetadataProvider {
   public boolean canHandleArguments(@NotBlank String id, @NotNull List<String> args) {
     try {
       return delegate.canHandleArguments(id, args);
-    } catch (RuntimeException ex) {
+    } catch (Exception ex) {
       return false;
     }
   }

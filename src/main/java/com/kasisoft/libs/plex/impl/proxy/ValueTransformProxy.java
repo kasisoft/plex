@@ -37,7 +37,7 @@ public class ValueTransformProxy implements ValueTransform {
   public Object transformValue(@NotBlank String id, @NotNull Object value, String... args) {
     try {
       return delegate.transformValue(id, value, args);
-    } catch (RuntimeException ex) {
+    } catch (Exception ex) {
       throw PLEXException.wrap(error_in_api_function.format( ex.getMessage() ), ex);
     }
   }
@@ -46,7 +46,7 @@ public class ValueTransformProxy implements ValueTransform {
   public boolean canHandleArguments(@NotBlank String id, @NotNull List<String> args) {
     try {
       return delegate.canHandleArguments(id, args);
-    } catch (RuntimeException ex) {
+    } catch (Exception ex) {
       return false;
     }
   }

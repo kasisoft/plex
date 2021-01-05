@@ -39,7 +39,7 @@ public class ColumnResolverProxy implements ColumnResolver {
   public int detectColumn(@NotBlank String id, @NotNull Sheet sheet, String... args){
     try {
       return delegate.detectColumn(id, sheet, args);
-    } catch (RuntimeException ex) {
+    } catch (Exception ex) {
       throw PLEXException.wrap(error_in_api_function.format(ex.getMessage()), ex);
     }
   }
@@ -48,7 +48,7 @@ public class ColumnResolverProxy implements ColumnResolver {
   public boolean canHandleArguments(@NotBlank String id, @NotNull List<String> args) {
     try {
       return delegate.canHandleArguments(id, args);
-    } catch (RuntimeException ex) {
+    } catch (Exception ex) {
       return false;
     }
   }
