@@ -262,7 +262,6 @@
           <version>${maven-compiler-plugin.version}</version>
           <configuration>
             <showWarnings>true</showWarnings>
-            <release>${java.version}</release>
             <parameters>true</parameters>
             <annotationProcessorPaths>
               <annotationProcessorPath>
