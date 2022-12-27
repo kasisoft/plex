@@ -2,19 +2,14 @@ package com.kasisoft.libs.plex.instance;
 
 import java.util.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * Plain and especially simplified representation of an excel workbook.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PlainExcel {
 
-  Map<String, PlainSheet>   sheets;
+  private Map<String, PlainSheet>   sheets;
   
   /**
    * Initialises this collecting instance for imported excel data.

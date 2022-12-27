@@ -9,20 +9,15 @@ import javax.validation.constraints.*;
 
 import java.util.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * Creates an Integer value from a String or Number.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ToIntTransform implements ValueTransform {
   
-  boolean   createlong  = false;
-  boolean   strict      = false;
+  private boolean   createlong  = false;
+  private boolean   strict      = false;
 
   /**
    * Enable the creation of Long types rather than Integer types.

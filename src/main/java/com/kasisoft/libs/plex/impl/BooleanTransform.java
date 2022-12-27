@@ -6,19 +6,14 @@ import javax.validation.constraints.*;
 
 import java.util.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * Transforms a value into a Boolean instance.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class BooleanTransform implements ValueTransform {
 
-  Set<String>   truevalues;
+  private Set<String>   truevalues;
   
   /**
    * Initializes this transform instance.

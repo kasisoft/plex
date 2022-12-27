@@ -13,21 +13,16 @@ import java.net.*;
 
 import java.io.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * Basic implementation for the tests.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public abstract class AbstractTest {
 
-  File      inputdir;
-  File      outputdir;
-  File      expecteddir;
+  private File      inputdir;
+  private File      outputdir;
+  private File      expecteddir;
   
   public void prepare() throws Exception {
     URL  url      = getClass().getClassLoader().getResource("testdata");

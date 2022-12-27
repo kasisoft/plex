@@ -4,28 +4,20 @@ import javax.swing.table.*;
 
 import java.util.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * Extension of a TableModel which provides additional information.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@EqualsAndHashCode(of = "sheetName", callSuper = false)
 public class PlainSheet extends DefaultTableModel implements Comparable<PlainSheet> {
 
   private static final long serialVersionUID = 9032042124476020208L;
 
-  @Getter
-  String                sheetName;
-  
-  Class<?>[]            classes;
-  Map<String, String>   metadata;
-  List<String>          titles;
-  
+  private String                sheetName;
+  private Class<?>[]            classes;
+  private Map<String, String>   metadata;
+  private List<String>          titles;
+
   /**
    * Initialises this model using the supplied sheet name.
    * 
@@ -208,5 +200,22 @@ public class PlainSheet extends DefaultTableModel implements Comparable<PlainShe
     serializer.close();
     return serializer.toString();
   }
+
+  public String getSheetName() {
+    return sheetName;
+  }
+
+  @Override
+  public boolean equals(Object other) {
+    if (other instanceof PlainSheet) {
+      return Objects.equals(sheetName, ((PlainSheet) other).getSheetName());
+    }
+    return false;
+  }
   
+  @Override
+  public int hashCode() {
+    return sheetName.hashCode();
+  }
+
 } /* ENDCLASS */

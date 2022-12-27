@@ -6,23 +6,18 @@ import javax.validation.constraints.*;
 
 import java.util.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * Basic implementation of a simple serializer allowing to emit structured information.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class SimpleSerializer {
 
   static final String INDENTION = "  ";
   
-  StringFBuffer   buffer;
-  StringBuffer    indention;
-  Stack<String>   tags;
+  private StringFBuffer   buffer;
+  private StringBuffer    indention;
+  private Stack<String>   tags;
   
   /**
    * Initializes this serializer.

@@ -6,21 +6,16 @@ import javax.validation.constraints.*;
 
 import java.util.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * Cleans up a string which means that it will be trimmed and useless values will be corrected.
  * All non-String types will remain untouched.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CleanupTransform implements ValueTransform {
 
-  boolean        ignorecase = false;
-  List<String>   empties    = null;
+  private boolean        ignorecase = false;
+  private List<String>   empties    = null;
   
   /**
    * Enables/disables the case sensitivity for the test.

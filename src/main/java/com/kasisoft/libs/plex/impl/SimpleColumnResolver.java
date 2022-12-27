@@ -11,17 +11,12 @@ import javax.validation.constraints.*;
 
 import java.util.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * This ColumnResolver implementation simply checks for the occurrence of the first column which 
  * contains content.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class SimpleColumnResolver implements ColumnResolver {
 
   @Override

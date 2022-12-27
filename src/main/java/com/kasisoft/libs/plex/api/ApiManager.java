@@ -9,23 +9,18 @@ import javax.validation.constraints.*;
 
 import java.util.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * Helper class used to manage the apis provided with a declaration file.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ApiManager {
 
-  Map<String, ColumnResolver>     columnresolvers;
-  Map<String, ValueTransform>     valuetransformers;
-  Map<String, RowResolver>        rowresolvers;
-  Map<String, MetadataProvider>   metadataproviders;
-  Map<String, ApiDefinition>      apidefinitions;
+  private Map<String, ColumnResolver>     columnresolvers;
+  private Map<String, ValueTransform>     valuetransformers;
+  private Map<String, RowResolver>        rowresolvers;
+  private Map<String, MetadataProvider>   metadataproviders;
+  private Map<String, ApiDefinition>      apidefinitions;
   
   /**
    * Initialises this management class using the supplied api definitions.

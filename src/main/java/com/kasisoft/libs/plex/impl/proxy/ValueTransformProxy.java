@@ -9,20 +9,15 @@ import javax.validation.constraints.*;
 
 import java.util.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * A simple wrapper for the API ValueTransform which makes sure that internal errors won't be 
  * passed besided the expected PLEXException .
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ValueTransformProxy implements ValueTransform {
 
-  ValueTransform   delegate;
+  private ValueTransform   delegate;
   
   /**
    * Initializes this proxy with the supplied implementation.

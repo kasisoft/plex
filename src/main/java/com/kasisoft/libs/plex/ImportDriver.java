@@ -12,21 +12,16 @@ import java.util.regex.Pattern;
 
 import java.util.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * Main logic used to run the import process.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 class ImportDriver {
 
-  PLEXModel                            descriptor;
-  Map<Pattern, PLEXSheetDescription>   importspecs;
-  ApiManager                           apimanager;
+  private PLEXModel                            descriptor;
+  private Map<Pattern, PLEXSheetDescription>   importspecs;
+  private ApiManager                           apimanager;
   
   /**
    * Initialises this driver for the import process.

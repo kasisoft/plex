@@ -11,20 +11,15 @@ import javax.validation.constraints.*;
 
 import java.util.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * A simple wrapper for the API ColumnResolver which makes sure that internal errors won't be 
  * passed besided the expected PLEXException .
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ColumnResolverProxy implements ColumnResolver {
 
-  ColumnResolver   delegate;
+  private ColumnResolver   delegate;
   
   /**
    * Initializes this proxy with the supplied implementation.

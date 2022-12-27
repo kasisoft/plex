@@ -2,16 +2,11 @@ package com.kasisoft.libs.plex;
 
 import javax.validation.constraints.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * This exception is used to indicate an import error.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PLEXException extends RuntimeException {
 
   private static final long serialVersionUID = 3117463233117096922L;

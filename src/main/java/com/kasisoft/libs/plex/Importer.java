@@ -23,20 +23,15 @@ import java.io.*;
 
 import java.lang.reflect.*;
 
-import lombok.experimental.*;
-
-import lombok.*;
-
 /**
  * This class provides the importing capabilities controlled by a corresponding descriptor.
  * 
  * @author daniel.kasmeroglu@kasisoft.net
  */
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Importer {
 
-  ImportDriver    driver;
-  ImportMonitor   monitor;
+  private ImportDriver    driver;
+  private ImportMonitor   monitor;
   
   /**
    * Initializes this importer using a specific declarator.
